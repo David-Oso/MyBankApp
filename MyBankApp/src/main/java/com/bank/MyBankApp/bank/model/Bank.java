@@ -14,11 +14,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Bank {
+public final class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer code;
+    private String bankCode;
     private String name;
     private String address;
 }
