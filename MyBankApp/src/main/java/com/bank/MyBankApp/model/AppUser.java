@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.address.model;
+package com.bank.MyBankApp.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,14 +14,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Address {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer streetNumber;
-    private String streetName;
-    private String townName;
-    private String cityName;
-    private String state;
-    private String country;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
 }

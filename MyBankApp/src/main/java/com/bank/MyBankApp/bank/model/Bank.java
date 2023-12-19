@@ -1,9 +1,7 @@
 package com.bank.MyBankApp.bank.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.bank.MyBankApp.address.model.Address;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +12,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public final class Bank {
+public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String bankCode;
     private String name;
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Address bankAddress;
+
+//    XYZBNGLALA
+//    FBNNGALA
 }
