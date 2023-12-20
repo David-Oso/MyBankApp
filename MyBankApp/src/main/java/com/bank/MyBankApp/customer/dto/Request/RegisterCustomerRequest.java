@@ -19,5 +19,5 @@ public class RegisterCustomerRequest {
     private String email;
     private String phoneNumber;
     private Gender gender;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
 }

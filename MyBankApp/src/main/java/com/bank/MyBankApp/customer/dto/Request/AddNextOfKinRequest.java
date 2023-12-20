@@ -1,8 +1,6 @@
 package com.bank.MyBankApp.customer.dto.Request;
 
 import com.bank.MyBankApp.loan.model.Gender;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AddNextOfKin {
+public class AddNextOfKinRequest {
     private String firstName;
     private String lastName;
     private Gender nextOfKinGender;

@@ -1,9 +1,6 @@
 package com.bank.MyBankApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +18,8 @@ public class AppUser {
     private String firstName;
     private String middleName;
     private String lastName;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String phoneNumber;
 }
