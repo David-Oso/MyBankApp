@@ -1,0 +1,445 @@
+2023-12-20 07:21:14.124462+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT @[*]@character_set_database, @@sql_mode"; expected "identifier"; SQL statement:
+SELECT @@character_set_database, @@sql_mode [42001-224]
+2023-12-20 07:21:19.472363+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts (id integer not null auto_increment, account_name varchar(255), account_number varchar(255), account_pin varchar(255), account_type tinyint, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts (id integer not null auto_increment, account_name varchar(255), account_number varchar(255), account_pin varchar(255), account_type tinyint, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.550906+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts_accounts (account_id integer not null, accounts_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts_accounts (account_id integer not null, accounts_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.575924+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts_transactions (account_id integer not null, transactions_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts_transactions (account_id integer not null, transactions_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.592906+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table addresses (id integer not null auto_increment, city_name varchar(255), country varchar(255), state varchar(255), street_name varchar(255), street_number integer, town_name varchar(255), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table addresses (id integer not null auto_increment, city_name varchar(255), country varchar(255), state varchar(255), street_name varchar(255), street_number integer, town_name varchar(255), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.607926+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table app_users (id integer not null auto_increment, email varchar(255), first_name varchar(255), last_name varchar(255), middle_name varchar(255), phone_number varchar(255), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table app_users (id integer not null auto_increment, email varchar(255), first_name varchar(255), last_name varchar(255), middle_name varchar(255), phone_number varchar(255), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.618927+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table banks (id integer not null auto_increment, bank_code varchar(255), name varchar(255), bank_address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table banks (id integer not null auto_increment, bank_code varchar(255), name varchar(255), bank_address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.628455+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table branches (id integer not null auto_increment, branch_name varchar(255), branch_number varchar(255), branch_address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table branches (id integer not null auto_increment, branch_name varchar(255), branch_number varchar(255), branch_address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.644454+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table branches_loans (branch_id integer not null, loans_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table branches_loans (branch_id integer not null, loans_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.668456+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table customers (id integer not null auto_increment, age integer not null, created_at datetime(6), date_of_birth date, gender enum ('MALE','FEMALE'), image_url varchar(255), updated_at datetime(6), address_id integer, app_user_id integer, next_ofkin_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table customers (id integer not null auto_increment, age integer not null, created_at datetime(6), date_of_birth date, gender enum ('MALE','FEMALE'), image_url varchar(255), updated_at datetime(6), address_id integer, app_user_id integer, next_ofkin_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.689454+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table loans (id integer not null auto_increment, loan_amount decimal(38,2), loan_type tinyint, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table loans (id integer not null auto_increment, loan_amount decimal(38,2), loan_type tinyint, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.794994+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table loans_customers (loan_id integer not null, customers_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table loans_customers (loan_id integer not null, customers_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.922095+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table next_of_kins (id integer not null auto_increment, date_of_birth date, first_name varchar(255), last_name varchar(255), next_of_kin_gender enum ('MALE','FEMALE'), address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table next_of_kins (id integer not null auto_increment, date_of_birth date, first_name varchar(255), last_name varchar(255), next_of_kin_gender enum ('MALE','FEMALE'), address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:19.978098+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table transactions (id integer not null auto_increment, transaction_amount decimal(38,2), transaction_time datetime(6), transaction_type enum ('CREDIT','DEBIT'), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table transactions (id integer not null auto_increment, transaction_amount decimal(38,2), transaction_time datetime(6), transaction_type enum ('CREDIT','DEBIT'), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 07:21:20.023639+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found (this database is empty); SQL statement:
+alter table accounts_transactions drop index UK_qa4occ0lq1r2wrxaimcb9or9s [42104-224]
+2023-12-20 07:21:20.031639+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint UK_qa4occ0lq1r2wrxaimcb9or9s unique (transactions_id) [42102-224]
+2023-12-20 07:21:20.032640+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+alter table app_users drop index UK_4vj92ux8a2eehds1mdvmks473 [42104-224]
+2023-12-20 07:21:20.034656+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found; SQL statement:
+alter table app_users add constraint UK_4vj92ux8a2eehds1mdvmks473 unique (email) [42102-224]
+2023-12-20 07:21:20.035641+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+alter table app_users drop index UK_mx8l8t4b18guil7nffximvl4n [42104-224]
+2023-12-20 07:21:20.037640+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found; SQL statement:
+alter table app_users add constraint UK_mx8l8t4b18guil7nffximvl4n unique (phone_number) [42102-224]
+2023-12-20 07:21:20.038639+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found (this database is empty); SQL statement:
+alter table banks drop index UK_btq8hwp8sd8br8p12j5hx5sm8 [42104-224]
+2023-12-20 07:21:20.039639+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found; SQL statement:
+alter table banks add constraint UK_btq8hwp8sd8br8p12j5hx5sm8 unique (bank_address_id) [42102-224]
+2023-12-20 07:21:20.043640+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found (this database is empty); SQL statement:
+alter table branches drop index UK_imsqns7wcw4h23abyacjq1353 [42104-224]
+2023-12-20 07:21:20.053642+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found; SQL statement:
+alter table branches add constraint UK_imsqns7wcw4h23abyacjq1353 unique (branch_address_id) [42102-224]
+2023-12-20 07:21:20.054642+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found (this database is empty); SQL statement:
+alter table branches_loans drop index UK_boi5xthonj3qntfyg0sf21lir [42104-224]
+2023-12-20 07:21:20.055641+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint UK_boi5xthonj3qntfyg0sf21lir unique (loans_id) [42102-224]
+2023-12-20 07:21:20.057642+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_8ty10pw947q1idxbhrm6sw3yr [42104-224]
+2023-12-20 07:21:20.070674+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_8ty10pw947q1idxbhrm6sw3yr unique (address_id) [42102-224]
+2023-12-20 07:21:20.120170+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_c85ytn8y04pioqjeuiljxl91p [42104-224]
+2023-12-20 07:21:20.129183+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_c85ytn8y04pioqjeuiljxl91p unique (app_user_id) [42102-224]
+2023-12-20 07:21:20.140184+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_3w42oq4pek5yqov4nrthk16ea [42104-224]
+2023-12-20 07:21:20.141195+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_3w42oq4pek5yqov4nrthk16ea unique (next_ofkin_id) [42102-224]
+2023-12-20 07:21:20.144189+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found (this database is empty); SQL statement:
+alter table next_of_kins drop index UK_rfxrec4opdj4mqwmybfnh233e [42104-224]
+2023-12-20 07:21:20.145183+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found; SQL statement:
+alter table next_of_kins add constraint UK_rfxrec4opdj4mqwmybfnh233e unique (address_id) [42102-224]
+2023-12-20 07:21:20.156186+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_ACCOUNTS" not found; SQL statement:
+alter table accounts_accounts add constraint FKpf0tr4otiwl99x2rj63wx7c1u foreign key (accounts_id) references accounts (id) [42102-224]
+2023-12-20 07:21:20.173188+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_ACCOUNTS" not found; SQL statement:
+alter table accounts_accounts add constraint FKgtr9ed6dfxrrw14asep2q612w foreign key (account_id) references accounts (id) [42102-224]
+2023-12-20 07:21:20.185186+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint FK7qukpadrni76yppcb4cbq43nt foreign key (transactions_id) references transactions (id) [42102-224]
+2023-12-20 07:21:20.204186+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint FK4f5mhickmjv0s875m8cft9j6b foreign key (account_id) references accounts (id) [42102-224]
+2023-12-20 07:21:20.212199+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found; SQL statement:
+alter table banks add constraint FKhher29gebdb3ccsta5bkt7f6c foreign key (bank_address_id) references addresses (id) [42102-224]
+2023-12-20 07:21:20.227731+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found; SQL statement:
+alter table branches add constraint FKiot8mccbwr9mny52s5nk218pb foreign key (branch_address_id) references addresses (id) [42102-224]
+2023-12-20 07:21:20.236733+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint FKo9octigkvtwnvjfuoobpn419f foreign key (loans_id) references loans (id) [42102-224]
+2023-12-20 07:21:20.245734+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint FKabt6wob7v0abax75qp6nnyf7m foreign key (branch_id) references branches (id) [42102-224]
+2023-12-20 07:21:20.255731+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FKm07rwxbyxjv8r4fcye1ff6rmq foreign key (address_id) references addresses (id) [42102-224]
+2023-12-20 07:21:20.271733+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FKefl3qvueuf69ppfowmkjnklxf foreign key (app_user_id) references app_users (id) [42102-224]
+2023-12-20 07:21:20.340276+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FK4do107cve7y2qh9b7fkn5cf8a foreign key (next_ofkin_id) references next_of_kins (id) [42102-224]
+2023-12-20 07:21:20.394276+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOANS_CUSTOMERS" not found; SQL statement:
+alter table loans_customers add constraint FKi96slob2yvu7bhuhlbetpgrjs foreign key (customers_id) references customers (id) [42102-224]
+2023-12-20 07:21:20.409294+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOANS_CUSTOMERS" not found; SQL statement:
+alter table loans_customers add constraint FKi5h69cj7fw482wm64v4qy9tth foreign key (loan_id) references loans (id) [42102-224]
+2023-12-20 07:21:20.424885+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found; SQL statement:
+alter table next_of_kins add constraint FK6uuojhy0h92f94mhgu5no1960 foreign key (address_id) references addresses (id) [42102-224]
+2023-12-20 07:21:36.297822+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+insert into app_users (email,first_name,last_name,middle_name,phone_number) values (?,?,?,?,?) [42104-224]
+2023-12-20 10:37:42.622183+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT @[*]@character_set_database, @@sql_mode"; expected "identifier"; SQL statement:
+SELECT @@character_set_database, @@sql_mode [42001-224]
+2023-12-20 10:37:46.725856+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts (id integer not null auto_increment, account_name varchar(255), account_number varchar(255), account_pin varchar(255), account_type tinyint, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts (id integer not null auto_increment, account_name varchar(255), account_number varchar(255), account_pin varchar(255), account_type tinyint, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.751685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts_accounts (account_id integer not null, accounts_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts_accounts (account_id integer not null, accounts_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.763714+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts_transactions (account_id integer not null, transactions_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts_transactions (account_id integer not null, transactions_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.770688+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table addresses (id integer not null auto_increment, city_name varchar(255), country varchar(255), state varchar(255), street_name varchar(255), street_number integer, town_name varchar(255), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table addresses (id integer not null auto_increment, city_name varchar(255), country varchar(255), state varchar(255), street_name varchar(255), street_number integer, town_name varchar(255), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.778686+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table app_users (id integer not null auto_increment, email varchar(255), first_name varchar(255), last_name varchar(255), middle_name varchar(255), phone_number varchar(255), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table app_users (id integer not null auto_increment, email varchar(255), first_name varchar(255), last_name varchar(255), middle_name varchar(255), phone_number varchar(255), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.788701+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table banks (id integer not null auto_increment, bank_code varchar(255), name varchar(255), bank_address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table banks (id integer not null auto_increment, bank_code varchar(255), name varchar(255), bank_address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.794686+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table branches (id integer not null auto_increment, branch_name varchar(255), branch_number varchar(255), branch_address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table branches (id integer not null auto_increment, branch_name varchar(255), branch_number varchar(255), branch_address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.800686+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table branches_loans (branch_id integer not null, loans_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table branches_loans (branch_id integer not null, loans_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.808704+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table customers (id integer not null auto_increment, age integer not null, created_at datetime(6), date_of_birth date, gender enum ('MALE','FEMALE'), image_url varchar(255), updated_at datetime(6), address_id integer, app_user_id integer, next_ofkin_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table customers (id integer not null auto_increment, age integer not null, created_at datetime(6), date_of_birth date, gender enum ('MALE','FEMALE'), image_url varchar(255), updated_at datetime(6), address_id integer, app_user_id integer, next_ofkin_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.814692+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table loans (id integer not null auto_increment, loan_amount decimal(38,2), loan_type tinyint, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table loans (id integer not null auto_increment, loan_amount decimal(38,2), loan_type tinyint, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.818708+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table loans_customers (loan_id integer not null, customers_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table loans_customers (loan_id integer not null, customers_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.823712+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table next_of_kins (id integer not null auto_increment, date_of_birth date, first_name varchar(255), last_name varchar(255), next_of_kin_gender enum ('MALE','FEMALE'), address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table next_of_kins (id integer not null auto_increment, date_of_birth date, first_name varchar(255), last_name varchar(255), next_of_kin_gender enum ('MALE','FEMALE'), address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.834685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table transactions (id integer not null auto_increment, transaction_amount decimal(38,2), transaction_time datetime(6), transaction_type enum ('CREDIT','DEBIT'), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table transactions (id integer not null auto_increment, transaction_amount decimal(38,2), transaction_time datetime(6), transaction_type enum ('CREDIT','DEBIT'), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 10:37:46.841688+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found (this database is empty); SQL statement:
+alter table accounts_transactions drop index UK_qa4occ0lq1r2wrxaimcb9or9s [42104-224]
+2023-12-20 10:37:46.847686+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint UK_qa4occ0lq1r2wrxaimcb9or9s unique (transactions_id) [42102-224]
+2023-12-20 10:37:46.849688+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+alter table app_users drop index UK_4vj92ux8a2eehds1mdvmks473 [42104-224]
+2023-12-20 10:37:46.850686+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found; SQL statement:
+alter table app_users add constraint UK_4vj92ux8a2eehds1mdvmks473 unique (email) [42102-224]
+2023-12-20 10:37:46.852685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+alter table app_users drop index UK_mx8l8t4b18guil7nffximvl4n [42104-224]
+2023-12-20 10:37:46.853714+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found; SQL statement:
+alter table app_users add constraint UK_mx8l8t4b18guil7nffximvl4n unique (phone_number) [42102-224]
+2023-12-20 10:37:46.855694+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found (this database is empty); SQL statement:
+alter table banks drop index UK_btq8hwp8sd8br8p12j5hx5sm8 [42104-224]
+2023-12-20 10:37:46.857690+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found; SQL statement:
+alter table banks add constraint UK_btq8hwp8sd8br8p12j5hx5sm8 unique (bank_address_id) [42102-224]
+2023-12-20 10:37:46.859685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found (this database is empty); SQL statement:
+alter table branches drop index UK_imsqns7wcw4h23abyacjq1353 [42104-224]
+2023-12-20 10:37:46.860685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found; SQL statement:
+alter table branches add constraint UK_imsqns7wcw4h23abyacjq1353 unique (branch_address_id) [42102-224]
+2023-12-20 10:37:46.863716+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found (this database is empty); SQL statement:
+alter table branches_loans drop index UK_boi5xthonj3qntfyg0sf21lir [42104-224]
+2023-12-20 10:37:46.865686+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint UK_boi5xthonj3qntfyg0sf21lir unique (loans_id) [42102-224]
+2023-12-20 10:37:46.866685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_8ty10pw947q1idxbhrm6sw3yr [42104-224]
+2023-12-20 10:37:46.869684+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_8ty10pw947q1idxbhrm6sw3yr unique (address_id) [42102-224]
+2023-12-20 10:37:46.871694+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_c85ytn8y04pioqjeuiljxl91p [42104-224]
+2023-12-20 10:37:46.872689+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_c85ytn8y04pioqjeuiljxl91p unique (app_user_id) [42102-224]
+2023-12-20 10:37:46.873708+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_3w42oq4pek5yqov4nrthk16ea [42104-224]
+2023-12-20 10:37:46.874687+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_3w42oq4pek5yqov4nrthk16ea unique (next_ofkin_id) [42102-224]
+2023-12-20 10:37:46.876691+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found (this database is empty); SQL statement:
+alter table next_of_kins drop index UK_rfxrec4opdj4mqwmybfnh233e [42104-224]
+2023-12-20 10:37:46.879695+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found; SQL statement:
+alter table next_of_kins add constraint UK_rfxrec4opdj4mqwmybfnh233e unique (address_id) [42102-224]
+2023-12-20 10:37:46.883709+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_ACCOUNTS" not found; SQL statement:
+alter table accounts_accounts add constraint FKpf0tr4otiwl99x2rj63wx7c1u foreign key (accounts_id) references accounts (id) [42102-224]
+2023-12-20 10:37:46.890684+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_ACCOUNTS" not found; SQL statement:
+alter table accounts_accounts add constraint FKgtr9ed6dfxrrw14asep2q612w foreign key (account_id) references accounts (id) [42102-224]
+2023-12-20 10:37:46.900697+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint FK7qukpadrni76yppcb4cbq43nt foreign key (transactions_id) references transactions (id) [42102-224]
+2023-12-20 10:37:46.925687+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint FK4f5mhickmjv0s875m8cft9j6b foreign key (account_id) references accounts (id) [42102-224]
+2023-12-20 10:37:46.934685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found; SQL statement:
+alter table banks add constraint FKhher29gebdb3ccsta5bkt7f6c foreign key (bank_address_id) references addresses (id) [42102-224]
+2023-12-20 10:37:46.940688+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found; SQL statement:
+alter table branches add constraint FKiot8mccbwr9mny52s5nk218pb foreign key (branch_address_id) references addresses (id) [42102-224]
+2023-12-20 10:37:46.947698+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint FKo9octigkvtwnvjfuoobpn419f foreign key (loans_id) references loans (id) [42102-224]
+2023-12-20 10:37:46.955692+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint FKabt6wob7v0abax75qp6nnyf7m foreign key (branch_id) references branches (id) [42102-224]
+2023-12-20 10:37:46.965685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FKm07rwxbyxjv8r4fcye1ff6rmq foreign key (address_id) references addresses (id) [42102-224]
+2023-12-20 10:37:46.972685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FKefl3qvueuf69ppfowmkjnklxf foreign key (app_user_id) references app_users (id) [42102-224]
+2023-12-20 10:37:46.982686+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FK4do107cve7y2qh9b7fkn5cf8a foreign key (next_ofkin_id) references next_of_kins (id) [42102-224]
+2023-12-20 10:37:46.987688+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOANS_CUSTOMERS" not found; SQL statement:
+alter table loans_customers add constraint FKi96slob2yvu7bhuhlbetpgrjs foreign key (customers_id) references customers (id) [42102-224]
+2023-12-20 10:37:46.991690+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOANS_CUSTOMERS" not found; SQL statement:
+alter table loans_customers add constraint FKi5h69cj7fw482wm64v4qy9tth foreign key (loan_id) references loans (id) [42102-224]
+2023-12-20 10:37:47.004685+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found; SQL statement:
+alter table next_of_kins add constraint FK6uuojhy0h92f94mhgu5no1960 foreign key (address_id) references addresses (id) [42102-224]
+2023-12-20 10:38:00.133974+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+insert into app_users (email,first_name,last_name,middle_name,phone_number) values (?,?,?,?,?) [42104-224]
+2023-12-20 11:56:18.125312+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT @[*]@character_set_database, @@sql_mode"; expected "identifier"; SQL statement:
+SELECT @@character_set_database, @@sql_mode [42001-224]
+2023-12-20 11:56:23.646306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts (id integer not null auto_increment, account_name varchar(255), account_number varchar(255), account_pin varchar(255), account_type tinyint, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts (id integer not null auto_increment, account_name varchar(255), account_number varchar(255), account_pin varchar(255), account_type tinyint, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.679320+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts_accounts (account_id integer not null, accounts_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts_accounts (account_id integer not null, accounts_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.696307+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table accounts_transactions (account_id integer not null, transactions_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table accounts_transactions (account_id integer not null, transactions_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.703307+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table addresses (id integer not null auto_increment, city_name varchar(255), country varchar(255), state varchar(255), street_name varchar(255), street_number integer, town_name varchar(255), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table addresses (id integer not null auto_increment, city_name varchar(255), country varchar(255), state varchar(255), street_name varchar(255), street_number integer, town_name varchar(255), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.714309+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table app_users (id integer not null auto_increment, email varchar(255), first_name varchar(255), last_name varchar(255), middle_name varchar(255), phone_number varchar(255), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table app_users (id integer not null auto_increment, email varchar(255), first_name varchar(255), last_name varchar(255), middle_name varchar(255), phone_number varchar(255), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.721305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table banks (id integer not null auto_increment, bank_code varchar(255), name varchar(255), bank_address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table banks (id integer not null auto_increment, bank_code varchar(255), name varchar(255), bank_address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.726321+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table branches (id integer not null auto_increment, branch_name varchar(255), branch_number varchar(255), branch_address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table branches (id integer not null auto_increment, branch_name varchar(255), branch_number varchar(255), branch_address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.732306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table branches_loans (branch_id integer not null, loans_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table branches_loans (branch_id integer not null, loans_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.741303+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table customers (id integer not null auto_increment, age integer not null, created_at datetime(6), date_of_birth date, gender enum ('MALE','FEMALE'), image_url varchar(255), updated_at datetime(6), address_id integer, app_user_id integer, next_ofkin_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table customers (id integer not null auto_increment, age integer not null, created_at datetime(6), date_of_birth date, gender enum ('MALE','FEMALE'), image_url varchar(255), updated_at datetime(6), address_id integer, app_user_id integer, next_ofkin_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.748307+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table loans (id integer not null auto_increment, loan_amount decimal(38,2), loan_type tinyint, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table loans (id integer not null auto_increment, loan_amount decimal(38,2), loan_type tinyint, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.755309+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table loans_customers (loan_id integer not null, customers_id integer not null) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table loans_customers (loan_id integer not null, customers_id integer not null) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.765301+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table next_of_kins (id integer not null auto_increment, date_of_birth date, first_name varchar(255), last_name varchar(255), next_of_kin_gender enum ('MALE','FEMALE'), address_id integer, primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table next_of_kins (id integer not null auto_increment, date_of_birth date, first_name varchar(255), last_name varchar(255), next_of_kin_gender enum ('MALE','FEMALE'), address_id integer, primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.772306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table transactions (id integer not null auto_increment, transaction_amount decimal(38,2), transaction_time datetime(6), transaction_type enum ('CREDIT','DEBIT'), primary key (id)) engine[*]=InnoDB"; expected "identifier"; SQL statement:
+create table transactions (id integer not null auto_increment, transaction_amount decimal(38,2), transaction_time datetime(6), transaction_type enum ('CREDIT','DEBIT'), primary key (id)) engine=InnoDB [42001-224]
+2023-12-20 11:56:23.782307+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found (this database is empty); SQL statement:
+alter table accounts_transactions drop index UK_qa4occ0lq1r2wrxaimcb9or9s [42104-224]
+2023-12-20 11:56:23.785306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint UK_qa4occ0lq1r2wrxaimcb9or9s unique (transactions_id) [42102-224]
+2023-12-20 11:56:23.786304+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+alter table app_users drop index UK_4vj92ux8a2eehds1mdvmks473 [42104-224]
+2023-12-20 11:56:23.787303+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found; SQL statement:
+alter table app_users add constraint UK_4vj92ux8a2eehds1mdvmks473 unique (email) [42102-224]
+2023-12-20 11:56:23.788300+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+alter table app_users drop index UK_mx8l8t4b18guil7nffximvl4n [42104-224]
+2023-12-20 11:56:23.789303+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found; SQL statement:
+alter table app_users add constraint UK_mx8l8t4b18guil7nffximvl4n unique (phone_number) [42102-224]
+2023-12-20 11:56:23.790303+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found (this database is empty); SQL statement:
+alter table banks drop index UK_btq8hwp8sd8br8p12j5hx5sm8 [42104-224]
+2023-12-20 11:56:23.791306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found; SQL statement:
+alter table banks add constraint UK_btq8hwp8sd8br8p12j5hx5sm8 unique (bank_address_id) [42102-224]
+2023-12-20 11:56:23.792303+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found (this database is empty); SQL statement:
+alter table branches drop index UK_imsqns7wcw4h23abyacjq1353 [42104-224]
+2023-12-20 11:56:23.794307+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found; SQL statement:
+alter table branches add constraint UK_imsqns7wcw4h23abyacjq1353 unique (branch_address_id) [42102-224]
+2023-12-20 11:56:23.795308+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found (this database is empty); SQL statement:
+alter table branches_loans drop index UK_boi5xthonj3qntfyg0sf21lir [42104-224]
+2023-12-20 11:56:23.796303+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint UK_boi5xthonj3qntfyg0sf21lir unique (loans_id) [42102-224]
+2023-12-20 11:56:23.797304+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_8ty10pw947q1idxbhrm6sw3yr [42104-224]
+2023-12-20 11:56:23.798308+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_8ty10pw947q1idxbhrm6sw3yr unique (address_id) [42102-224]
+2023-12-20 11:56:23.799305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_c85ytn8y04pioqjeuiljxl91p [42104-224]
+2023-12-20 11:56:23.800305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_c85ytn8y04pioqjeuiljxl91p unique (app_user_id) [42102-224]
+2023-12-20 11:56:23.801306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found (this database is empty); SQL statement:
+alter table customers drop index UK_3w42oq4pek5yqov4nrthk16ea [42104-224]
+2023-12-20 11:56:23.802307+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint UK_3w42oq4pek5yqov4nrthk16ea unique (next_ofkin_id) [42102-224]
+2023-12-20 11:56:23.803308+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found (this database is empty); SQL statement:
+alter table next_of_kins drop index UK_rfxrec4opdj4mqwmybfnh233e [42104-224]
+2023-12-20 11:56:23.804305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found; SQL statement:
+alter table next_of_kins add constraint UK_rfxrec4opdj4mqwmybfnh233e unique (address_id) [42102-224]
+2023-12-20 11:56:23.805304+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_ACCOUNTS" not found; SQL statement:
+alter table accounts_accounts add constraint FKpf0tr4otiwl99x2rj63wx7c1u foreign key (accounts_id) references accounts (id) [42102-224]
+2023-12-20 11:56:23.810304+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_ACCOUNTS" not found; SQL statement:
+alter table accounts_accounts add constraint FKgtr9ed6dfxrrw14asep2q612w foreign key (account_id) references accounts (id) [42102-224]
+2023-12-20 11:56:23.818308+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint FK7qukpadrni76yppcb4cbq43nt foreign key (transactions_id) references transactions (id) [42102-224]
+2023-12-20 11:56:23.823305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ACCOUNTS_TRANSACTIONS" not found; SQL statement:
+alter table accounts_transactions add constraint FK4f5mhickmjv0s875m8cft9j6b foreign key (account_id) references accounts (id) [42102-224]
+2023-12-20 11:56:23.829305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BANKS" not found; SQL statement:
+alter table banks add constraint FKhher29gebdb3ccsta5bkt7f6c foreign key (bank_address_id) references addresses (id) [42102-224]
+2023-12-20 11:56:23.834306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES" not found; SQL statement:
+alter table branches add constraint FKiot8mccbwr9mny52s5nk218pb foreign key (branch_address_id) references addresses (id) [42102-224]
+2023-12-20 11:56:23.839306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint FKo9octigkvtwnvjfuoobpn419f foreign key (loans_id) references loans (id) [42102-224]
+2023-12-20 11:56:23.845306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BRANCHES_LOANS" not found; SQL statement:
+alter table branches_loans add constraint FKabt6wob7v0abax75qp6nnyf7m foreign key (branch_id) references branches (id) [42102-224]
+2023-12-20 11:56:23.850304+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FKm07rwxbyxjv8r4fcye1ff6rmq foreign key (address_id) references addresses (id) [42102-224]
+2023-12-20 11:56:23.854307+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FKefl3qvueuf69ppfowmkjnklxf foreign key (app_user_id) references app_users (id) [42102-224]
+2023-12-20 11:56:23.859303+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "CUSTOMERS" not found; SQL statement:
+alter table customers add constraint FK4do107cve7y2qh9b7fkn5cf8a foreign key (next_ofkin_id) references next_of_kins (id) [42102-224]
+2023-12-20 11:56:23.864305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOANS_CUSTOMERS" not found; SQL statement:
+alter table loans_customers add constraint FKi96slob2yvu7bhuhlbetpgrjs foreign key (customers_id) references customers (id) [42102-224]
+2023-12-20 11:56:23.869306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "LOANS_CUSTOMERS" not found; SQL statement:
+alter table loans_customers add constraint FKi5h69cj7fw482wm64v4qy9tth foreign key (loan_id) references loans (id) [42102-224]
+2023-12-20 11:56:23.874306+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "NEXT_OF_KINS" not found; SQL statement:
+alter table next_of_kins add constraint FK6uuojhy0h92f94mhgu5no1960 foreign key (address_id) references addresses (id) [42102-224]
+2023-12-20 11:56:32.317305+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "APP_USERS" not found (this database is empty); SQL statement:
+insert into app_users (email,first_name,last_name,middle_name,phone_number) values (?,?,?,?,?) [42104-224]
+2023-12-20 12:02:29.683017+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]
+2023-12-20 12:02:29.719978+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: The object is already closed [90007-224]

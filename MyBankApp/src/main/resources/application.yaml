@@ -13,9 +13,11 @@ spring:
     properties:
       hibernate:
         format_sql: false
-        dialect: org.hibernate.dialect.MySQLDialect
+#        dialect: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
 server:
-  port: 8181
+  port: 8080
+
 jwt_secret_key: ${JWT_SECRET}
 access_expiration: ${ACCESS_TOKEN_EXPIRATION}
 refresh_expiration: ${REFRESH_TOKEN_EXPIRATION}

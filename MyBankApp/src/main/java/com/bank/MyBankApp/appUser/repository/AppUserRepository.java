@@ -1,4 +1,4 @@
 package com.bank.MyBankApp.appUser.repository;
 
-public class AppUserRepository {
+public interface AppUserRepository {
 }

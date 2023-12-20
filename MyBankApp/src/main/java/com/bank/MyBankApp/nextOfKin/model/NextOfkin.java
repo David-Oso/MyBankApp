@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
+@Table(name = "next_of_kins")
 public class NextOfkin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

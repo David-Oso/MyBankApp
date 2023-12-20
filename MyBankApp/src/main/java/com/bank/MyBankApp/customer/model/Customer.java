@@ -2,9 +2,8 @@ package com.bank.MyBankApp.customer.model;
 
 import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.loan.model.Gender;
-import com.bank.MyBankApp.model.AppUser;
+import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.nextOfKin.model.NextOfkin;
-import com.bank.MyBankApp.transaction.model.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +12,13 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Table(name = "customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

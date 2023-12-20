@@ -13,8 +13,8 @@ import org.springframework.test.context.TestPropertySource;
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 
-@ActiveProfiles("test")  // Activates the "test" profile
-@TestPropertySource(locations = "classpath:application-test.yaml")  // Specifies the test configuration file
+@ActiveProfiles("test")
+//@TestPropertySource(locations = "classpath:application-test.yaml")
 class CustomerServiceImplTest {
     @Autowired CustomerService customerService;
 
@@ -38,6 +38,7 @@ class CustomerServiceImplTest {
 
     @Test
     void addCustomerAddress() {
+
     }
 
     @Test
