@@ -1,6 +1,6 @@
 spring:
-#  config:
-#    import: test_secrets.yaml
+  config:
+    import: secrets.yaml
   datasource:
     url: ${TEST_DB_URL}
     username: ${TEST_DB_USER_NAME}

@@ -23,8 +23,6 @@ public class NextOfkin {
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)
-    private Gender nextOfKinGender;
+    private Gender gender;
     private LocalDate dateOfBirth;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
 }

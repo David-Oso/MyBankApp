@@ -27,6 +27,8 @@ public class Customer {
     private AppUser appUser;
     @Enumerated(EnumType.STRING)
     private Gender gender;
+    private String nin;
+    private String bvn;
     private LocalDate dateOfBirth;
     private int age;
     private String imageUrl;

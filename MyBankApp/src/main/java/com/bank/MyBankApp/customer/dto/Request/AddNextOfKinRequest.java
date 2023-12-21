@@ -15,13 +15,6 @@ import java.time.LocalDate;
 public class AddNextOfKinRequest {
     private String firstName;
     private String lastName;
-    private Gender nextOfKinGender;
-    private LocalDate dateOfBirth;
-//    next of kin address.
-    private Integer streetNumber;
-    private String streetName;
-    private String townName;
-    private String cityName;
-    private String state;
-    private String country;
+    private Gender gender;
+    private String dateOfBirth;
 }

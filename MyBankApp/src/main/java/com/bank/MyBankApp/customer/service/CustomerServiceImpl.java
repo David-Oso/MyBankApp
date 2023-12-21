@@ -23,7 +23,8 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request) {
-//        check if user already exists
+//        checkIfUserAlreadyByEmail(request.getEmail());
+//        checkIfUserAlreadyByPhoneNumber(request.getPhoneNumber());
         AppUser appUser = modelMapper.map(request, AppUser.class);
         Customer customer = new Customer();
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
@@ -35,16 +36,6 @@ public class CustomerServiceImpl implements CustomerService{
 //        send verification mail
         Customer savedCustomer = customerRepository.save(customer);
         return getRegisterCustomerResponse(savedCustomer);
-    }
-
-    @Override
-    public String AddCustomerAddress(AddCustomerAddressRequest request) {
-        return null;
-    }
-
-    @Override
-    public String AddNextOfKin(AddNextOfKinRequest request) {
-        return null;
     }
 
     private static LocalDate changeDateStringToLocalDate(String date) {
@@ -60,5 +51,15 @@ public class CustomerServiceImpl implements CustomerService{
                 .customerId(customer.getId())
                 .message("Registration successful")
                 .build();
+    }
+
+    @Override
+    public String AddCustomerAddress(AddCustomerAddressRequest request) {
+        return null;
+    }
+
+    @Override
+    public String AddNextOfKin(AddNextOfKinRequest request) {
+        return null;
     }
 }
