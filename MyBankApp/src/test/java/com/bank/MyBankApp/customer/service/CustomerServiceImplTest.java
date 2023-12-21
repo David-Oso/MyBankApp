@@ -5,6 +5,7 @@ import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
 import com.bank.MyBankApp.loan.model.Gender;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,11 @@ class CustomerServiceImplTest {
 
     }
 
+    @AfterEach
+    void tearDown(){
+        customerService.deleteAll();
+    }
+
     @Test
     void registerCustomer() {
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
@@ -72,6 +78,11 @@ class CustomerServiceImplTest {
 
     @Test
     void addCustomerAddress() {
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
+
+
     }
 
     @Test

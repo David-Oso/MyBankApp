@@ -62,4 +62,13 @@ public class CustomerServiceImpl implements CustomerService{
     public String AddNextOfKin(AddNextOfKinRequest request) {
         return null;
     }
+
+    @Override
+    public void deleteAll() {
+        customerRepository.deleteAll();
+    }
+//    private Customer getCustomerById(Integer id){
+//        return customerRepository.findById(id).orElseThrow(
+//                ())
+//    }
 }
