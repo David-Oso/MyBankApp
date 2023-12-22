@@ -49,17 +49,14 @@ public class CustomerServiceImpl implements CustomerService{
         if(customerRepository.existsByAppUserPhoneNumber(phoneNumber))
             throw new AlreadyExistsException("Customer with this phone number already exists.");
     }
-
     private void checkIfCustomerExistsByNin(String nin){
         if(customerRepository.existsByNin(nin))
             throw new AlreadyExistsException("Customer with this nin already exists.");
     }
-
     private void checkIfCustomerExistsByBvn(String bvn){
         if(customerRepository.existsByBvn(bvn))
             throw new AlreadyExistsException("Customer with this bvn already exists.");
     }
-
     private static LocalDate changeDateStringToLocalDate(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return LocalDate.parse(date.trim(), formatter);
