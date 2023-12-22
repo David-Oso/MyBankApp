@@ -10,6 +10,7 @@ import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.NotFoundException;
+import com.bank.MyBankApp.nextOfKin.model.NextOfkin;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public String AddCustomerAddress(AddCustomerAddressRequest request, Integer customerId) {
+    public String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId) {
         Customer customer = getCustomerById(customerId);
         Address address = modelMapper.map(request, Address.class);
         customer.setAddress(address);
@@ -82,8 +83,14 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public String AddNextOfKin(AddNextOfKinRequest request) {
-        return null;
+    public String addNextOfKin(AddNextOfKinRequest request, Integer customerId) {
+        Customer customer = getCustomerById(customerId);
+        NextOfkin nextOfkin = modelMapper.map(request, NextOfkin.class);
+        LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
+        nextOfkin.setDateOfBirth(dateOfBirth);
+        customer.setNextOfkin(nextOfkin);
+        customerRepository.save(customer);
+        return "Next of kin added successfully";
     }
 
     @Override

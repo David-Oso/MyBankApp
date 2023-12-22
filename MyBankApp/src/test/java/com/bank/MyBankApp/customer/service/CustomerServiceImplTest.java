@@ -116,6 +116,32 @@ class CustomerServiceImplTest {
         addressRequest4.setCityName("Yaba");
         addressRequest4.setState("Lagos");
         addressRequest4.setCountry("Nigeria");
+
+        nextOfKinRequest1 = new AddNextOfKinRequest();
+        nextOfKinRequest1.setFirstName("Samuel");
+        nextOfKinRequest1.setLastName("Shola");
+        nextOfKinRequest1.setGender(Gender.MALE);
+        nextOfKinRequest1.setDateOfBirth("20/04/2000");
+
+        nextOfKinRequest2 = new AddNextOfKinRequest();
+        nextOfKinRequest2.setFirstName("Favour");
+        nextOfKinRequest2.setLastName("Mbata");
+        nextOfKinRequest2.setGender(Gender.FEMALE);
+        nextOfKinRequest2.setDateOfBirth("20/04/2000");
+
+        nextOfKinRequest3 = new AddNextOfKinRequest();
+        nextOfKinRequest3.setFirstName("Joyce");
+        nextOfKinRequest3.setLastName("Glory");
+        nextOfKinRequest3.setGender(Gender.FEMALE);
+        nextOfKinRequest3.setDateOfBirth("20/04/2000");
+
+        nextOfKinRequest4 = new AddNextOfKinRequest();
+        nextOfKinRequest4.setFirstName("Babatunde");
+        nextOfKinRequest4.setLastName("Ishola");
+        nextOfKinRequest4.setGender(Gender.MALE);
+        nextOfKinRequest4.setDateOfBirth("20/04/2000");
+
+
     }
 
     @AfterEach
@@ -137,16 +163,20 @@ class CustomerServiceImplTest {
         assertThat(response.getCustomerId()).isEqualTo(1);
         assertThat(response.getMessage()).isEqualTo("Registration successful");
 
-        String addAddressResponse = customerService.AddCustomerAddress(addressRequest1, 1);
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
     }
 
     @Test
     void addNextOfKin() {
-    }
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
 
-//    @AfterAll
-//    static void tearDownAfterAll(){
-////        delete all the transactions from the database.
-//    }
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+
+        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
+        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+    }
 }
