@@ -85,7 +85,6 @@ class CustomerServiceImplTest {
         registerCustomerRequest4.setBvn("62345378909");
         registerCustomerRequest4.setNin("19876903212");
 
-
         addressRequest1 = new AddCustomerAddressRequest();
         addressRequest1.setStreetNumber(1);
         addressRequest1.setStreetName("Herbert Macaulay way");
@@ -121,8 +120,8 @@ class CustomerServiceImplTest {
 
     @AfterEach
     void tearDown(){
-        appUserRepository.deleteAll();
-        customerService.deleteAll();
+//        appUserRepository.deleteAll();
+//        customerService.deleteAll();
     }
 
     @Test

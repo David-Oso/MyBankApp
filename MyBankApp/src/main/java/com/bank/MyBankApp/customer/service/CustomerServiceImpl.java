@@ -8,6 +8,7 @@ import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
 import com.bank.MyBankApp.appUser.model.AppUser;
+import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,10 +25,10 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request) {
-//        checkIfUserAlreadyExistsByEmail(request.getEmail());
-//        checkIfUserAlreadyExistsByPhoneNumber(request.getPhoneNumber());
-//        checkIfUserAlreadyExistsNin(request.getNin());
-//        checkIfUserAlreadyExistsBvn(request.getBvn());
+        checkIfCustomerExistsByEmail(request.getEmail());
+        checkIfCustomerExistsByPhoneNumber(request.getPhoneNumber());
+        checkIfCustomerExistsByNin(request.getNin());
+        checkIfCustomerExistsByBvn(request.getBvn());
         AppUser appUser = modelMapper.map(request, AppUser.class);
         Customer customer = modelMapper.map(request, Customer.class);
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
@@ -37,6 +38,26 @@ public class CustomerServiceImpl implements CustomerService{
         customer.setAppUser(appUser);
         Customer savedCustomer = customerRepository.save(customer);
         return getRegisterCustomerResponse(savedCustomer);
+    }
+    private void checkIfCustomerExistsByEmail(String email){
+        if(customerRepository.existsByAppUserEmail(email))
+            throw new AlreadyExistsException("Customer with this email already exists.");
+
+    }
+
+    private void checkIfCustomerExistsByPhoneNumber(String phoneNumber){
+        if(customerRepository.existsByAppUserPhoneNumber(phoneNumber))
+            throw new AlreadyExistsException("Customer with this phone number already exists.");
+    }
+
+    private void checkIfCustomerExistsByNin(String nin){
+        if(customerRepository.existsByNin(nin))
+            throw new AlreadyExistsException("Customer with this nin already exists.");
+    }
+
+    private void checkIfCustomerExistsByBvn(String bvn){
+        if(customerRepository.existsByBvn(bvn))
+            throw new AlreadyExistsException("Customer with this bvn already exists.");
     }
 
     private static LocalDate changeDateStringToLocalDate(String date) {
