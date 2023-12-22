@@ -18,4 +18,6 @@ public class RegisterCustomerRequest {
     private String phoneNumber;
     private Gender gender;
     private String dateOfBirth;
+    private String bvn;
+    private String nin;
 }

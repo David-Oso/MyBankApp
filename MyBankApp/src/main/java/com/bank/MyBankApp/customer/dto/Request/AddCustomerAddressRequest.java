@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddCustomerAddressRequest {
-    private Integer customerId;
     private Integer streetNumber;
     private String streetName;
     private String townName;

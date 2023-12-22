@@ -7,7 +7,7 @@ import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
 
 public interface CustomerService {
     RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request);
-    String AddCustomerAddress(AddCustomerAddressRequest request);
+    String AddCustomerAddress(AddCustomerAddressRequest request, Integer customerId);
     String AddNextOfKin(AddNextOfKinRequest request);
     void deleteAll();
 }

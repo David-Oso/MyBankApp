@@ -23,18 +23,20 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private AppUser appUser;
     @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Column(unique= true)
     private String nin;
+    @Column(unique= true)
     private String bvn;
     private LocalDate dateOfBirth;
     private int age;
     private String imageUrl;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private Address address;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private NextOfkin nextOfkin;
     private final LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt;
