@@ -6,6 +6,8 @@ import com.bank.MyBankApp.customer.dto.Request.AddNextOfKinRequest;
 import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
 import com.bank.MyBankApp.loan.model.Gender;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,16 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
-
+@Transactional
 @ActiveProfiles("test")
 class CustomerServiceImplTest {
+    @PersistenceContext
+    private EntityManager entityManager;
+    
     @Autowired
     CustomerService customerService;
-    @Autowired
-    AppUserRepository appUserRepository;
+
     private RegisterCustomerRequest registerCustomerRequest1;
     private RegisterCustomerRequest registerCustomerRequest2;
     private RegisterCustomerRequest registerCustomerRequest3;
@@ -140,14 +145,12 @@ class CustomerServiceImplTest {
         nextOfKinRequest4.setLastName("Ishola");
         nextOfKinRequest4.setGender(Gender.MALE);
         nextOfKinRequest4.setDateOfBirth("20/04/2000");
-
-
     }
 
     @AfterEach
     void tearDown(){
-//        appUserRepository.deleteAll();
-//        customerService.deleteAll();
+        customerService.deleteAll();
+        entityManager.createNativeQuery("ALTER TABLE my_bank_app_testdb.customers AUTO_INCREMENT = 1").executeUpdate();
     }
 
     @Test
@@ -195,7 +198,47 @@ class CustomerServiceImplTest {
         assertThat(customerService.count()).isEqualTo(1);
         customerService.deleteByCustomerId(1);
         assertThat(customerService.count()).isEqualTo(0);
+    }
 
+    @Test
+    void deleteAllCustomerTest(){
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
+        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(1);
 
+        RegisterCustomerResponse response2 = customerService.registerCustomer(registerCustomerRequest2);
+        assertThat(response2.getCustomerId()).isEqualTo(2);
+        assertThat(response2.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse2 = customerService.addCustomerAddress(addressRequest2, 2);
+        assertThat(addAddressResponse2).isEqualTo("Address added successfully");
+        String nextOfKinResponse2 = customerService.addNextOfKin(nextOfKinRequest2, 2);
+        assertThat(nextOfKinResponse2).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(2);
+
+        RegisterCustomerResponse response3 = customerService.registerCustomer(registerCustomerRequest3);
+        assertThat(response3.getCustomerId()).isEqualTo(3);
+        assertThat(response3.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse3 = customerService.addCustomerAddress(addressRequest3, 3);
+        assertThat(addAddressResponse3).isEqualTo("Address added successfully");
+        String nextOfKinResponse3 = customerService.addNextOfKin(nextOfKinRequest3, 3);
+        assertThat(nextOfKinResponse3).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(3);
+
+        RegisterCustomerResponse response4 = customerService.registerCustomer(registerCustomerRequest4);
+        assertThat(response4.getCustomerId()).isEqualTo(4);
+        assertThat(response4.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse4 = customerService.addCustomerAddress(addressRequest4, 4);
+        assertThat(addAddressResponse4).isEqualTo("Address added successfully");
+        String nextOfKinResponse4 = customerService.addNextOfKin(nextOfKinRequest4, 4);
+        assertThat(nextOfKinResponse4).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(4);
+
+        customerService.deleteAll();
+        assertThat(customerService.count()).isEqualTo(0);
     }
 }

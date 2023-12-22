@@ -9,7 +9,7 @@ public interface CustomerService {
     RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request);
     String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId);
     String addNextOfKin(AddNextOfKinRequest request, Integer customerId);
-    void deleteAll();
     void deleteByCustomerId(Integer customerId);
+    void deleteAll();
     long count();
 }
