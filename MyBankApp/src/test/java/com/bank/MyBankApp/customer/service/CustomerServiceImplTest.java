@@ -151,14 +151,14 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void registerCustomer() {
+    void registerCustomerTest() {
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
         assertThat(response.getCustomerId()).isEqualTo(1);
         assertThat(response.getMessage()).isEqualTo("Registration successful");
     }
 
     @Test
-    void addCustomerAddress() {
+    void addCustomerAddressTest() {
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
         assertThat(response.getCustomerId()).isEqualTo(1);
         assertThat(response.getMessage()).isEqualTo("Registration successful");
@@ -168,7 +168,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void addNextOfKin() {
+    void addNextOfKinTest() {
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
         assertThat(response.getCustomerId()).isEqualTo(1);
         assertThat(response.getMessage()).isEqualTo("Registration successful");
@@ -178,5 +178,24 @@ class CustomerServiceImplTest {
 
         String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
         assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+    }
+
+    @Test
+    void deleteByCustomerIdTest(){
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
+
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+
+        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
+        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+
+        assertThat(customerService.count()).isEqualTo(1);
+        customerService.deleteByCustomerId(1);
+        assertThat(customerService.count()).isEqualTo(0);
+
+
     }
 }

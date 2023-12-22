@@ -97,6 +97,17 @@ public class CustomerServiceImpl implements CustomerService{
     public void deleteAll() {
         customerRepository.deleteAll();
     }
+
+    @Override
+    public void deleteByCustomerId(Integer customerId) {
+        customerRepository.deleteById(customerId);
+    }
+
+    @Override
+    public long count() {
+        return customerRepository.count();
+    }
+
     private Customer getCustomerById(Integer id){
         return customerRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException("Customer with this id not found."));

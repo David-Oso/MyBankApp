@@ -10,4 +10,6 @@ public interface CustomerService {
     String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId);
     String addNextOfKin(AddNextOfKinRequest request, Integer customerId);
     void deleteAll();
+    void deleteByCustomerId(Integer customerId);
+    long count();
 }
