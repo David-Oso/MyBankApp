@@ -21,10 +21,12 @@ public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(unique = true)
     private String branchNumber;
     private String branchName;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address branchAddress;
+    private boolean isApproved;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Loan> loans;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -21,6 +21,14 @@ server:
 #  bank code
 bank:
   code: ${BANK_CODE}
+  phone_number: ${BANK_PHONE_NUMBER}
+  email: ${BANK_EMAIL}
+
+#mail
+  mail:
+    api:
+      key: ${MAIL_API_KEY}
+    url: ${MAIL_URL}
 
 #  jwt
 jwt:

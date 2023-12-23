@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateBranchRequest {
-    private String branchNumber;
     private String branchName;
     //    address
     private Integer streetNumber;

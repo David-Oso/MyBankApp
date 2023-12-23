@@ -19,6 +19,8 @@ public class Bank {
     private Integer id;
     private String bankCode;
     private String name;
+    private String bankPhoneNumber;
+    private String branchEmail;
     @OneToOne(cascade = CascadeType.ALL)
     private Address bankAddress;
 }

@@ -22,14 +22,11 @@ public class BranchServiceImpl implements BranchService{
         Address branchAddress = modelMapper.map(request, Address.class);
         branch.setBranchAddress(branchAddress);
         Branch savedBranch = branchRepository.save(branch);
+//        sendApprovalToBank
+
         return CreateBranchResponse.builder()
                 .branchName(savedBranch.getBranchName())
                 .branchNumber(savedBranch.getBranchNumber())
                 .build();
-    }
-
-    @Override
-    public String generateBranchNumber(Address address) {
-        return null;
     }
 }
