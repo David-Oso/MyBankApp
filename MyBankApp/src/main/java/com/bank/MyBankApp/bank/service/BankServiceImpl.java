@@ -21,6 +21,10 @@ public class BankServiceImpl implements BankService{
     private final ModelMapper modelMapper;
     @Value("${bank.code}")
     private String bankCode;
+    @Value("${bank.phone_number}")
+    private String bankPhoneNumber;
+    @Value("${bank.email}")
+    private String bankEmail;
 
     @PostConstruct
     private void createBank(){
@@ -28,6 +32,8 @@ public class BankServiceImpl implements BankService{
             Bank bank = new Bank();
             bank.setBankCode(bankCode);
             bank.setName(MyBankAppUtils.BANK_NAME);
+            bank.setBankPhoneNumber(bankPhoneNumber);
+            bank.setBankEmail(bankEmail);
             Address bankAddress = createBankAddress();
             bank.setBankAddress(bankAddress);
             bankRepository.save(bank);

@@ -20,7 +20,7 @@ class BranchServiceImplTest {
     @BeforeEach
     void setUp() {
         createBranchRequest1 = new CreateBranchRequest();
-        createBranchRequest1.setBranchNumber("FBNNGAAB"); //abeookuta
+//        createBranchRequest1.setBranchNumber("FBNNGAAB"); //abeookuta
         createBranchRequest1.setStreetNumber(25);
         createBranchRequest1.setStreetName("Alagomeji");
         createBranchRequest1.setTownName("Sabo");
@@ -30,7 +30,7 @@ class BranchServiceImplTest {
 
 
         createBranchRequest2 = new CreateBranchRequest();
-        createBranchRequest2.setBranchNumber("FBNNGA"); //abeookuta
+//        createBranchRequest2.setBranchNumber("FBNNGA"); //abeookuta
         createBranchRequest2.setStreetNumber(25);
         createBranchRequest2.setStreetName("Alagomeji");
         createBranchRequest2.setTownName("Sabo");
@@ -40,7 +40,7 @@ class BranchServiceImplTest {
 
 
         createBranchRequest3 = new CreateBranchRequest();
-        createBranchRequest3.setBranchNumber("FBNNGAAB"); //abeookuta
+//        createBranchRequest3.setBranchNumber("FBNNGAAB"); //abeookuta
         createBranchRequest3.setStreetNumber(25);
         createBranchRequest3.setStreetName("Alagomeji");
         createBranchRequest3.setTownName("Sabo");

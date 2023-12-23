@@ -20,7 +20,7 @@ public class Bank {
     private String bankCode;
     private String name;
     private String bankPhoneNumber;
-    private String branchEmail;
+    private String bankEmail;
     @OneToOne(cascade = CascadeType.ALL)
     private Address bankAddress;
 }

@@ -23,7 +23,7 @@ bank:
   email: ${BANK_EMAIL}
 
   #mail
-  mail:
-    api:
-      key: ${MAIL_API_KEY}
-    url: ${MAIL_URL}
+mail:
+  api:
+    key: ${MAIL_API_KEY}
+  url: ${MAIL_URL}

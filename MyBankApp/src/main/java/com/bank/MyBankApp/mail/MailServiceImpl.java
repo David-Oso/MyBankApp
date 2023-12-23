@@ -15,6 +15,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.net.URI;
+import java.util.concurrent.CompletableFuture;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
@@ -30,7 +32,7 @@ public class MailServiceImpl implements MailService{
 
     @Async
     @Override
-    public String sendMail(String name, String email, String subject, String htmlContent) {
+    public void sendMail(String name, String email, String subject, String htmlContent) {
         SendEmailRequest sendEmailRequest = new SendEmailRequest();
         Sender sender = new Sender(MyBankAppUtils.BANK_NAME, bankEmail);
         sendEmailRequest.setSender(sender);
@@ -46,8 +48,8 @@ public class MailServiceImpl implements MailService{
             RequestEntity<SendEmailRequest> entity =
                     new RequestEntity<>(sendEmailRequest, httpHeaders, HttpMethod.POST, URI.create(mailUrl));
             ResponseEntity<String> response = restTemplate.postForEntity(mailUrl, entity, String.class);
-            log.info(":::::::::::::::::::EMAIL SENT SUCCESSFULLY:::::::::::::::::::");
-            return response.getBody();
+            log.info("\nMAIL RESPONSE BODY:  %s\n".formatted(response));
+            log.info("\n:::::::::::::::::::EMAIL SENT SUCCESSFULLY:::::::::::::::::::\n");
         }catch (Exception exception){
             throw new RuntimeException("Error sending mail");
         }
