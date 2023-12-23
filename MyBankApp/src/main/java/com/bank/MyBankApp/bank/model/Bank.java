@@ -21,7 +21,4 @@ public class Bank {
     private String name;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address bankAddress;
-
-//    XYZBNGLALA
-//    FBNNGALA
 }

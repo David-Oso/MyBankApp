@@ -18,6 +18,15 @@ spring:
 server:
   port: 8080
 
-jwt_secret_key: ${JWT_SECRET}
-access_expiration: ${ACCESS_TOKEN_EXPIRATION}
-refresh_expiration: ${REFRESH_TOKEN_EXPIRATION}
+#  bank code
+bank:
+  code: ${BANK_CODE}
+
+#  jwt
+jwt:
+  secret:
+    key: ${JWT_SECRET}
+access:
+  expiration: ${ACCESS_TOKEN_EXPIRATION}
+refresh:
+  expiration: ${REFRESH_TOKEN_EXPIRATION}
