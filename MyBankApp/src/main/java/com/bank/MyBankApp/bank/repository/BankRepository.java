@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface BankRepository extends JpaRepository<Bank, Integer> {
-//    @Query("SELECT b FROM Bank b JOIN FETCH b.bankAddress WHERE b.id = :bankId")
     Optional<Bank> findByBankCode(String bankCode);
     @Query("SELECT b FROM Bank b JOIN FETCH b.bankAddress WHERE b.id = :bankId")
     Optional<Bank> findBankById(@Param("bankId") Integer bankId);

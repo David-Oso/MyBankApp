@@ -24,5 +24,9 @@ class BankServiceImplTest {
 
     @Test
     void getBankByBankCodeTest() {
+        BankResponse bankResponse = bankService.getBankByBankCode("your bank code");
+        assertThat(bankResponse.getName()).isEqualTo("First Bank of Nigeria");
+        assertThat(bankResponse.getBankAddress().getState()).isEqualTo("Lagos");
+        assertThat(bankResponse.getBankAddress().getCountry()).isEqualTo("Nigeria");
     }
 }
