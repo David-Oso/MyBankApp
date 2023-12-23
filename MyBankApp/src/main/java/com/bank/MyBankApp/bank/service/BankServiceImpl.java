@@ -4,9 +4,11 @@ import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.bank.model.Bank;
 import com.bank.MyBankApp.bank.repository.BankRepository;
 import com.bank.MyBankApp.bank.response.BankResponse;
+import com.bank.MyBankApp.exception.MyBankException;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BankServiceImpl implements BankService{
     private final BankRepository bankRepository;
+    private final ModelMapper modelMapper;
     @Value("${bank.code}")
     private String bankCode;
 
@@ -44,11 +47,23 @@ public class BankServiceImpl implements BankService{
 
     @Override
     public BankResponse getBankById(Integer id) {
-        return null;
+        Bank bank = bankRepository.findBankById(id).orElseThrow(
+                ()-> new MyBankException("Bank with the entered id not found"));
+        return getBankResponse(bank);
     }
 
     @Override
     public BankResponse getBankByBankCode(String bankCode) {
-        return null;
+        Bank bank = bankRepository.findByBankCode(bankCode).orElseThrow(
+                ()-> new MyBankException("Bank with the entered code not found"));
+        return getBankResponse(bank);
+    }
+
+    private BankResponse getBankResponse(Bank bank){
+        Address bankAddress = modelMapper.map(bank.getBankAddress(), Address.class);
+        return BankResponse.builder()
+                .name(bank.getName())
+                .bankAddress(bankAddress)
+                .build();
     }
 }

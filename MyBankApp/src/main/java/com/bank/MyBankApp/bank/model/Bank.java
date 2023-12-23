@@ -19,6 +19,6 @@ public class Bank {
     private Integer id;
     private String bankCode;
     private String name;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address bankAddress;
 }
