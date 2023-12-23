@@ -5,6 +5,7 @@ import com.bank.MyBankApp.bank.model.Bank;
 import com.bank.MyBankApp.bank.repository.BankRepository;
 import com.bank.MyBankApp.bank.response.BankResponse;
 import com.bank.MyBankApp.exception.MyBankException;
+import com.bank.MyBankApp.utilities.MyBankAppUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class BankServiceImpl implements BankService{
         if(bankRepository.count() < 1){
             Bank bank = new Bank();
             bank.setBankCode(bankCode);
-            bank.setName("First Bank of Nigeria");
+            bank.setName(MyBankAppUtils.BANK_NAME);
             Address bankAddress = createBankAddress();
             bank.setBankAddress(bankAddress);
             bankRepository.save(bank);

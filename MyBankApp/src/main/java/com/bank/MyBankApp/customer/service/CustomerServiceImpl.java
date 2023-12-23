@@ -12,6 +12,7 @@ import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.nextOfKin.model.NextOfkin;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository customerRepository;
     private final ModelMapper modelMapper;
@@ -38,6 +40,7 @@ public class CustomerServiceImpl implements CustomerService{
         customer.setAge(age);
         customer.setAppUser(appUser);
         Customer savedCustomer = customerRepository.save(customer);
+        log.info("\n::::::::::::::::::::  CREATED NEW CUSTOMER  ::::::::::::::::::::\n");
         return getRegisterCustomerResponse(savedCustomer);
     }
     private void checkIfCustomerExistsByEmail(String email){

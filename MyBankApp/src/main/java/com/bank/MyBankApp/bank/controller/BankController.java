@@ -21,7 +21,7 @@ public class BankController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("get/id")
+    @GetMapping("get/bank-code")
     public ResponseEntity<?> getBankByBankCode(@RequestParam String bankCode){
         BankResponse response = bankService.getBankByBankCode(bankCode);
         return ResponseEntity.ok(response);

@@ -10,4 +10,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateBranchRequest {
+    private String branchNumber;
+    private String branchName;
+    //    address
+    private Integer streetNumber;
+    private String streetName;
+    private String townName;
+    private String cityName;
+    private String state;
+    private String country;
 }
