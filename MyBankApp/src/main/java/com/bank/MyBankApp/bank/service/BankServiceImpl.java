@@ -47,9 +47,18 @@ public class BankServiceImpl implements BankService{
 
     @Override
     public BankResponse getBankById(Integer id) {
-        Bank bank = bankRepository.findBankById(id).orElseThrow(
-                ()-> new MyBankException("Bank with the entered id not found"));
+        Bank bank = getBank(id);
         return getBankResponse(bank);
+    }
+
+    private Bank getBank(Integer id) {
+        return bankRepository.findBankById(id).orElseThrow(
+                ()-> new MyBankException("Bank with the entered id not found"));
+    }
+
+    @Override
+    public Bank getBankByBankId(Integer bankId) {
+        return getBank(bankId);
     }
 
     @Override

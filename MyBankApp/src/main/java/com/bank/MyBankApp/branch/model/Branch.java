@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.branch.model;
 
+import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.loan.model.Loan;
 import jakarta.persistence.*;
@@ -24,6 +25,8 @@ public class Branch {
     private String branchName;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address branchAddress;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Loan> loans;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Account> accounts;
 }
