@@ -4,7 +4,11 @@ import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.bank.model.Bank;
 import com.bank.MyBankApp.bank.repository.BankRepository;
 import com.bank.MyBankApp.bank.response.BankResponse;
+import com.bank.MyBankApp.branch.model.Branch;
+import com.bank.MyBankApp.branch.repository.BranchRepository;
 import com.bank.MyBankApp.exception.MyBankException;
+import com.bank.MyBankApp.exception.NotFoundException;
+import com.bank.MyBankApp.mail.MailService;
 import com.bank.MyBankApp.utilities.MyBankAppUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BankServiceImpl implements BankService{
     private final BankRepository bankRepository;
+    private final BranchRepository branchRepository;
+    private final MailService mailService;
+
     private final ModelMapper modelMapper;
     @Value("${bank.code}")
     private String bankCode;
@@ -74,6 +81,34 @@ public class BankServiceImpl implements BankService{
                 ()-> new MyBankException("Bank with the entered code not found"));
         return getBankResponse(bank);
     }
+
+    @Override
+    public String addNewBranch(Integer bankId, Branch branch) {
+        Bank bank = getBank(bankId);
+        bank.getBranches().add(branch);
+        bankRepository.save(bank);
+        return "New branch added";
+    }
+
+    @Override
+    public String approveBranch(Integer branchId) {
+        Branch branch = getBranchById(branchId);
+        branch.setApproved(true);
+        String branchNumber = generateBranchNumber();
+        branch.setBranchName(branchNumber);
+        branchRepository.save(branch);
+
+        return null;
+    }
+
+    private Branch getBranchById(Integer branchId) {
+        return branchRepository.findById(branchId).orElseThrow(
+                ()-> new NotFoundException("Branch with this id not found"));
+    }
+
+    private static String generateBranchNumber() {
+    }
+
 
     private BankResponse getBankResponse(Bank bank){
         Address bankAddress = modelMapper.map(bank.getBankAddress(), Address.class);

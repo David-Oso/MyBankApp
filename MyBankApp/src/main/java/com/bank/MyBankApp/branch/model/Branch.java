@@ -24,6 +24,10 @@ public class Branch {
     @Column(unique = true)
     private String branchNumber;
     private String branchName;
+    @Column(unique = true)
+    private String branchPhoneNumber;
+    @Column(unique = true)
+    private String branchEmail;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address branchAddress;
     private boolean isApproved;
