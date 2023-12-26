@@ -10,6 +10,7 @@ import com.bank.MyBankApp.mail.MailService;
 import com.bank.MyBankApp.utilities.MyBankAppUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,8 @@ public class BranchServiceImpl implements BranchService{
     private final BranchRepository branchRepository;
     private final ModelMapper modelMapper;
     private final MailService mailService;
+    @Value("${bank.email}")
+    private String bankEmail;
     @Override
     public CreateBranchResponse createNewBranch(CreateBranchRequest request) {
         Branch branch = modelMapper.map(request, Branch.class);
@@ -28,7 +31,7 @@ public class BranchServiceImpl implements BranchService{
 //        sendApprovalToBank
         String subject = "Branch Approval Mail";
         String htmlContent = MyBankAppUtils.GET_BRANCH_APPROVAL_MAIL_TEMPLATE;
-        mailService.sendMail(savedBranch.getBranchName(), savedBranch.getBranchEmail(), subject, htmlContent);
+        mailService.sendMail(savedBranch.getBranchName(), bankEmail, subject, htmlContent);
         return CreateBranchResponse.builder()
                 .branchName(savedBranch.getBranchName())
                 .branchNumber(savedBranch.getBranchNumber())

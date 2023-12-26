@@ -87,6 +87,7 @@ public class BankServiceImpl implements BankService{
         Bank bank = getBank(bankId);
         bank.getBranches().add(branch);
         bankRepository.save(bank);
+        log.info("\n:::::::::::::::::::::  NEW BRANCH ADDED  :::::::::::::::::::::\n");
         return "New branch added";
     }
 
@@ -97,8 +98,11 @@ public class BankServiceImpl implements BankService{
         String branchNumber = generateBranchNumber();
         branch.setBranchName(branchNumber);
         branchRepository.save(branch);
-
-        return null;
+        String subject = "Branch approval";
+        String htmlContent = MyBankAppUtils.GET_BRANCH_APPROVED_MAIL_TEMPLATE;
+        mailService.sendMail("First bank", branch.getBranchEmail(), subject, htmlContent);
+        log.info("\n:::::::::::::::::::::  BRANCH APPROVED  :::::::::::::::::::::\n");
+        return "Branch approved successfully";
     }
 
     private Branch getBranchById(Integer branchId) {
@@ -106,7 +110,18 @@ public class BankServiceImpl implements BankService{
                 ()-> new NotFoundException("Branch with this id not found"));
     }
 
-    private static String generateBranchNumber() {
+    private static String generateBranchNumber(String streetNumber, String townName, String city, String state) {
+        StringBuilder branchNumber = new StringBuilder("FIRNG");
+        String street = getInitials(streetNumber);
+        String town =  getInitials(townName);
+        String cty = getInitials(city);
+        String ste = getInitials(state);
+        branchNumber.append(street).append(town).append(cty).append(ste);
+        return branchNumber.toString();
+    }
+
+    private static String getInitials(String name){
+        return String.valueOf(name.charAt(0));
     }
 
 
