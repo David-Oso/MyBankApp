@@ -16,10 +16,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PAGE;
 
 @Service
 @RequiredArgsConstructor
@@ -130,7 +137,18 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Page<CustomerResponse> getAllCustomers(int pageNumber) {
-        return null;
+        int page = pageNumber < 1 ? 0 : pageNumber -1;
+        Pageable pageable = PageRequest.of(page, NUMBER_OF_ITEMS_PER_PAGE);
+        Page<Customer> customers = customerRepository.findAll(pageable);
+
+        List<CustomerResponse> customerResponses = customers
+                .getContent()
+                .stream()
+                .map(this::getCustomerResponse)
+                .toList();
+        return new PageImpl<>(customerResponses, pageable, customers.getTotalElements());
+//        return null;
+
     }
 
     private Customer customerById(Integer id){

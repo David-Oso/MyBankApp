@@ -318,6 +318,47 @@ class CustomerServiceImplTest {
         assertThat(exception.getMessage()).isEqualTo("Customer with this phone number not found");
     }
 
+
+    @Test
+    void getAllCustomerTest(){
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
+        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(1);
+
+        RegisterCustomerResponse response2 = customerService.registerCustomer(registerCustomerRequest2);
+        assertThat(response2.getCustomerId()).isEqualTo(2);
+        assertThat(response2.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse2 = customerService.addCustomerAddress(addressRequest2, 2);
+        assertThat(addAddressResponse2).isEqualTo("Address added successfully");
+        String nextOfKinResponse2 = customerService.addNextOfKin(nextOfKinRequest2, 2);
+        assertThat(nextOfKinResponse2).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(2);
+
+        RegisterCustomerResponse response3 = customerService.registerCustomer(registerCustomerRequest3);
+        assertThat(response3.getCustomerId()).isEqualTo(3);
+        assertThat(response3.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse3 = customerService.addCustomerAddress(addressRequest3, 3);
+        assertThat(addAddressResponse3).isEqualTo("Address added successfully");
+        String nextOfKinResponse3 = customerService.addNextOfKin(nextOfKinRequest3, 3);
+        assertThat(nextOfKinResponse3).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(3);
+
+        RegisterCustomerResponse response4 = customerService.registerCustomer(registerCustomerRequest4);
+        assertThat(response4.getCustomerId()).isEqualTo(4);
+        assertThat(response4.getMessage()).isEqualTo("Registration successful");
+        String addAddressResponse4 = customerService.addCustomerAddress(addressRequest4, 4);
+        assertThat(addAddressResponse4).isEqualTo("Address added successfully");
+        String nextOfKinResponse4 = customerService.addNextOfKin(nextOfKinRequest4, 4);
+        assertThat(nextOfKinResponse4).isEqualTo("Next of kin added successfully");
+        assertThat(customerService.count()).isEqualTo(4);
+
+        assertThat(customerService.count()).isEqualTo(4);
+    }
     @Test
     void deleteByCustomerIdTest(){
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
