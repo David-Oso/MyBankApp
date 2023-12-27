@@ -118,7 +118,8 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerResponse getCustomerByNin(String nin) {
-        return null;
+        Customer customer = customerByNin(nin);
+        return getCustomerResponse(customer);
     }
 
     @Override
@@ -144,6 +145,11 @@ public class CustomerServiceImpl implements CustomerService{
     private Customer customerByPhoneNumber(String phoneNumber){
         return customerRepository.findByAppUserPhoneNumber(phoneNumber).orElseThrow(
                 ()-> new NotFoundException("Customer with this phone number not found"));
+    }
+
+    private Customer customerByNin(String nin){
+        return customerRepository.findByNin(nin).orElseThrow(
+                ()-> new NotFoundException("Customer with this nin not found"));
     }
 
     private CustomerResponse getCustomerResponse(Customer customer){
