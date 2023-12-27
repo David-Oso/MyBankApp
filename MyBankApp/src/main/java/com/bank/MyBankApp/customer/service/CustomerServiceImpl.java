@@ -106,7 +106,8 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerResponse getCustomerByEmail(String email) {
-        return null;
+        Customer customer = customerByEmail(email);
+        return getCustomerResponse(customer);
     }
 
     @Override
@@ -122,6 +123,16 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public Page<CustomerResponse> getAllCustomers(int pageNumber) {
         return null;
+    }
+
+    private Customer customerById(Integer id){
+        return customerRepository.findById(id).orElseThrow(
+                ()-> new NotFoundException("Customer with this id not found."));
+    }
+
+    private Customer customerByEmail(String email){
+        return customerRepository.findByAppUserEmail(email).orElseThrow(
+                ()-> new NotFoundException("Customer with this email not found."));
     }
 
     private CustomerResponse getCustomerResponse(Customer customer){
@@ -162,8 +173,4 @@ public class CustomerServiceImpl implements CustomerService{
         return customerRepository.count();
     }
 
-    private Customer customerById(Integer id){
-        return customerRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException("Customer with this id not found."));
-    }
 }
