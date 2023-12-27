@@ -21,4 +21,6 @@ public final class MyBankAppUtils {
     public static String GET_BRANCH_APPROVAL_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVAL_TEMPLATE_LOCATION);
     public static String GET_BRANCH_APPROVED_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVED_TEMPLATE_LOCATION);
 
+    public static final int NUMBER_OF_CUSTOMERS_PER_PAGE = 10;
+
 }

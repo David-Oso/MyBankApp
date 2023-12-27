@@ -124,7 +124,8 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerResponse getCustomerByBvn(String bvn) {
-        return null;
+        Customer customer = customerByBvn(bvn);
+        return getCustomerResponse(customer);
     }
 
     @Override
@@ -152,6 +153,10 @@ public class CustomerServiceImpl implements CustomerService{
                 ()-> new NotFoundException("Customer with this nin not found"));
     }
 
+    private Customer customerByBvn(String bvn){
+        return customerRepository.findByBvn(bvn).orElseThrow(
+                ()-> new NotFoundException("Customer with this bvn not found"));
+    }
     private CustomerResponse getCustomerResponse(Customer customer){
         Address address = modelMapper.map(customer.getAddress(), Address.class);
         AppUser appUser = customer.getAppUser();

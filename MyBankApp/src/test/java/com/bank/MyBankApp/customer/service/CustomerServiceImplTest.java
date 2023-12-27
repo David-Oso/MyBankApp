@@ -279,6 +279,29 @@ class CustomerServiceImplTest {
     }
 
   @Test
+    void getCustomerByBvnTest(){
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
+
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+
+        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
+        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+
+        CustomerResponse customerResponse = customerService.getCustomerByBvn("12345678901");
+        assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
+        assertThat(customerResponse.getMiddleName()).isEqualTo(registerCustomerRequest1.getMiddleName());
+        assertThat(customerResponse.getLastName()).isEqualTo(registerCustomerRequest1.getLastName());
+        assertThat(customerResponse.getEmail()).isEqualTo(registerCustomerRequest1.getEmail());
+        assertThat(customerResponse.getPhoneNumber()).isEqualTo(registerCustomerRequest1.getPhoneNumber());
+        assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
+        assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
+        assertThat(customerResponse.getAddress()).isNotNull();
+    }
+
+  @Test
     void getCustomerByPhoneNumberThrowsExceptionTest(){
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
         assertThat(response.getCustomerId()).isEqualTo(1);
