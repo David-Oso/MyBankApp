@@ -111,6 +111,12 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
+    public CustomerResponse getCustomerByPhoneNumber(String phoneNumber) {
+        Customer customer  = customerByPhoneNumber(phoneNumber);
+        return getCustomerResponse(customer);
+    }
+
+    @Override
     public CustomerResponse getCustomerByNin(String nin) {
         return null;
     }
@@ -133,6 +139,11 @@ public class CustomerServiceImpl implements CustomerService{
     private Customer customerByEmail(String email){
         return customerRepository.findByAppUserEmail(email).orElseThrow(
                 ()-> new NotFoundException("Customer with this email not found."));
+    }
+
+    private Customer customerByPhoneNumber(String phoneNumber){
+        return customerRepository.findByAppUserPhoneNumber(phoneNumber).orElseThrow(
+                ()-> new NotFoundException("Customer with this phone number not found"));
     }
 
     private CustomerResponse getCustomerResponse(Customer customer){

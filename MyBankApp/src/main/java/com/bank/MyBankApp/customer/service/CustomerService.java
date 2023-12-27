@@ -13,6 +13,7 @@ public interface CustomerService {
     String addNextOfKin(AddNextOfKinRequest request, Integer customerId);
     CustomerResponse getCustomerById(Integer customerId);
     CustomerResponse getCustomerByEmail(String email);
+    CustomerResponse getCustomerByPhoneNumber(String phoneNumber);
     CustomerResponse getCustomerByNin(String nin);
     CustomerResponse getCustomerByBvn(String bvn);
     Page<CustomerResponse> getAllCustomers(int pageNumber);
