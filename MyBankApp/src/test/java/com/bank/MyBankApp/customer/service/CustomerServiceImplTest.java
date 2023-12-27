@@ -1,25 +1,24 @@
 package com.bank.MyBankApp.customer.service;
 
-import com.bank.MyBankApp.appUser.repository.AppUserRepository;
 import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.Request.AddNextOfKinRequest;
 import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.Response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
+import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.loan.model.Gender;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
@@ -242,7 +241,7 @@ class CustomerServiceImplTest {
         String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
         assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
 
-        CustomerResponse customerResponse = customerService.getCustomerByPhoneNumber("0907890045");
+        CustomerResponse customerResponse = customerService.getCustomerByPhoneNumber("09078900458");
         assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
         assertThat(customerResponse.getMiddleName()).isEqualTo(registerCustomerRequest1.getMiddleName());
         assertThat(customerResponse.getLastName()).isEqualTo(registerCustomerRequest1.getLastName());
@@ -251,6 +250,23 @@ class CustomerServiceImplTest {
         assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
         assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
         assertThat(customerResponse.getAddress()).isNotNull();
+    }
+
+  @Test
+    void getCustomerByPhoneNumberThrowsExceptionTest(){
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
+
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+
+        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
+        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+
+        NotFoundException exception = assertThrows(NotFoundException.class,
+                ()-> customerService.getCustomerByPhoneNumber("09078900459tomer by phone"));
+        assertThat(exception.getMessage()).isEqualTo("Customer with this phone number not found");
     }
 
     @Test
