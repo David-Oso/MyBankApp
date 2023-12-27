@@ -4,6 +4,7 @@ import com.bank.MyBankApp.appUser.repository.AppUserRepository;
 import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.Request.AddNextOfKinRequest;
 import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.Response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
 import com.bank.MyBankApp.loan.model.Gender;
 import jakarta.persistence.EntityManager;
@@ -184,6 +185,29 @@ class CustomerServiceImplTest {
     }
 
     @Test
+    void getCustomerByIdTest(){
+        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(response.getCustomerId()).isEqualTo(1);
+        assertThat(response.getMessage()).isEqualTo("Registration successful");
+
+        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+
+        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
+        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
+
+        CustomerResponse customerResponse = customerService.getCustomerById(1);
+        assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
+        assertThat(customerResponse.getMiddleName()).isEqualTo(registerCustomerRequest1.getMiddleName());
+        assertThat(customerResponse.getLastName()).isEqualTo(registerCustomerRequest1.getLastName());
+        assertThat(customerResponse.getEmail()).isEqualTo(registerCustomerRequest1.getEmail());
+        assertThat(customerResponse.getPhoneNumber()).isEqualTo(registerCustomerRequest1.getPhoneNumber());
+        assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
+        assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
+        assertThat(customerResponse.getAddress()).isNotNull();
+    }
+
+    @Test
     void deleteByCustomerIdTest(){
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
         assertThat(response.getCustomerId()).isEqualTo(1);
@@ -199,6 +223,8 @@ class CustomerServiceImplTest {
         customerService.deleteByCustomerId(1);
         assertThat(customerService.count()).isEqualTo(0);
     }
+
+
 
     @Test
     void deleteAllCustomerTest(){

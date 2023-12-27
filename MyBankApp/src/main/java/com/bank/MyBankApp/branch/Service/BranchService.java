@@ -7,4 +7,5 @@ import com.bank.MyBankApp.branch.model.Branch;
 public interface BranchService {
     CreateBranchResponse createNewBranch(CreateBranchRequest request);
     Branch getByBranchById(Integer branchId);
+
 }

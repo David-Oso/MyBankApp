@@ -43,4 +43,6 @@ public class BranchServiceImpl implements BranchService{
         return branchRepository.findById(branchId).orElseThrow(
                 ()-> new NotFoundException("Branch with this id not found."));
     }
+
+
 }

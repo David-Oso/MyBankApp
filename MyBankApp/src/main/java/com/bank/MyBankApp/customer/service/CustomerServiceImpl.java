@@ -4,6 +4,7 @@ import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.Request.AddNextOfKinRequest;
 import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.Response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
@@ -14,6 +15,7 @@ import com.bank.MyBankApp.nextOfKin.model.NextOfkin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
@@ -78,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId) {
-        Customer customer = getCustomerById(customerId);
+        Customer customer = customerById(customerId);
         Address address = modelMapper.map(request, Address.class);
         customer.setAddress(address);
         customerRepository.save(customer);
@@ -87,13 +89,62 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public String addNextOfKin(AddNextOfKinRequest request, Integer customerId) {
-        Customer customer = getCustomerById(customerId);
+        Customer customer = customerById(customerId);
         NextOfkin nextOfkin = modelMapper.map(request, NextOfkin.class);
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
         nextOfkin.setDateOfBirth(dateOfBirth);
         customer.setNextOfkin(nextOfkin);
         customerRepository.save(customer);
         return "Next of kin added successfully";
+    }
+
+    @Override
+    public CustomerResponse getCustomerById(Integer customerId) {
+        Customer customer = customerById(customerId);
+        return getCustomerResponse(customer);
+    }
+
+    @Override
+    public CustomerResponse getCustomerByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public CustomerResponse getCustomerByNin(String nin) {
+        return null;
+    }
+
+    @Override
+    public CustomerResponse getCustomerByBvn(String bvn) {
+        return null;
+    }
+
+    @Override
+    public Page<CustomerResponse> getAllCustomers(int pageNumber) {
+        return null;
+    }
+
+    private CustomerResponse getCustomerResponse(Customer customer){
+        Address address = modelMapper.map(customer.getAddress(), Address.class);
+        AppUser appUser = customer.getAppUser();
+        String dateInString = changeLocalDateToString(customer.getDateOfBirth());
+        return CustomerResponse.builder()
+                .firstName(appUser.getFirstName())
+                .middleName(appUser.getMiddleName())
+                .lastName(appUser.getLastName())
+                .email(appUser.getEmail())
+                .phoneNumber(appUser.getPhoneNumber())
+                .gender(customer.getGender())
+                .imageUrl(customer.getImageUrl())
+                .age(customer.getAge())
+                .dateOfBirth(dateInString)
+                .address(address)
+                .build();
+    }
+
+    private static String changeLocalDateToString(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return date.format(formatter);
     }
 
     @Override
@@ -111,7 +162,7 @@ public class CustomerServiceImpl implements CustomerService{
         return customerRepository.count();
     }
 
-    private Customer getCustomerById(Integer id){
+    private Customer customerById(Integer id){
         return customerRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException("Customer with this id not found."));
     }

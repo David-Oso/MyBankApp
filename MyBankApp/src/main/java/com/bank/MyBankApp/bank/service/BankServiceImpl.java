@@ -95,7 +95,9 @@ public class BankServiceImpl implements BankService{
     public String approveBranch(Integer branchId) {
         Branch branch = getBranchById(branchId);
         branch.setApproved(true);
-        String branchNumber = generateBranchNumber();
+        Address address = branch.getBranchAddress();
+        String branchNumber = generateBranchNumber(address.getStreetNumber(), address.getStreetName(),
+                address.getTownName(), address.getCityName(), address.getState());
         branch.setBranchName(branchNumber);
         branchRepository.save(branch);
         String subject = "Branch approval";
@@ -104,20 +106,22 @@ public class BankServiceImpl implements BankService{
         log.info("\n:::::::::::::::::::::  BRANCH APPROVED  :::::::::::::::::::::\n");
         return "Branch approved successfully";
     }
+//    Q22#92f3
 
     private Branch getBranchById(Integer branchId) {
         return branchRepository.findById(branchId).orElseThrow(
                 ()-> new NotFoundException("Branch with this id not found"));
     }
 
-    private static String generateBranchNumber(String streetNumber, String townName, String city, String state) {
+    private static String generateBranchNumber(int streetNumber, String streetName, String townName, String city, String state) {
         StringBuilder branchNumber = new StringBuilder("FIRNG");
-        String street = getInitials(streetNumber);
+        String street = getInitials(String.valueOf(streetNumber));
+        String streetN = getInitials(streetName);
         String town =  getInitials(townName);
         String cty = getInitials(city);
         String ste = getInitials(state);
-        branchNumber.append(street).append(town).append(cty).append(ste);
-        return branchNumber.toString();
+        branchNumber.append(street).append(streetN).append(town).append(cty).append(ste);
+        return branchNumber.toString().toUpperCase();
     }
 
     private static String getInitials(String name){
