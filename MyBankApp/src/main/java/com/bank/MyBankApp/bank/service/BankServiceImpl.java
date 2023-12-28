@@ -128,7 +128,6 @@ public class BankServiceImpl implements BankService{
         return String.valueOf(name.charAt(0));
     }
 
-
     private BankResponse getBankResponse(Bank bank){
         Address bankAddress = modelMapper.map(bank.getBankAddress(), Address.class);
         return BankResponse.builder()

@@ -1,26 +1,30 @@
-package com.bank.MyBankApp.security.user;
+package com.bank.MyBankApp.appSecurity;
 
 import com.bank.MyBankApp.appUser.model.AppUser;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@AllArgsConstructor
+@Getter
 public class SecuredUser implements UserDetails {
-//    private final AppUser appUser;
+    private final AppUser appUser;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return appUser.getRole().getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return appUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return appUser.getEmail();
     }
 
     @Override
@@ -40,6 +44,6 @@ public class SecuredUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return appUser.isEnabled();
     }
 }
