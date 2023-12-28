@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.account.model;
 
+import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,6 @@ public class Account {
     private String accountPin;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transaction> transactions;
-    @ManyToMany(cascade = CascadeType.ALL)
-    private List<Account> accounts;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    private List<Customer> customers;
 }

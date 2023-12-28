@@ -23,7 +23,7 @@ public class Loan {
     private Integer id;
     private LoanType loanType;
     private BigDecimal loanAmount;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Customer> customers;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    private List<Customer> customers;
 
 }

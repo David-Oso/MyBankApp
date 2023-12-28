@@ -1,12 +1,11 @@
 package com.bank.MyBankApp.customer.service;
 
 import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.Request.AddNextOfKinRequest;
 import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.Response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
 import com.bank.MyBankApp.exception.NotFoundException;
-import com.bank.MyBankApp.loan.model.Gender;
+import com.bank.MyBankApp.customer.model.Gender;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;
@@ -38,11 +37,6 @@ class CustomerServiceImplTest {
     private AddCustomerAddressRequest addressRequest2;
     private AddCustomerAddressRequest addressRequest3;
     private AddCustomerAddressRequest addressRequest4;
-
-    private AddNextOfKinRequest nextOfKinRequest1;
-    private AddNextOfKinRequest nextOfKinRequest2;
-    private AddNextOfKinRequest nextOfKinRequest3;
-    private AddNextOfKinRequest nextOfKinRequest4;
 
     @BeforeEach
     void setUp() {
@@ -121,30 +115,6 @@ class CustomerServiceImplTest {
         addressRequest4.setCityName("Yaba");
         addressRequest4.setState("Lagos");
         addressRequest4.setCountry("Nigeria");
-
-        nextOfKinRequest1 = new AddNextOfKinRequest();
-        nextOfKinRequest1.setFirstName("Samuel");
-        nextOfKinRequest1.setLastName("Shola");
-        nextOfKinRequest1.setGender(Gender.MALE);
-        nextOfKinRequest1.setDateOfBirth("20/04/2000");
-
-        nextOfKinRequest2 = new AddNextOfKinRequest();
-        nextOfKinRequest2.setFirstName("Favour");
-        nextOfKinRequest2.setLastName("Mbata");
-        nextOfKinRequest2.setGender(Gender.FEMALE);
-        nextOfKinRequest2.setDateOfBirth("20/04/2000");
-
-        nextOfKinRequest3 = new AddNextOfKinRequest();
-        nextOfKinRequest3.setFirstName("Joyce");
-        nextOfKinRequest3.setLastName("Glory");
-        nextOfKinRequest3.setGender(Gender.FEMALE);
-        nextOfKinRequest3.setDateOfBirth("20/04/2000");
-
-        nextOfKinRequest4 = new AddNextOfKinRequest();
-        nextOfKinRequest4.setFirstName("Babatunde");
-        nextOfKinRequest4.setLastName("Ishola");
-        nextOfKinRequest4.setGender(Gender.MALE);
-        nextOfKinRequest4.setDateOfBirth("20/04/2000");
     }
 
     @AfterEach
@@ -178,9 +148,6 @@ class CustomerServiceImplTest {
 
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
-
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
     }
 
     @Test
@@ -191,9 +158,6 @@ class CustomerServiceImplTest {
 
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
-
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
 
         CustomerResponse customerResponse = customerService.getCustomerById(1);
         assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
@@ -215,9 +179,6 @@ class CustomerServiceImplTest {
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
 
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
-
         CustomerResponse customerResponse = customerService.getCustomerByEmail("temx@email.com");
         assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
         assertThat(customerResponse.getMiddleName()).isEqualTo(registerCustomerRequest1.getMiddleName());
@@ -237,9 +198,6 @@ class CustomerServiceImplTest {
 
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
-
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
 
         CustomerResponse customerResponse = customerService.getCustomerByPhoneNumber("09078900458");
         assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
@@ -262,11 +220,6 @@ class CustomerServiceImplTest {
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
 
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
-
-//        12345678901
-
         CustomerResponse customerResponse = customerService.getCustomerByNin("09876543210");
         assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
         assertThat(customerResponse.getMiddleName()).isEqualTo(registerCustomerRequest1.getMiddleName());
@@ -286,9 +239,6 @@ class CustomerServiceImplTest {
 
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
-
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
 
         CustomerResponse customerResponse = customerService.getCustomerByBvn("12345678901");
         assertThat(customerResponse.getFirstName()).isEqualTo(registerCustomerRequest1.getFirstName());
@@ -310,9 +260,6 @@ class CustomerServiceImplTest {
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
 
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
-
         NotFoundException exception = assertThrows(NotFoundException.class,
                 ()-> customerService.getCustomerByPhoneNumber("09078900459tomer by phone"));
         assertThat(exception.getMessage()).isEqualTo("Customer with this phone number not found");
@@ -326,8 +273,6 @@ class CustomerServiceImplTest {
         assertThat(response.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(1);
 
         RegisterCustomerResponse response2 = customerService.registerCustomer(registerCustomerRequest2);
@@ -335,8 +280,6 @@ class CustomerServiceImplTest {
         assertThat(response2.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse2 = customerService.addCustomerAddress(addressRequest2, 2);
         assertThat(addAddressResponse2).isEqualTo("Address added successfully");
-        String nextOfKinResponse2 = customerService.addNextOfKin(nextOfKinRequest2, 2);
-        assertThat(nextOfKinResponse2).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(2);
 
         RegisterCustomerResponse response3 = customerService.registerCustomer(registerCustomerRequest3);
@@ -344,8 +287,6 @@ class CustomerServiceImplTest {
         assertThat(response3.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse3 = customerService.addCustomerAddress(addressRequest3, 3);
         assertThat(addAddressResponse3).isEqualTo("Address added successfully");
-        String nextOfKinResponse3 = customerService.addNextOfKin(nextOfKinRequest3, 3);
-        assertThat(nextOfKinResponse3).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(3);
 
         RegisterCustomerResponse response4 = customerService.registerCustomer(registerCustomerRequest4);
@@ -353,8 +294,6 @@ class CustomerServiceImplTest {
         assertThat(response4.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse4 = customerService.addCustomerAddress(addressRequest4, 4);
         assertThat(addAddressResponse4).isEqualTo("Address added successfully");
-        String nextOfKinResponse4 = customerService.addNextOfKin(nextOfKinRequest4, 4);
-        assertThat(nextOfKinResponse4).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(4);
 
         assertThat(customerService.count()).isEqualTo(4);
@@ -367,9 +306,6 @@ class CustomerServiceImplTest {
 
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
-
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
 
         assertThat(customerService.count()).isEqualTo(1);
         customerService.deleteByCustomerId(1);
@@ -385,8 +321,6 @@ class CustomerServiceImplTest {
         assertThat(response.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
-        String nextOfKinResponse = customerService.addNextOfKin(nextOfKinRequest1, 1);
-        assertThat(nextOfKinResponse).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(1);
 
         RegisterCustomerResponse response2 = customerService.registerCustomer(registerCustomerRequest2);
@@ -394,8 +328,6 @@ class CustomerServiceImplTest {
         assertThat(response2.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse2 = customerService.addCustomerAddress(addressRequest2, 2);
         assertThat(addAddressResponse2).isEqualTo("Address added successfully");
-        String nextOfKinResponse2 = customerService.addNextOfKin(nextOfKinRequest2, 2);
-        assertThat(nextOfKinResponse2).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(2);
 
         RegisterCustomerResponse response3 = customerService.registerCustomer(registerCustomerRequest3);
@@ -403,8 +335,6 @@ class CustomerServiceImplTest {
         assertThat(response3.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse3 = customerService.addCustomerAddress(addressRequest3, 3);
         assertThat(addAddressResponse3).isEqualTo("Address added successfully");
-        String nextOfKinResponse3 = customerService.addNextOfKin(nextOfKinRequest3, 3);
-        assertThat(nextOfKinResponse3).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(3);
 
         RegisterCustomerResponse response4 = customerService.registerCustomer(registerCustomerRequest4);
@@ -412,8 +342,6 @@ class CustomerServiceImplTest {
         assertThat(response4.getMessage()).isEqualTo("Registration successful");
         String addAddressResponse4 = customerService.addCustomerAddress(addressRequest4, 4);
         assertThat(addAddressResponse4).isEqualTo("Address added successfully");
-        String nextOfKinResponse4 = customerService.addNextOfKin(nextOfKinRequest4, 4);
-        assertThat(nextOfKinResponse4).isEqualTo("Next of kin added successfully");
         assertThat(customerService.count()).isEqualTo(4);
 
         customerService.deleteAll();

@@ -2,7 +2,6 @@ package com.bank.MyBankApp.customer.service;
 
 import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.Request.AddNextOfKinRequest;
 import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.Response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
@@ -11,7 +10,6 @@ import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.NotFoundException;
-import com.bank.MyBankApp.nextOfKin.model.NextOfkin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,7 +22,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PAGE;
 
@@ -92,17 +89,6 @@ public class CustomerServiceImpl implements CustomerService{
         customer.setAddress(address);
         customerRepository.save(customer);
         return "Address added successfully";
-    }
-
-    @Override
-    public String addNextOfKin(AddNextOfKinRequest request, Integer customerId) {
-        Customer customer = customerById(customerId);
-        NextOfkin nextOfkin = modelMapper.map(request, NextOfkin.class);
-        LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
-        nextOfkin.setDateOfBirth(dateOfBirth);
-        customer.setNextOfkin(nextOfkin);
-        customerRepository.save(customer);
-        return "Next of kin added successfully";
     }
 
     @Override

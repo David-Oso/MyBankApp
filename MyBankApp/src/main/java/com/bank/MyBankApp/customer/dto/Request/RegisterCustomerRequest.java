@@ -1,6 +1,6 @@
 package com.bank.MyBankApp.customer.dto.Request;
 
-import com.bank.MyBankApp.loan.model.Gender;
+import com.bank.MyBankApp.customer.model.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

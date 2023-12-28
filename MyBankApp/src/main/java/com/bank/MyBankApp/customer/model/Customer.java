@@ -1,9 +1,9 @@
 package com.bank.MyBankApp.customer.model;
 
+import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.address.model.Address;
-import com.bank.MyBankApp.loan.model.Gender;
 import com.bank.MyBankApp.appUser.model.AppUser;
-import com.bank.MyBankApp.nextOfKin.model.NextOfkin;
+import com.bank.MyBankApp.loan.model.Loan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,8 +37,10 @@ public class Customer {
     private String imageUrl;
     @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private Address address;
-    @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
-    private NextOfkin nextOfkin;
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    private List<Account> accounts;
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    private List<Loan> loans;
     private final LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt;
 }

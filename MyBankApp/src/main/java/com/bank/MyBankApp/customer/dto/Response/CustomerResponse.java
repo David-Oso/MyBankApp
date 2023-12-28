@@ -1,7 +1,7 @@
 package com.bank.MyBankApp.customer.dto.Response;
 
 import com.bank.MyBankApp.address.model.Address;
-import com.bank.MyBankApp.loan.model.Gender;
+import com.bank.MyBankApp.customer.model.Gender;
 import lombok.Builder;
 import lombok.Getter;
 
