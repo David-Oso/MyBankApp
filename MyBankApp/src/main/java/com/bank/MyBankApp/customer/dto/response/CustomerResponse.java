@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.customer.dto.Response;
+package com.bank.MyBankApp.customer.dto.response;
 
 import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.customer.model.Gender;

@@ -1,8 +1,8 @@
 package com.bank.MyBankApp.customer.controller;
 
-import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
-import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
+import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
 import com.bank.MyBankApp.customer.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping("register")
-    public ResponseEntity<?> registerCustomer(@Valid  @RequestBody RegisterCustomerRequest request){
+    public ResponseEntity<?> registerCustomer(@Valid @RequestBody RegisterCustomerRequest request){
         RegisterCustomerResponse response = customerService.registerCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.customer.dto.Response;
+package com.bank.MyBankApp.customer.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

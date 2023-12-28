@@ -1,14 +1,17 @@
 package com.bank.MyBankApp.customer.service;
 
 import com.bank.MyBankApp.address.model.Address;
-import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
-import com.bank.MyBankApp.customer.dto.Response.CustomerResponse;
-import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
+import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.LoginRequest;
+import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
+import com.bank.MyBankApp.customer.dto.response.LoginResponse;
+import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.exception.AlreadyExistsException;
+import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -89,6 +92,17 @@ public class CustomerServiceImpl implements CustomerService{
         customer.setAddress(address);
         customerRepository.save(customer);
         return "Address added successfully";
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+        Customer customer = customerByEmail(loginRequest.getEmail());
+        AppUser appUser = customer.getAppUser();
+        if(!(appUser.getPassword().equals(loginRequest.getPassword())))
+            throw new MyBankException("Incorrect password");
+        return LoginResponse.builder()
+                .message("Login successful")
+                .build();
     }
 
     @Override

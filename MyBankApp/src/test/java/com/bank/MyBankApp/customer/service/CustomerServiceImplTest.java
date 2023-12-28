@@ -1,9 +1,11 @@
 package com.bank.MyBankApp.customer.service;
 
-import com.bank.MyBankApp.customer.dto.Request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.Request.RegisterCustomerRequest;
-import com.bank.MyBankApp.customer.dto.Response.CustomerResponse;
-import com.bank.MyBankApp.customer.dto.Response.RegisterCustomerResponse;
+import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.LoginRequest;
+import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
+import com.bank.MyBankApp.customer.dto.response.LoginResponse;
+import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.customer.model.Gender;
 import jakarta.persistence.EntityManager;
@@ -43,6 +45,7 @@ class CustomerServiceImplTest {
         registerCustomerRequest1 = new RegisterCustomerRequest();
         registerCustomerRequest1.setDateOfBirth("21/01/2002");
         registerCustomerRequest1.setEmail("temx@email.com");
+        registerCustomerRequest1.setPassword("password1");
         registerCustomerRequest1.setPhoneNumber("09078900458");
         registerCustomerRequest1.setGender(Gender.MALE);
         registerCustomerRequest1.setLastName("Temz");
@@ -54,6 +57,7 @@ class CustomerServiceImplTest {
         registerCustomerRequest2 = new RegisterCustomerRequest();
         registerCustomerRequest2.setDateOfBirth("22/01/2002");
         registerCustomerRequest2.setEmail("remi@email.com");
+        registerCustomerRequest2.setPassword("password2");
         registerCustomerRequest2.setPhoneNumber("08078956458");
         registerCustomerRequest2.setGender(Gender.FEMALE);
         registerCustomerRequest2.setLastName("Remi");
@@ -65,6 +69,7 @@ class CustomerServiceImplTest {
         registerCustomerRequest3 = new RegisterCustomerRequest();
         registerCustomerRequest3.setDateOfBirth("23/01/2002");
         registerCustomerRequest3.setEmail("saheed@email.com");
+        registerCustomerRequest3.setPassword("password3");
         registerCustomerRequest3.setPhoneNumber("08178900478");
         registerCustomerRequest3.setGender(Gender.MALE);
         registerCustomerRequest3.setLastName("Saheed");
@@ -76,6 +81,7 @@ class CustomerServiceImplTest {
         registerCustomerRequest4 = new RegisterCustomerRequest();
         registerCustomerRequest4.setDateOfBirth("24/01/2002");
         registerCustomerRequest4.setEmail("glory@email.com");
+        registerCustomerRequest4.setPassword("password4");
         registerCustomerRequest4.setPhoneNumber("08090900898");
         registerCustomerRequest4.setGender(Gender.FEMALE);
         registerCustomerRequest4.setLastName("Glory");
@@ -141,13 +147,19 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void addNextOfKinTest() {
+    void loginTest(){
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
         assertThat(response.getCustomerId()).isEqualTo(1);
         assertThat(response.getMessage()).isEqualTo("Registration successful");
 
         String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
+
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("temx@email.com");
+        loginRequest.setPassword("password1");
+        LoginResponse loginResponse = customerService.login(loginRequest);
+        assertThat(loginResponse.getMessage()).isEqualTo("Login successful");
     }
 
     @Test

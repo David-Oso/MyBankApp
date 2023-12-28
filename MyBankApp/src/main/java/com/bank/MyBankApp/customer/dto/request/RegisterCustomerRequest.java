@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.customer.dto.Request;
+package com.bank.MyBankApp.customer.dto.request;
 
 import com.bank.MyBankApp.customer.model.Gender;
 import lombok.AllArgsConstructor;
@@ -15,6 +15,7 @@ public class RegisterCustomerRequest {
     private String middleName;
     private String lastName;
     private String email;
+    private String password;
     private String phoneNumber;
     private Gender gender;
     private String dateOfBirth;

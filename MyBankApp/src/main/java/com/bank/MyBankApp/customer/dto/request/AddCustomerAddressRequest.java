@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.customer.dto.Request;
+package com.bank.MyBankApp.customer.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
