@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 public interface CustomerService {
     RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request);
     String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId);
+//    verifyEmail
     LoginResponse login(LoginRequest loginRequest);
     CustomerResponse getCustomerById(Integer customerId);
     CustomerResponse getCustomerByEmail(String email);

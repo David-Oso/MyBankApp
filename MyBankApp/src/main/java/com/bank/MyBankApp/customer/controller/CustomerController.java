@@ -1,6 +1,7 @@
 package com.bank.MyBankApp.customer.controller;
 
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
 import com.bank.MyBankApp.customer.service.CustomerService;
@@ -25,6 +26,11 @@ public class CustomerController {
     @PostMapping("add-customer-address/{id}")
     public ResponseEntity<?> addCustomerAddress(@Valid @RequestBody AddCustomerAddressRequest request, @PathVariable  Integer id){
         return ResponseEntity.ok(customerService.addCustomerAddress(request, id));
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
+        return ResponseEntity.ok(customerService.login(loginRequest));
     }
 
     @GetMapping("get/{id}")

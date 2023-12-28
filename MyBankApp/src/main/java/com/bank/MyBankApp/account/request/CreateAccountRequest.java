@@ -1,7 +1,6 @@
 package com.bank.MyBankApp.account.request;
 
 import com.bank.MyBankApp.account.model.AccountType;
-import com.bank.MyBankApp.customer.model.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateNewAccountRequest {
+public class CreateAccountRequest {
+    private String accountName;
     private AccountType accountType;
-    private Customer customer;
+    private String pin;
 }

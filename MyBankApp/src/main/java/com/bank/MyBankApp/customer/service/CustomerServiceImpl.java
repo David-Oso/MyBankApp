@@ -21,9 +21,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 
 import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PAGE;
@@ -212,5 +215,4 @@ public class CustomerServiceImpl implements CustomerService{
     public long count() {
         return customerRepository.count();
     }
-
 }

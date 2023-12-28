@@ -1,8 +1,8 @@
 package com.bank.MyBankApp.account.service;
 
-import com.bank.MyBankApp.account.request.CreateNewAccountRequest;
-import com.bank.MyBankApp.account.response.CreateNewAccountResponse;
+import com.bank.MyBankApp.account.model.Account;
+import com.bank.MyBankApp.account.request.CreateAccountRequest;
 
 public interface AccountService {
-    CreateNewAccountResponse createNewAccount(CreateNewAccountRequest request);
+    Account createNewAccount(CreateAccountRequest request);
 }
