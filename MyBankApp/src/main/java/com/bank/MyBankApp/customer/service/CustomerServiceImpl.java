@@ -20,13 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
 import java.util.List;
 
 import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PAGE;
@@ -37,6 +36,7 @@ import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PA
 public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository customerRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request) {
@@ -45,6 +45,7 @@ public class CustomerServiceImpl implements CustomerService{
         checkIfCustomerExistsByNin(request.getNin());
         checkIfCustomerExistsByBvn(request.getBvn());
         AppUser appUser = modelMapper.map(request, AppUser.class);
+        appUser.setPassword(passwordEncoder.encode(request.getPassword()));
         Customer customer = modelMapper.map(request, Customer.class);
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
         int age = changeDateToInt(dateOfBirth);
