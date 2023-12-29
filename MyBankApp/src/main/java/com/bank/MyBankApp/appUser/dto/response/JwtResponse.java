@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.customer.dto.response;
+package com.bank.MyBankApp.appUser.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

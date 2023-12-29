@@ -24,16 +24,16 @@ public class BranchServiceImpl implements BranchService{
     @Override
     public CreateBranchResponse createNewBranch(CreateBranchRequest request) {
         Branch branch = modelMapper.map(request, Branch.class);
-        branch.setBranchName(MyBankAppUtils.BANK_NAME);
+//        branch.setBranchName(MyBankAppUtils.BANK_NAME);
         Address branchAddress = modelMapper.map(request, Address.class);
         branch.setBranchAddress(branchAddress);
         Branch savedBranch = branchRepository.save(branch);
 //        sendApprovalToBank
         String subject = "Branch Approval Mail";
         String htmlContent = MyBankAppUtils.GET_BRANCH_APPROVAL_MAIL_TEMPLATE;
-        mailService.sendMail(savedBranch.getBranchName(), bankEmail, subject, htmlContent);
+//        mailService.sendMail(savedBranch.getBranchName(), bankEmail, subject, htmlContent);
         return CreateBranchResponse.builder()
-                .branchName(savedBranch.getBranchName())
+//                .branchName(savedBranch.getBranchName())
                 .branchNumber(savedBranch.getBranchNumber())
                 .build();
     }

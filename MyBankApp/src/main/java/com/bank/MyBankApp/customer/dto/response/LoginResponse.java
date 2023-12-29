@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.customer.dto.response;
 
+import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import lombok.Builder;
 import lombok.Getter;
 
