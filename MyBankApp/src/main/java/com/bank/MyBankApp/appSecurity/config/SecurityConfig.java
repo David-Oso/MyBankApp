@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.appSecurity;
+package com.bank.MyBankApp.appSecurity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
