@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.appSecurity.services;
+package com.bank.MyBankApp.appSecurity;
 
 import com.bank.MyBankApp.appSecurity.SecuredUser;
 import com.bank.MyBankApp.appUser.model.AppUser;

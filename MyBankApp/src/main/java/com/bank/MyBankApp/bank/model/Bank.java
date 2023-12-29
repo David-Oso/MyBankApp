@@ -1,6 +1,7 @@
 package com.bank.MyBankApp.bank.model;
 
 import com.bank.MyBankApp.address.model.Address;
+import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.branch.model.Branch;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,8 @@ public class Bank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String bankCode;
-    private String name;
-    private String bankPhoneNumber;
-    private String bankEmail;
+    @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    private AppUser appUser;
     @OneToOne(cascade = CascadeType.ALL)
     private Address bankAddress;
     @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)

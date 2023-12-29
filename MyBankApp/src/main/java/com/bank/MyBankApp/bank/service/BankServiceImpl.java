@@ -1,6 +1,8 @@
 package com.bank.MyBankApp.bank.service;
 
 import com.bank.MyBankApp.address.model.Address;
+import com.bank.MyBankApp.appUser.model.AppUser;
+import com.bank.MyBankApp.appUser.model.Role;
 import com.bank.MyBankApp.bank.model.Bank;
 import com.bank.MyBankApp.bank.repository.BankRepository;
 import com.bank.MyBankApp.bank.response.BankResponse;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BankServiceImpl implements BankService{
     private final BankRepository bankRepository;
+    private final PasswordEncoder passwordEncoder;
     private final BranchRepository branchRepository;
     private final MailService mailService;
 
@@ -32,20 +36,32 @@ public class BankServiceImpl implements BankService{
     private String bankPhoneNumber;
     @Value("${bank.email}")
     private String bankEmail;
+    @Value("${bank.password}")
+    private String bankPassword;
 
     @PostConstruct
     private void createBank(){
         if(bankRepository.count() < 1){
             Bank bank = new Bank();
             bank.setBankCode(bankCode);
-            bank.setName(MyBankAppUtils.BANK_NAME);
-            bank.setBankPhoneNumber(bankPhoneNumber);
-            bank.setBankEmail(bankEmail);
-            Address bankAddress = createBankAddress();
-            bank.setBankAddress(bankAddress);
+            bank.setAppUser(createBankAppUser());
+            bank.setBankAddress(createBankAddress());
             bankRepository.save(bank);
             log.info("\n::::::::::::::::::::  BANK CREATED  ::::::::::::::::::::\n");
         }
+    }
+
+    private AppUser createBankAppUser(){
+        AppUser appUser = new AppUser();
+        appUser.setFirstName("Bank");
+        appUser.setLastName("Bank");
+        appUser.setEmail(bankEmail);
+        appUser.setPhoneNumber(bankPhoneNumber);
+        appUser.setRole(Role.BANK_ADMIN);
+        String encodedPassword = passwordEncoder.encode(bankPassword);
+        appUser.setPassword(encodedPassword);
+        appUser.setEnabled(true);
+        return appUser;
     }
 
     private Address createBankAddress(){
@@ -106,7 +122,6 @@ public class BankServiceImpl implements BankService{
         log.info("\n:::::::::::::::::::::  BRANCH APPROVED  :::::::::::::::::::::\n");
         return "Branch approved successfully";
     }
-//    Q22#92f3
 
     private Branch getBranchById(Integer branchId) {
         return branchRepository.findById(branchId).orElseThrow(
@@ -131,7 +146,7 @@ public class BankServiceImpl implements BankService{
     private BankResponse getBankResponse(Bank bank){
         Address bankAddress = modelMapper.map(bank.getBankAddress(), Address.class);
         return BankResponse.builder()
-                .name(bank.getName())
+//                .name(bank.getName())
                 .bankAddress(bankAddress)
                 .build();
     }

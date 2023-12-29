@@ -24,6 +24,7 @@ public class AppUser {
     @Column(unique = true)
     private String phoneNumber;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
     private boolean isEnabled;
 }

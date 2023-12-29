@@ -23,6 +23,7 @@ bank:
   code: ${BANK_CODE}
   phone_number: ${BANK_PHONE_NUMBER}
   email: ${BANK_EMAIL}
+  password: ${BANK_PASSWORD}
 
 #mail
 mail:
