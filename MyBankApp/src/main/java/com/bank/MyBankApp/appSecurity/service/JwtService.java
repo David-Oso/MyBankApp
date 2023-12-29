@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.appSecurity;
+package com.bank.MyBankApp.appSecurity.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

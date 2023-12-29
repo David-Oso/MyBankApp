@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.appSecurity;
 
+import com.bank.MyBankApp.appSecurity.service.MyBankUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

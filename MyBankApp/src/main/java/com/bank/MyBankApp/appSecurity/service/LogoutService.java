@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.appSecurity;
+package com.bank.MyBankApp.appSecurity.service;
 
 import com.bank.MyBankApp.appSecurity.jwtToken.MyBankJwtToken;
 import com.bank.MyBankApp.appSecurity.jwtToken.MyBankJwtTokenRepository;
