@@ -110,15 +110,15 @@ public class BankServiceImpl implements BankService{
     @Override
     public String approveBranch(Integer branchId) {
         Branch branch = getBranchById(branchId);
-        branch.setApproved(true);
+//        branch.setApproved(true);
         Address address = branch.getBranchAddress();
         String branchNumber = generateBranchNumber(address.getStreetNumber(), address.getStreetName(),
                 address.getTownName(), address.getCityName(), address.getState());
-        branch.setBranchName(branchNumber);
+//        branch.setBranchName(branchNumber);
         branchRepository.save(branch);
         String subject = "Branch approval";
         String htmlContent = MyBankAppUtils.GET_BRANCH_APPROVED_MAIL_TEMPLATE;
-        mailService.sendMail("First bank", branch.getBranchEmail(), subject, htmlContent);
+//        mailService.sendMail("First bank", branch.getBranchEmail(), subject, htmlContent);
         log.info("\n:::::::::::::::::::::  BRANCH APPROVED  :::::::::::::::::::::\n");
         return "Branch approved successfully";
     }
