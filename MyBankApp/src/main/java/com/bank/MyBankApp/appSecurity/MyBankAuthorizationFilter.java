@@ -58,7 +58,8 @@ public class MyBankAuthorizationFilter extends OncePerRequestFilter {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
         boolean isTokenValid = isTokenValid(jwtToken);
         if(jwtService.isValidToken(jwtToken, userEmail) && isTokenValid){
-            final UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+            final UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
                     userDetails.getAuthorities());

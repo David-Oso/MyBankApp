@@ -9,6 +9,7 @@ import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
 import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.appUser.repository.AppUserRepository;
+import com.bank.MyBankApp.exception.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,15 +74,24 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser getSecuredUser(Principal principal) {
-        SecuredUser securedUser =  (SecuredUser) ((UsernamePasswordAuthenticationToken)principal)
-                .getPrincipal();
-        return securedUser.getAppUser();
+        try {
+            final SecuredUser securedUser = (SecuredUser) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+            return securedUser.getAppUser();
+        }catch (Exception exception){
+            throw new NotFoundException("App user not found");
+        }
     }
 
     private static HashMap<String, Object> getClaims(AppUser appUser) {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("role", appUser.getRole());
-        claims.put("list of permissions", appUser.getRole().getPermissions().stream().toList());
+        claims.put("list of permissions", appUser.getRole()
+                .getPermissions()
+                .stream()
+                .toList());
         SecuredUser securedUser = new SecuredUser(appUser);
         securedUser.getAuthorities().forEach(claim -> claims.put("claims", claim));
         return claims;

@@ -1,6 +1,5 @@
 package com.bank.MyBankApp.account.model;
 
-import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,8 +18,8 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String accountNumber;
     private String accountName;
+    private String iban;
     private AccountType accountType;
     private String accountPin;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

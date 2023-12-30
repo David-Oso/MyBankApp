@@ -16,8 +16,10 @@ public class MyBankJwtToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "Text")
     private String accessToken;
+    @Column(unique = true, columnDefinition = "Text")
+    private String refreshToken;
     private boolean isExpired;
     private boolean isRevoked;
     @ManyToOne(fetch = FetchType.LAZY)

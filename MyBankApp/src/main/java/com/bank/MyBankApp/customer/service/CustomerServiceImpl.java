@@ -1,9 +1,13 @@
 package com.bank.MyBankApp.customer.service;
 
 import com.bank.MyBankApp.address.model.Address;
+import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
+import com.bank.MyBankApp.appUser.model.Role;
+import com.bank.MyBankApp.appUser.service.AppUserService;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.response.AddressResponse;
 import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.response.LoginResponse;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
@@ -23,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +42,7 @@ public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository customerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AppUserService appUserService;
 
     @Override
     public RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request) {
@@ -45,6 +51,7 @@ public class CustomerServiceImpl implements CustomerService{
         checkIfCustomerExistsByNin(request.getNin());
         checkIfCustomerExistsByBvn(request.getBvn());
         AppUser appUser = modelMapper.map(request, AppUser.class);
+        appUser.setRole(Role.CUSTOMER);
         appUser.setPassword(passwordEncoder.encode(request.getPassword()));
         Customer customer = modelMapper.map(request, Customer.class);
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
@@ -99,13 +106,13 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public LoginResponse login(LoginRequest loginRequest) {
-        Customer customer = customerByEmail(loginRequest.getEmail());
-        AppUser appUser = customer.getAppUser();
-        if(!(appUser.getPassword().equals(loginRequest.getPassword())))
-            throw new MyBankException("Incorrect password");
+    public LoginResponse login(LoginRequest request) {
+        AppUser appUser = appUserService.authenticate(request.getEmail(), request.getPassword());
+        appUserService.revokeAllUserTokens(appUser);
+        JwtResponse jwtResponse = appUserService.generateJwtToken(appUser);
         return LoginResponse.builder()
                 .message("Login successful")
+                .jwtResponse(jwtResponse)
                 .build();
     }
 
@@ -180,7 +187,7 @@ public class CustomerServiceImpl implements CustomerService{
                 ()-> new NotFoundException("Customer with this bvn not found"));
     }
     private CustomerResponse getCustomerResponse(Customer customer){
-        Address address = modelMapper.map(customer.getAddress(), Address.class);
+        AddressResponse addressResponse = modelMapper.map(customer.getAddress(), AddressResponse.class);
         AppUser appUser = customer.getAppUser();
         String dateInString = changeLocalDateToString(customer.getDateOfBirth());
         return CustomerResponse.builder()
@@ -193,7 +200,7 @@ public class CustomerServiceImpl implements CustomerService{
                 .imageUrl(customer.getImageUrl())
                 .age(customer.getAge())
                 .dateOfBirth(dateInString)
-                .address(address)
+                .addressResponse(addressResponse)
                 .build();
     }
 

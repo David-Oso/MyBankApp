@@ -160,6 +160,7 @@ class CustomerServiceImplTest {
         loginRequest.setPassword("password1");
         LoginResponse loginResponse = customerService.login(loginRequest);
         assertThat(loginResponse.getMessage()).isEqualTo("Login successful");
+        assertThat(loginResponse.getJwtResponse()).isNotNull();
     }
 
     @Test

@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,6 +39,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
+//    @PreAuthorize("hasAnyAuthority('branch_admin:read', 'bank_admin:read')")
     @GetMapping("get/email")
     public ResponseEntity<?> getCustomerByEmail(@RequestParam String email){
         return ResponseEntity.ok(customerService.getCustomerByEmail(email));
@@ -64,12 +66,18 @@ public class CustomerController {
     }
 
     @DeleteMapping("delete/{id}")
-    public void deleteCustomerById(@PathVariable Integer id){
+    public ResponseEntity<Void> deleteCustomerById(@PathVariable Integer id){
         customerService.deleteByCustomerId(id);
+        return ResponseEntity.accepted().build();
     }
 
     @DeleteMapping("delete/all")
-    public void deleteAllCustomers(){
+    public ResponseEntity<Void> deleteAllCustomers(){
         customerService.deleteAll();
+        return ResponseEntity.accepted().build();
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(){
+        return ResponseEntity.ok("Logout successfully");
     }
 }

@@ -17,5 +17,5 @@ public class CustomerResponse {
     private String dateOfBirth;
     private int age;
     private String imageUrl;
-    private Address address;
+    private AddressResponse addressResponse;
 }

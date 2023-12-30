@@ -8,6 +8,8 @@ import com.bank.MyBankApp.customer.dto.response.LoginResponse;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
 import org.springframework.data.domain.Page;
 
+import java.security.Principal;
+
 public interface CustomerService {
     RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request);
     String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId);
