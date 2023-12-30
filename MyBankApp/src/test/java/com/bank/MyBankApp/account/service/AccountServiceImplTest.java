@@ -4,6 +4,7 @@ import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.account.request.CreateAccountRequest;
 import com.bank.MyBankApp.account.request.DepositRequest;
+import com.bank.MyBankApp.account.request.WithdrawRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,9 +49,9 @@ class AccountServiceImplTest {
         assertThat(account.getIban()).isNotNull();
     }
 
-    @Test
-    void verifyPin() {
-    }
+//    @Test
+//    void verifyPin() {
+//    }
 
     @Test
     void depositMoney() {
@@ -63,10 +64,30 @@ class AccountServiceImplTest {
 
         String depositResponse = accountService.depositMoney(depositRequest);
         assertThat(depositResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(account.getId(),
+                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(20000.00).setScale(2));
     }
 
     @Test
     void withdrawMoney() {
+        Account account = accountService.createNewAccount(createAccountRequest1);
+        assertThat(account.getIban()).isNotNull();
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(account.getId());
+        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        WithdrawRequest withdrawRequest = new WithdrawRequest();
+        withdrawRequest.setAccountId(account.getId());
+        withdrawRequest.setAmount(BigDecimal.valueOf(10000.00));
+        withdrawRequest.setPin("1234");
+
+        String withdrawResponse = accountService.withdrawMoney(withdrawRequest);
+        assertThat(withdrawResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(account.getId(),
+                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(10000.00).setScale(2));
     }
 
     @Test

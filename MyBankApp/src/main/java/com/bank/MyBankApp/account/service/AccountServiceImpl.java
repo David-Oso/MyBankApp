@@ -7,6 +7,7 @@ import com.bank.MyBankApp.account.request.CreateAccountRequest;
 import com.bank.MyBankApp.account.request.DepositRequest;
 import com.bank.MyBankApp.account.request.TransferRequest;
 import com.bank.MyBankApp.account.request.WithdrawRequest;
+import com.bank.MyBankApp.exception.InvalidCredentialException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import com.bank.MyBankApp.transaction.model.TransactionType;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -54,8 +56,8 @@ public class AccountServiceImpl implements AccountService{
     return iban;
     }
 
-    @Override
-    public boolean verifyPin(String pin, String encodedPin){
+//    @Override
+    private boolean verifyPin(String pin, String encodedPin){
         return PIN_ENCODER.matches(pin, encodedPin);
     }
 
@@ -90,8 +92,21 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String withdrawMoney(WithdrawRequest request) {
-        return null;
+        Account account = getAccountById(request.getAccountId());
+        validatePin(request.getPin(), account.getAccountPin());
+        BigDecimal amount = getTransactionMultiplier(TransactionType.DEBIT)
+                .multiply(request.getAmount());
+        Transaction transaction = setTransaction(amount, TransactionType.DEBIT);
+        account.getTransactions().add(transaction);
+        accountRepository.save(account);
+        return "Transaction successful";
     }
+
+    private void validatePin(String inputPin, String accountPin) {
+        if(!verifyPin(inputPin, accountPin))
+            throw new InvalidCredentialException("Pin is incorrect");
+    }
+
 
     @Override
     public String transferMoney(TransferRequest request) {
@@ -99,8 +114,20 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public BigDecimal getBalance(Integer accountId) {
-        return null;
+    public BigDecimal getBalance(Integer accountId, String pin) {
+        Account account = getAccountById(accountId);
+        validatePin(pin, account.getAccountPin());
+        return calculateBalance(accountId);
+    }
+
+    private BigDecimal calculateBalance(Integer accountId){
+        Account account = getAccountById(accountId);
+        List<Transaction> transactions = account.getTransactions();
+        BigDecimal balance = BigDecimal.ZERO;
+        for(Transaction transaction : transactions){
+            balance = balance.add(transaction.getTransactionAmount());
+        }
+        return balance;
     }
 
     @Override

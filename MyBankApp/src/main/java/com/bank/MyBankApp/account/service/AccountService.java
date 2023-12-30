@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 
 public interface AccountService {
     Account createNewAccount(CreateAccountRequest request);
-    boolean verifyPin(String pin, String encodedPin);
+//    boolean verifyPin(String pin, String encodedPin);
     String depositMoney(DepositRequest request);
     String withdrawMoney(WithdrawRequest request);
     String transferMoney(TransferRequest request);
-    BigDecimal getBalance(Integer accountId);
+    BigDecimal getBalance(Integer accountId, String pin);
     void deleteAllAccounts();
 }
