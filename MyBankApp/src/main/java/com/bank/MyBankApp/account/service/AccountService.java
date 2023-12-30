@@ -15,4 +15,5 @@ public interface AccountService {
     String withdrawMoney(WithdrawRequest request);
     String transferMoney(TransferRequest request);
     BigDecimal getBalance(Integer accountId);
+    void deleteAllAccounts();
 }

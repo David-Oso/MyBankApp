@@ -3,12 +3,15 @@ package com.bank.MyBankApp.account.service;
 import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.account.request.CreateAccountRequest;
+import com.bank.MyBankApp.account.request.DepositRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +39,7 @@ class AccountServiceImplTest {
 
     @AfterEach
     void tearDown() {
+//        accountService.deleteAllAccounts();
     }
 
     @Test
@@ -50,6 +54,15 @@ class AccountServiceImplTest {
 
     @Test
     void depositMoney() {
+        Account account = accountService.createNewAccount(createAccountRequest1);
+        assertThat(account.getIban()).isNotNull();
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(account.getId());
+        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        String depositResponse = accountService.depositMoney(depositRequest);
+        assertThat(depositResponse).isEqualTo("Transaction successful");
     }
 
     @Test

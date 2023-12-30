@@ -7,6 +7,9 @@ import com.bank.MyBankApp.account.request.CreateAccountRequest;
 import com.bank.MyBankApp.account.request.DepositRequest;
 import com.bank.MyBankApp.account.request.TransferRequest;
 import com.bank.MyBankApp.account.request.WithdrawRequest;
+import com.bank.MyBankApp.exception.NotFoundException;
+import com.bank.MyBankApp.transaction.model.Transaction;
+import com.bank.MyBankApp.transaction.model.TransactionType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iban4j.CountryCode;
@@ -16,6 +19,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -55,9 +59,33 @@ public class AccountServiceImpl implements AccountService{
         return PIN_ENCODER.matches(pin, encodedPin);
     }
 
+    private Account getAccountById(Integer id){
+        return accountRepository.findById(id).orElseThrow(
+                ()-> new NotFoundException("Account not with this id found"));
+    }
+
     @Override
     public String depositMoney(DepositRequest request) {
-        return null;
+        Account account = getAccountById(request.getAccountId());
+        BigDecimal amount =
+                getTransactionMultiplier(TransactionType.CREDIT)
+                        .multiply(request.getAmount());
+        Transaction transaction = setTransaction(amount, TransactionType.CREDIT);
+        account.getTransactions().add(transaction);
+        accountRepository.save(account);
+        return "Transaction successful";
+    }
+
+    private static Transaction setTransaction(BigDecimal amount, TransactionType transactionType) {
+        Transaction transaction = new Transaction();
+        transaction.setTransactionAmount(amount);
+        transaction.setTransactionType(transactionType);
+        transaction.setTransactionTime(LocalDateTime.now());
+        return transaction;
+    }
+
+    private BigDecimal getTransactionMultiplier(TransactionType transactionType){
+        return BigDecimal.valueOf(TransactionType.DEBIT == transactionType ? -1 : 1);
     }
 
     @Override
@@ -73,5 +101,10 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public BigDecimal getBalance(Integer accountId) {
         return null;
+    }
+
+    @Override
+    public void deleteAllAccounts() {
+        accountRepository.deleteAll();
     }
 }

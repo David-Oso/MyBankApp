@@ -24,6 +24,6 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private String accountPin;
-    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private List<Transaction> transactions;
 }
