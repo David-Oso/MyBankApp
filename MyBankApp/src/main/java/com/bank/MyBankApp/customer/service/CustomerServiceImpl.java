@@ -1,6 +1,8 @@
 package com.bank.MyBankApp.customer.service;
 
 import com.bank.MyBankApp.address.model.Address;
+import com.bank.MyBankApp.appUser.dto.request.ChangePasswordRequest;
+import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
 import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.Role;
 import com.bank.MyBankApp.appUser.service.AppUserService;
@@ -147,8 +149,13 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal user) {
+        return appUserService.changePassword(request, user);
+    }
+
+    @Override
     public Page<CustomerResponse> getAllCustomers(int pageNumber) {
-        int page = pageNumber < 1 ? 0 : pageNumber -1;
+        int page = pageNumber < 1 ? 0 : pageNumber - 1;
         Pageable pageable = PageRequest.of(page, NUMBER_OF_ITEMS_PER_PAGE);
         Page<Customer> customers = customerRepository.findAll(pageable);
 
@@ -158,8 +165,6 @@ public class CustomerServiceImpl implements CustomerService{
                 .map(this::getCustomerResponse)
                 .toList();
         return new PageImpl<>(customerResponses, pageable, customers.getTotalElements());
-//        return null;
-
     }
 
     private Customer customerById(Integer id){

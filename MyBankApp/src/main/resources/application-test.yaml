@@ -16,6 +16,22 @@ spring:
     #        dialect: org.hibernate.dialect.MySQLDialect
     database-platform: org.hibernate.dialect.MySQLDialect
 
+  #  jwt
+  jwt:
+    secret:
+      key: ${JWT_SECRET}
+  access:
+    expiration: ${ACCESS_TOKEN_EXPIRATION}
+  refresh:
+    expiration: ${REFRESH_TOKEN_EXPIRATION}
+
+#  flyway:
+#    baseline-on-migrate: true
+#    enabled: true
+#    user: ${TEST_DB_USER_NAME}
+#    password: ${TEST_DB_PASSWORD}
+#    baseline-description: "init"
+#    baseline-version: 0
 #    bank code
 bank:
   code: ${BANK_CODE}

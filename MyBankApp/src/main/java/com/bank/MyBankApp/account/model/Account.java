@@ -19,11 +19,11 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String accountName;
+    @Column(unique = true)
     private String iban;
+    @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private String accountPin;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
     private List<Transaction> transactions;
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    private List<Customer> customers;
 }

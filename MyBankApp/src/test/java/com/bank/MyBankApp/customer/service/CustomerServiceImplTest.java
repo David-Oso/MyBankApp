@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.customer.service;
 
+import com.bank.MyBankApp.appSecurity.jwtToken.MyBankJwtTokenRepository;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
@@ -28,7 +29,9 @@ class CustomerServiceImplTest {
     private EntityManager entityManager;
     
     @Autowired
-    CustomerService customerService;
+    private CustomerService customerService;
+    @Autowired
+    private MyBankJwtTokenRepository jwtTokenRepository;
 
     private RegisterCustomerRequest registerCustomerRequest1;
     private RegisterCustomerRequest registerCustomerRequest2;
@@ -126,6 +129,7 @@ class CustomerServiceImplTest {
     @AfterEach
     void tearDown(){
         customerService.deleteAll();
+        jwtTokenRepository.deleteAll();
         entityManager.createNativeQuery("ALTER TABLE my_bank_app_testdb.customers AUTO_INCREMENT = 1").executeUpdate();
     }
 
@@ -180,7 +184,7 @@ class CustomerServiceImplTest {
         assertThat(customerResponse.getPhoneNumber()).isEqualTo(registerCustomerRequest1.getPhoneNumber());
         assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
         assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
-        assertThat(customerResponse.getAddress()).isNotNull();
+        assertThat(customerResponse.getAddressResponse()).isNotNull();
     }
 
     @Test
@@ -200,7 +204,7 @@ class CustomerServiceImplTest {
         assertThat(customerResponse.getPhoneNumber()).isEqualTo(registerCustomerRequest1.getPhoneNumber());
         assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
         assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
-        assertThat(customerResponse.getAddress()).isNotNull();
+        assertThat(customerResponse.getAddressResponse()).isNotNull();
     }
 
   @Test
@@ -220,7 +224,7 @@ class CustomerServiceImplTest {
         assertThat(customerResponse.getPhoneNumber()).isEqualTo(registerCustomerRequest1.getPhoneNumber());
         assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
         assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
-        assertThat(customerResponse.getAddress()).isNotNull();
+        assertThat(customerResponse.getAddressResponse()).isNotNull();
     }
 
 
@@ -241,7 +245,7 @@ class CustomerServiceImplTest {
         assertThat(customerResponse.getPhoneNumber()).isEqualTo(registerCustomerRequest1.getPhoneNumber());
         assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
         assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
-        assertThat(customerResponse.getAddress()).isNotNull();
+        assertThat(customerResponse.getAddressResponse()).isNotNull();
     }
 
   @Test
@@ -261,7 +265,7 @@ class CustomerServiceImplTest {
         assertThat(customerResponse.getPhoneNumber()).isEqualTo(registerCustomerRequest1.getPhoneNumber());
         assertThat(customerResponse.getGender()).isEqualTo(registerCustomerRequest1.getGender());
         assertThat(customerResponse.getDateOfBirth()).isEqualTo(registerCustomerRequest1.getDateOfBirth());
-        assertThat(customerResponse.getAddress()).isNotNull();
+        assertThat(customerResponse.getAddressResponse()).isNotNull();
     }
 
   @Test
