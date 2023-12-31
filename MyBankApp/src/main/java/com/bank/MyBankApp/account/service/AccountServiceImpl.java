@@ -8,6 +8,7 @@ import com.bank.MyBankApp.account.request.DepositRequest;
 import com.bank.MyBankApp.account.request.TransferRequest;
 import com.bank.MyBankApp.account.request.WithdrawRequest;
 import com.bank.MyBankApp.exception.InvalidCredentialException;
+import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import com.bank.MyBankApp.transaction.model.TransactionType;
@@ -69,10 +70,11 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public String depositMoney(DepositRequest request) {
         Account account = getAccountById(request.getAccountId());
+        TransactionType transactionType = TransactionType.CREDIT;
         BigDecimal amount =
-                getTransactionMultiplier(TransactionType.CREDIT)
+                getTransactionMultiplier(transactionType)
                         .multiply(request.getAmount());
-        Transaction transaction = setTransaction(amount, TransactionType.CREDIT);
+        Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
         accountRepository.save(account);
         return "Transaction successful";
@@ -93,13 +95,21 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public String withdrawMoney(WithdrawRequest request) {
         Account account = getAccountById(request.getAccountId());
+        checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
         validatePin(request.getPin(), account.getAccountPin());
-        BigDecimal amount = getTransactionMultiplier(TransactionType.DEBIT)
+        TransactionType transactionType = TransactionType.DEBIT;
+        BigDecimal amount = getTransactionMultiplier(transactionType)
                 .multiply(request.getAmount());
-        Transaction transaction = setTransaction(amount, TransactionType.DEBIT);
+        Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
         accountRepository.save(account);
         return "Transaction successful";
+    }
+
+    private void checkIfBalanceIsSufficient(Integer accountId, BigDecimal amount) {
+        BigDecimal balance = calculateBalance(accountId);
+        if(amount.compareTo(balance) > 0)
+            throw new MyBankException("Insufficient balance");
     }
 
     private void validatePin(String inputPin, String accountPin) {
@@ -122,12 +132,9 @@ public class AccountServiceImpl implements AccountService{
 
     private BigDecimal calculateBalance(Integer accountId){
         Account account = getAccountById(accountId);
-        List<Transaction> transactions = account.getTransactions();
-        BigDecimal balance = BigDecimal.ZERO;
-        for(Transaction transaction : transactions){
-            balance = balance.add(transaction.getTransactionAmount());
-        }
-        return balance;
+        return account.getTransactions().stream()
+                .map(Transaction::getTransactionAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override

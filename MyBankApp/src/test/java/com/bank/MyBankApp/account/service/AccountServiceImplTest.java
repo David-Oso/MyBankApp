@@ -54,7 +54,7 @@ class AccountServiceImplTest {
 //    }
 
     @Test
-    void depositMoney() {
+    void depositMoneyTest() {
         Account account = accountService.createNewAccount(createAccountRequest1);
         assertThat(account.getIban()).isNotNull();
 
@@ -70,13 +70,19 @@ class AccountServiceImplTest {
     }
 
     @Test
-    void withdrawMoney() {
+    void withdrawMoneyTest() {
         Account account = accountService.createNewAccount(createAccountRequest1);
         assertThat(account.getIban()).isNotNull();
 
         DepositRequest depositRequest = new DepositRequest();
         depositRequest.setAccountId(account.getId());
         depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        String depositResponse = accountService.depositMoney(depositRequest);
+        assertThat(depositResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(account.getId(),
+                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(20000.00).setScale(2));
 
         WithdrawRequest withdrawRequest = new WithdrawRequest();
         withdrawRequest.setAccountId(account.getId());
@@ -87,7 +93,7 @@ class AccountServiceImplTest {
         assertThat(withdrawResponse).isEqualTo("Transaction successful");
 
         assertThat(accountService.getBalance(account.getId(),
-                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(10000.00).setScale(2));
+                withdrawRequest.getPin())).isEqualTo(BigDecimal.valueOf(10000.00).setScale(2));
     }
 
     @Test
