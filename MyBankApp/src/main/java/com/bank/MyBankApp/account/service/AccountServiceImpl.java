@@ -67,6 +67,11 @@ public class AccountServiceImpl implements AccountService{
                 ()-> new NotFoundException("Account not with this id found"));
     }
 
+    private Account getAccountByIban(String iban){
+        return accountRepository.findByIban(iban).orElseThrow(
+                ()-> new NotFoundException("Account with the provided iban not found"));
+    }
+
     @Override
     public String depositMoney(DepositRequest request) {
         Account account = getAccountById(request.getAccountId());
@@ -120,7 +125,18 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String transferMoney(TransferRequest request) {
-        return null;
+        Account receiverAccount = getAccountByIban(request.getRecipientIban());
+        WithdrawRequest withdrawRequest = new WithdrawRequest();
+        withdrawRequest.setAccountId(request.getAccountId());
+        withdrawRequest.setAmount(request.getAmount());
+        withdrawRequest.setPin(request.getPin());
+        withdrawMoney(withdrawRequest);
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(receiverAccount.getId());
+        depositRequest.setAmount(request.getAmount());
+        depositMoney(depositRequest);
+        return "Transaction successful";
     }
 
     @Override

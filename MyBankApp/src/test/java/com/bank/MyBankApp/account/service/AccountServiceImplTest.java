@@ -4,6 +4,7 @@ import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.account.request.CreateAccountRequest;
 import com.bank.MyBankApp.account.request.DepositRequest;
+import com.bank.MyBankApp.account.request.TransferRequest;
 import com.bank.MyBankApp.account.request.WithdrawRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -98,6 +99,37 @@ class AccountServiceImplTest {
 
     @Test
     void transferMoney() {
+        Account account1 = accountService.createNewAccount(createAccountRequest1);
+        assertThat(account1.getIban()).isNotNull();
+        Account account2 = accountService.createNewAccount(createAccountRequest2);
+        assertThat(account2.getIban()).isNotNull();
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(account1.getId());
+        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        String depositResponse = accountService.depositMoney(depositRequest);
+        assertThat(depositResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(account1.getId(),
+                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(20000.00).setScale(2));
+
+        assertThat(accountService.getBalance(account2.getId(),
+                createAccountRequest2.getPin())).isEqualTo(BigDecimal.valueOf(0));
+
+        TransferRequest transferRequest = new TransferRequest();
+        transferRequest.setAccountId(account1.getId());
+        transferRequest.setRecipientIban(account2.getIban());
+        transferRequest.setAmount(BigDecimal.valueOf(10000.00));
+        transferRequest.setPin(createAccountRequest1.getPin());
+
+        String transferResponse = accountService.transferMoney(transferRequest);
+        assertThat(transferResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(account1.getId(),
+                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(10000.00).setScale(2));
+
+        assertThat(accountService.getBalance(account2.getId(),
+                createAccountRequest2.getPin())).isEqualTo(BigDecimal.valueOf(10000.00).setScale(2));
     }
 
     @Test

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Setter
 public class TransferRequest {
     private Integer accountId;
-    private Integer recipientAccountId;
+    private String recipientIban;
     private BigDecimal amount;
     private String pin;
 }
