@@ -1,12 +1,12 @@
 package com.bank.MyBankApp.account.service;
 
+import com.bank.MyBankApp.account.dto.response.TransactionResponse;
 import com.bank.MyBankApp.account.model.Account;
-import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.account.repository.AccountRepository;
-import com.bank.MyBankApp.account.request.CreateAccountRequest;
-import com.bank.MyBankApp.account.request.DepositRequest;
-import com.bank.MyBankApp.account.request.TransferRequest;
-import com.bank.MyBankApp.account.request.WithdrawRequest;
+import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
+import com.bank.MyBankApp.account.dto.request.DepositRequest;
+import com.bank.MyBankApp.account.dto.request.TransferRequest;
+import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
 import com.bank.MyBankApp.exception.InvalidCredentialException;
 import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +57,6 @@ public class AccountServiceImpl implements AccountService{
     return iban;
     }
 
-//    @Override
     private boolean verifyPin(String pin, String encodedPin){
         return PIN_ENCODER.matches(pin, encodedPin);
     }
@@ -73,7 +72,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public String depositMoney(DepositRequest request) {
+    public TransactionResponse depositMoney(DepositRequest request) {
         Account account = getAccountById(request.getAccountId());
         TransactionType transactionType = TransactionType.CREDIT;
         BigDecimal amount =
@@ -82,7 +81,9 @@ public class AccountServiceImpl implements AccountService{
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
         accountRepository.save(account);
-        return "Transaction successful";
+        BigDecimal balance = calculateBalance(request.getAccountId());
+        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
+                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
     }
 
     private static Transaction setTransaction(BigDecimal amount, TransactionType transactionType) {
@@ -97,8 +98,29 @@ public class AccountServiceImpl implements AccountService{
         return BigDecimal.valueOf(TransactionType.DEBIT == transactionType ? -1 : 1);
     }
 
+    private static TransactionResponse getTransactionResponse(String accountName, String iban,
+        String recipientIban, TransactionType transactionType, BigDecimal amount, LocalDateTime time, BigDecimal balance){
+        String mIban = new StringBuilder(iban)
+                .replace(8, 21, "* **** **** *").toString();
+        String rIban ="";
+        if(recipientIban != null){
+            rIban = new StringBuilder(recipientIban)
+                .replace(8, 21, "* **** **** *").toString();
+        }
+        String transactionTime = DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy, hh:mm:ss a").format(time);
+        return TransactionResponse.builder()
+                .accountName(accountName)
+                .iban(mIban)
+                .recipientIban(rIban)
+                .transactionType(transactionType)
+                .transactionAmount("₦%s".formatted(amount))
+                .transactionTime(transactionTime)
+                .currentBalance("₦%s".formatted(balance))
+                .build();
+    }
+
     @Override
-    public String withdrawMoney(WithdrawRequest request) {
+    public TransactionResponse withdrawMoney(WithdrawRequest request) {
         Account account = getAccountById(request.getAccountId());
         checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
         validatePin(request.getPin(), account.getAccountPin());
@@ -108,7 +130,9 @@ public class AccountServiceImpl implements AccountService{
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
         accountRepository.save(account);
-        return "Transaction successful";
+        BigDecimal balance = calculateBalance(request.getAccountId());
+        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
+                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
     }
 
     private void checkIfBalanceIsSufficient(Integer accountId, BigDecimal amount) {
@@ -124,7 +148,8 @@ public class AccountServiceImpl implements AccountService{
 
 
     @Override
-    public String transferMoney(TransferRequest request) {
+    public TransactionResponse transferMoney(TransferRequest request) {
+        Account senderAccount = getAccountById(request.getAccountId());
         Account receiverAccount = getAccountByIban(request.getRecipientIban());
         WithdrawRequest withdrawRequest = new WithdrawRequest();
         withdrawRequest.setAccountId(request.getAccountId());
@@ -136,7 +161,9 @@ public class AccountServiceImpl implements AccountService{
         depositRequest.setAccountId(receiverAccount.getId());
         depositRequest.setAmount(request.getAmount());
         depositMoney(depositRequest);
-        return "Transaction successful";
+        BigDecimal balance = calculateBalance(request.getAccountId());
+        return getTransactionResponse(senderAccount.getAccountName(), senderAccount.getIban(), receiverAccount.getIban(),
+                TransactionType.DEBIT, request.getAmount(), LocalDateTime.now(), balance);
     }
 
     @Override
@@ -148,6 +175,9 @@ public class AccountServiceImpl implements AccountService{
 
     private BigDecimal calculateBalance(Integer accountId){
         Account account = getAccountById(accountId);
+        if (account.getTransactions() == null) {
+            return BigDecimal.ZERO;
+        }
         return account.getTransactions().stream()
                 .map(Transaction::getTransactionAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -156,5 +186,10 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public void deleteAllAccounts() {
         accountRepository.deleteAll();
+    }
+
+    @Override
+    public long numberOfAccounts() {
+        return accountRepository.count();
     }
 }

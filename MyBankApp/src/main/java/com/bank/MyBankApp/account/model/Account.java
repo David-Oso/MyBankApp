@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -25,5 +27,5 @@ public class Account {
     private AccountType accountType;
     private String accountPin;
     @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.EAGER)
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 }

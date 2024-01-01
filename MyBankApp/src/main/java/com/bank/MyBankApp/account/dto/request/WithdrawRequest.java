@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.account.request;
+package com.bank.MyBankApp.account.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DepositRequest {
+public class WithdrawRequest {
     private Integer accountId;
     private BigDecimal amount;
+    private String pin;
 }
