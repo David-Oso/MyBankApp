@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.account.model;
 
+import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,4 +29,7 @@ public class Account {
     private String accountPin;
     @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private List<Transaction> transactions = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 }

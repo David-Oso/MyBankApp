@@ -1,12 +1,18 @@
 package com.bank.MyBankApp.account.service;
 
+import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.account.dto.response.TransactionResponse;
 import com.bank.MyBankApp.account.model.Account;
+import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.account.repository.AccountRepository;
 import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
 import com.bank.MyBankApp.account.dto.request.DepositRequest;
 import com.bank.MyBankApp.account.dto.request.TransferRequest;
 import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
+import com.bank.MyBankApp.appUser.model.AppUser;
+import com.bank.MyBankApp.customer.model.Customer;
+import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
+import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.InvalidCredentialException;
 import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
@@ -23,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,16 +38,35 @@ public class AccountServiceImpl implements AccountService{
     private static final PasswordEncoder PIN_ENCODER =
             Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     private final AccountRepository accountRepository;
+    private final CustomerRepository customerRepository;
 
 
     @Override
-    public Account createNewAccount(CreateAccountRequest request) {
+//    public Account createNewAccount(CreateAccountRequest request) {
+    public CreateAccountResponse createNewAccount(CreateAccountRequest request) {
+        Customer customer = findCustomerById(request.getCustomerId());
+        checkIfCustomerHasAccountType(customer, request.getAccountType());
         Account account = new Account();
-        account.setAccountName(request.getAccountName());
+        String accountName = createAccountName(customer.getAppUser());
+        account.setAccountName(accountName);
         account.setAccountPin(hashPin(request.getPin()));
         account.setIban(generateRandomIban());
         account.setAccountType(request.getAccountType());
-        return accountRepository.save(account);
+        account.setCustomer(customer);
+        accountRepository.save(account);
+        return getAccountResponse(account);
+    }
+
+    private void checkIfCustomerHasAccountType(Customer customer, AccountType accountType) {
+        List<Account> accounts = customer.getAccounts();
+        for(Account account : accounts){
+            if(account.getAccountType().equals(accountType))
+                throw new AlreadyExistsException("Customer is not allowed to create an account with the same account type.");
+        }
+    }
+
+    private String createAccountName(AppUser appUser) {
+        return "%s %s".formatted(appUser.getFirstName(), appUser.getLastName());
     }
 
     private static String hashPin(String pin) {
@@ -61,6 +87,19 @@ public class AccountServiceImpl implements AccountService{
         return PIN_ENCODER.matches(pin, encodedPin);
     }
 
+    private static CreateAccountResponse getAccountResponse(Account account) {
+        return CreateAccountResponse.builder()
+                .accountName(account.getAccountName())
+                .iban(account.getIban())
+                .accountType(account.getAccountType())
+                .build();
+    }
+
+    private Customer findCustomerById(Integer customerId){
+        return customerRepository.findById(customerId).orElseThrow(
+                ()-> new NotFoundException("Customer with the provided id not found"));
+    }
+
     private Account getAccountById(Integer id){
         return accountRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException("Account not with this id found"));
@@ -72,7 +111,8 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public TransactionResponse depositMoney(DepositRequest request) {
+//    public TransactionResponse depositMoney(DepositRequest request) {
+    public String depositMoney(DepositRequest request) {
         Account account = getAccountById(request.getAccountId());
         TransactionType transactionType = TransactionType.CREDIT;
         BigDecimal amount =
@@ -81,9 +121,10 @@ public class AccountServiceImpl implements AccountService{
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
         accountRepository.save(account);
-        BigDecimal balance = calculateBalance(request.getAccountId());
-        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
-                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
+        return"Transaction successful";
+//        BigDecimal balance = calculateBalance(request.getAccountId());
+//        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
+//                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
     }
 
     private static Transaction setTransaction(BigDecimal amount, TransactionType transactionType) {
@@ -120,7 +161,8 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public TransactionResponse withdrawMoney(WithdrawRequest request) {
+//    public TransactionResponse withdrawMoney(WithdrawRequest request) {
+    public String withdrawMoney(WithdrawRequest request) {
         Account account = getAccountById(request.getAccountId());
         checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
         validatePin(request.getPin(), account.getAccountPin());
@@ -130,9 +172,10 @@ public class AccountServiceImpl implements AccountService{
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
         accountRepository.save(account);
-        BigDecimal balance = calculateBalance(request.getAccountId());
-        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
-                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
+        return "Transaction successful";
+//        BigDecimal balance = calculateBalance(request.getAccountId());
+//        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
+//                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
     }
 
     private void checkIfBalanceIsSufficient(Integer accountId, BigDecimal amount) {
@@ -148,7 +191,8 @@ public class AccountServiceImpl implements AccountService{
 
 
     @Override
-    public TransactionResponse transferMoney(TransferRequest request) {
+//    public TransactionResponse transferMoney(TransferRequest request) {
+    public String transferMoney(TransferRequest request) {
         Account senderAccount = getAccountById(request.getAccountId());
         Account receiverAccount = getAccountByIban(request.getRecipientIban());
         WithdrawRequest withdrawRequest = new WithdrawRequest();
@@ -161,9 +205,10 @@ public class AccountServiceImpl implements AccountService{
         depositRequest.setAccountId(receiverAccount.getId());
         depositRequest.setAmount(request.getAmount());
         depositMoney(depositRequest);
-        BigDecimal balance = calculateBalance(request.getAccountId());
-        return getTransactionResponse(senderAccount.getAccountName(), senderAccount.getIban(), receiverAccount.getIban(),
-                TransactionType.DEBIT, request.getAmount(), LocalDateTime.now(), balance);
+        return "Transaction successful";
+//        BigDecimal balance = calculateBalance(request.getAccountId());
+//        return getTransactionResponse(senderAccount.getAccountName(), senderAccount.getIban(), receiverAccount.getIban(),
+//                TransactionType.DEBIT, request.getAmount(), LocalDateTime.now(), balance);
     }
 
     @Override

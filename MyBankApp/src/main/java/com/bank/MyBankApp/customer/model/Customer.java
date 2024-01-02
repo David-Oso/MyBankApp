@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -38,7 +39,7 @@ public class Customer {
     @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private Address address;
     @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
-    private List<Account> accounts;
+    private List<Account> accounts = new ArrayList<>();
     @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
     private List<Loan> loans;
     private final LocalDateTime createdAt = LocalDateTime.now();

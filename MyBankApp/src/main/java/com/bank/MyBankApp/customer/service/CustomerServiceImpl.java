@@ -1,5 +1,13 @@
 package com.bank.MyBankApp.customer.service;
 
+import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
+import com.bank.MyBankApp.account.dto.request.DepositRequest;
+import com.bank.MyBankApp.account.dto.request.TransferRequest;
+import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
+import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
+import com.bank.MyBankApp.account.model.Account;
+import com.bank.MyBankApp.account.model.AccountType;
+import com.bank.MyBankApp.account.service.AccountService;
 import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.appUser.dto.request.ChangePasswordRequest;
 import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
@@ -7,17 +15,14 @@ import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.Role;
 import com.bank.MyBankApp.appUser.service.AppUserService;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.CreateNewAccountRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
-import com.bank.MyBankApp.customer.dto.response.AddressResponse;
-import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
-import com.bank.MyBankApp.customer.dto.response.LoginResponse;
-import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
+import com.bank.MyBankApp.customer.dto.response.*;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.exception.AlreadyExistsException;
-import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +50,7 @@ public class CustomerServiceImpl implements CustomerService{
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
+//    private final AccountService accountService;
 
     @Override
     public RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request) {
@@ -58,9 +64,9 @@ public class CustomerServiceImpl implements CustomerService{
         Customer customer = modelMapper.map(request, Customer.class);
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
         int age = changeDateToInt(dateOfBirth);
+        customer.setAppUser(appUser);
         customer.setDateOfBirth(dateOfBirth);
         customer.setAge(age);
-        customer.setAppUser(appUser);
         Customer savedCustomer = customerRepository.save(customer);
         log.info("\n::::::::::::::::::::  CREATED NEW CUSTOMER  ::::::::::::::::::::\n");
         return getRegisterCustomerResponse(savedCustomer);
@@ -213,6 +219,56 @@ public class CustomerServiceImpl implements CustomerService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return date.format(formatter);
     }
+
+//    @Override
+//    public CreateAccountResponse createNewAccount(CreateNewAccountRequest request, Integer customerId) {
+//        Customer customer = customerById(customerId);
+////        checkIfCustomerHasAccountType(customerId, request.getAccountType());
+//        checkIfCustomerHasAccountType(customer, request.getAccountType());
+//        CreateAccountRequest createAccountRequest = setAccountRequest(request, customer.getAppUser());
+//        Account account = accountService.createNewAccount(createAccountRequest);
+//        customer.getAccounts().add(account);
+//        customerRepository.save(customer);
+//        return CreateAccountResponse.builder()
+//                .accountName(account.getAccountName())
+//                .iban(account.getIban())
+//                .accountType(account.getAccountType())
+//                .build();
+//    }
+//
+////    private void checkIfCustomerHasAccountType(Integer customerId, AccountType accountType) {
+//    private void checkIfCustomerHasAccountType(Customer customer, AccountType accountType) {
+////        List<Account> accounts = customerRepository.getAllAccountsByCustomerId(customerId);
+//        List<Account> accounts = customer.getAccounts();
+//        for(Account account : accounts){
+//            if(account.getAccountType().equals(accountType))
+//                throw new AlreadyExistsException("Customer is not allowed to create an account with the same account type.");
+//        }
+//    }
+//
+//    private CreateAccountRequest setAccountRequest(CreateNewAccountRequest request, AppUser appUser) {
+//        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
+//        createAccountRequest.setAccountName("%s %s".formatted(appUser.getFirstName(), appUser.getLastName()));
+//        createAccountRequest.setPin(request.getAccountPin());
+//        createAccountRequest.setAccountType(request.getAccountType());
+//        return createAccountRequest;
+//    }
+//
+//    @Override
+//    public String makeDeposit(DepositRequest request, Integer customerId) {
+//
+//        return null;
+//    }
+//
+//    @Override
+//    public String makeWithdraw(WithdrawRequest request, Integer customerId) {
+//        return null;
+//    }
+//
+//    @Override
+//    public String makeTransfer(TransferRequest request, Integer customerId) {
+//        return null;
+//    }
 
     @Override
     public void deleteByCustomerId(Integer customerId) {

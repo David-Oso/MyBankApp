@@ -1,8 +1,13 @@
 package com.bank.MyBankApp.customer.service;
 
+import com.bank.MyBankApp.account.dto.request.DepositRequest;
+import com.bank.MyBankApp.account.dto.request.TransferRequest;
+import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
 import com.bank.MyBankApp.appUser.dto.request.ChangePasswordRequest;
 import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.CreateNewAccountRequest;
+import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
@@ -25,6 +30,10 @@ public interface CustomerService {
     CustomerResponse getCustomerByBvn(String bvn);
     ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal user);
     Page<CustomerResponse> getAllCustomers(int pageNumber);
+//    CreateAccountResponse createNewAccount(CreateNewAccountRequest request, Integer customerId);
+//    String makeDeposit(DepositRequest request, Integer customerId);
+//    String makeWithdraw(WithdrawRequest request, Integer customerId);
+//    String makeTransfer(TransferRequest request, Integer customerId);
     void deleteByCustomerId(Integer customerId);
     void deleteAll();
     long count();

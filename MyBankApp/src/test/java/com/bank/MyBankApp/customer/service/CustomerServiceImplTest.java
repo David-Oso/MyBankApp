@@ -1,12 +1,16 @@
 package com.bank.MyBankApp.customer.service;
 
+import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
+import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.appSecurity.jwtToken.MyBankJwtTokenRepository;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.CreateNewAccountRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.response.LoginResponse;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
+import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.customer.model.Gender;
 import jakarta.persistence.EntityManager;
@@ -42,6 +46,10 @@ class CustomerServiceImplTest {
     private AddCustomerAddressRequest addressRequest2;
     private AddCustomerAddressRequest addressRequest3;
     private AddCustomerAddressRequest addressRequest4;
+
+    private CreateNewAccountRequest createNewAccountRequest1;
+    private CreateNewAccountRequest createNewAccountRequest2;
+
 
     @BeforeEach
     void setUp() {
@@ -124,6 +132,15 @@ class CustomerServiceImplTest {
         addressRequest4.setCityName("Yaba");
         addressRequest4.setState("Lagos");
         addressRequest4.setCountry("Nigeria");
+
+        createNewAccountRequest1 = new CreateNewAccountRequest();
+        createNewAccountRequest1.setAccountPin("1234");
+        createNewAccountRequest1.setAccountType(AccountType.SAVINGS);
+
+        createNewAccountRequest2 = new CreateNewAccountRequest();
+        createNewAccountRequest2.setAccountPin("2345");
+        createNewAccountRequest2.setAccountType(AccountType.CURRENT);
+
     }
 
     @AfterEach
@@ -227,7 +244,6 @@ class CustomerServiceImplTest {
         assertThat(customerResponse.getAddressResponse()).isNotNull();
     }
 
-
   @Test
     void getCustomerByNinTest(){
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
@@ -278,10 +294,9 @@ class CustomerServiceImplTest {
         assertThat(addAddressResponse).isEqualTo("Address added successfully");
 
         NotFoundException exception = assertThrows(NotFoundException.class,
-                ()-> customerService.getCustomerByPhoneNumber("09078900459tomer by phone"));
+                ()-> customerService.getCustomerByPhoneNumber("09078900459"));
         assertThat(exception.getMessage()).isEqualTo("Customer with this phone number not found");
     }
-
 
     @Test
     void getAllCustomerTest(){
@@ -329,8 +344,6 @@ class CustomerServiceImplTest {
         assertThat(customerService.count()).isEqualTo(0);
     }
 
-
-
     @Test
     void deleteAllCustomerTest(){
         RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
@@ -364,4 +377,60 @@ class CustomerServiceImplTest {
         customerService.deleteAll();
         assertThat(customerService.count()).isEqualTo(0);
     }
+
+    @Test
+    void createAccountTest(){
+//        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+//        assertThat(response.getCustomerId()).isEqualTo(1);
+//        assertThat(response.getMessage()).isEqualTo("Registration successful");
+//
+//        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+//        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+//        assertThat(customerService.count()).isEqualTo(1);
+//
+//        CreateAccountResponse createAccountResponse = customerService.createNewAccount(createNewAccountRequest1, response.getCustomerId());
+//        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+//                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+    }
+
+    @Test
+    void createAccountWithSameAccountTypeThrowsExceptionTest(){
+//        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+//        assertThat(response.getCustomerId()).isEqualTo(1);
+//        assertThat(response.getMessage()).isEqualTo("Registration successful");
+//
+//        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+//        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+//        assertThat(customerService.count()).isEqualTo(1);
+//
+//        CreateAccountResponse createAccountResponse = customerService.createNewAccount(createNewAccountRequest1, response.getCustomerId());
+//        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+//                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+//
+//        AlreadyExistsException exception = assertThrows(AlreadyExistsException.class,
+//                ()-> customerService.createNewAccount(createNewAccountRequest1, response.getCustomerId()));
+//        assertThat(exception.getMessage())
+//                .isEqualTo("Customer is not allowed to create an account with the same account type.");
+    }
+
+    @Test
+    void makeDepositTest(){
+//        RegisterCustomerResponse response = customerService.registerCustomer(registerCustomerRequest1);
+//        assertThat(response.getCustomerId()).isEqualTo(1);
+//        assertThat(response.getMessage()).isEqualTo("Registration successful");
+//
+//        String addAddressResponse = customerService.addCustomerAddress(addressRequest1, 1);
+//        assertThat(addAddressResponse).isEqualTo("Address added successfully");
+//        assertThat(customerService.count()).isEqualTo(1);
+//
+//        CreateAccountResponse createAccountResponse = customerService.createNewAccount(createNewAccountRequest1, response.getCustomerId());
+//        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+//                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+//
+//        AlreadyExistsException exception = assertThrows(AlreadyExistsException.class,
+//                ()-> customerService.createNewAccount(createNewAccountRequest1, response.getCustomerId()));
+//        assertThat(exception.getMessage())
+//                .isEqualTo("Customer is not allowed to create an account with the same account type.");
+    }
+
 }

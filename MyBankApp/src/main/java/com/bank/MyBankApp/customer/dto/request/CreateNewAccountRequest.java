@@ -1,4 +1,4 @@
-package com.bank.MyBankApp.account.dto.request;
+package com.bank.MyBankApp.customer.dto.request;
 
 import com.bank.MyBankApp.account.model.AccountType;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateAccountRequest {
-    private Integer customerId;
-//    private String accountName;
+public class CreateNewAccountRequest {
     private AccountType accountType;
-    private String pin;
+    private String accountPin;
 }
