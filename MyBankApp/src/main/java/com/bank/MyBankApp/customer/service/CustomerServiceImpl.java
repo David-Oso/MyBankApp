@@ -108,7 +108,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public LoginResponse login(LoginRequest request) {
         AppUser appUser = appUserService.authenticate(request.getEmail(), request.getPassword());
-        checkIfAppUserIsEnabled(appUser);
+//        checkIfAppUserIsEnabled(appUser);
         appUserService.revokeAllUserTokens(appUser);
         JwtResponse jwtResponse = appUserService.generateJwtToken(appUser);
         return LoginResponse.builder()

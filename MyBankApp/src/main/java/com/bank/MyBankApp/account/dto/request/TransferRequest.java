@@ -17,6 +17,7 @@ import static com.bank.MyBankApp.utilities.ValidationUtils.PIN_REGEX;
 @Setter
 public class TransferRequest {
     @NotNull(message = "field account id cannot be null")
+    @Positive(message = "account id must be positive")
     private Integer accountId;
 
     @NotNull(message = "field recipient iban cannot be null")

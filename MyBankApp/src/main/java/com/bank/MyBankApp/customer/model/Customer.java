@@ -38,7 +38,7 @@ public class Customer {
     private String imageUrl;
     @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, orphanRemoval = true)
     private Address address;
-    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY, mappedBy = "account_id")
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
     private List<Account> accounts = new ArrayList<>();
     @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
     private List<Loan> loans;

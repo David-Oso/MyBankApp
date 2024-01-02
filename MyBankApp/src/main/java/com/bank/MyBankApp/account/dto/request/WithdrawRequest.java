@@ -16,6 +16,7 @@ import static com.bank.MyBankApp.utilities.ValidationUtils.PIN_REGEX;
 @Setter
 public class WithdrawRequest {
     @NotNull(message = "field account id cannot be null")
+    @Positive(message = "account id must be positive")
     private Integer accountId;
 
     @NotNull(message = "field amount cannot be null")

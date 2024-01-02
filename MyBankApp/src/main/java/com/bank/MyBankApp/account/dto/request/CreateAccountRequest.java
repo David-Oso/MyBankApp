@@ -1,10 +1,7 @@
 package com.bank.MyBankApp.account.dto.request;
 
 import com.bank.MyBankApp.account.model.AccountType;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,14 +15,13 @@ import static com.bank.MyBankApp.utilities.ValidationUtils.PIN_REGEX;
 @Setter
 public class CreateAccountRequest {
     @NotNull(message = "field customer id cannot be null")
+    @Positive(message = "customer id must be positive")
     private Integer customerId;
 
     @NotNull(message = "field account type cannot be null")
     private AccountType accountType;
 
-    @NotNull(message = "field pin cannot be  null")
     @NotBlank(message = "field pin cannot be blank")
-    @NotEmpty(message = "field pin cannot be empty")
     @Pattern(regexp = PIN_REGEX, message = "pin must be 4 digits")
     private String pin;
 }

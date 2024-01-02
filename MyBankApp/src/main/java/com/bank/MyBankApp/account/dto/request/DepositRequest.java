@@ -3,6 +3,7 @@ package com.bank.MyBankApp.account.dto.request;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 @Setter
 public class DepositRequest {
     @NotNull(message = "field account id cannot be null")
+    @Positive(message = "account id must be positive")
     private Integer accountId;
 
     @NotNull(message = "field amount cannot be null")
