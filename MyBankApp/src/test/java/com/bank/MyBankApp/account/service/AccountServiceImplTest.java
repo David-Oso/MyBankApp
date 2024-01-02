@@ -121,85 +121,151 @@ class AccountServiceImplTest {
         assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
                 .isEqualTo(BigDecimal.valueOf(20000.00));
     }
-//
-//    @Test
-//    void withdrawMoneyTest() {
-//        Account account = accountService.createNewAccount(createAccountRequest1);
-//        assertThat(account.getIban()).isNotNull();
-//
-//        DepositRequest depositRequest = new DepositRequest();
-//        depositRequest.setAccountId(account.getId());
-//        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
-//
-//        TransactionResponse depositResponse = accountService.depositMoney(depositRequest);
-//        assertThat(depositResponse.getCurrentBalance()).isEqualTo("₦20000.0");
-//
-//        WithdrawRequest withdrawRequest = new WithdrawRequest();
-//        withdrawRequest.setAccountId(account.getId());
-//        withdrawRequest.setAmount(BigDecimal.valueOf(10000.00));
-//        withdrawRequest.setPin("1234");
-//
-//        TransactionResponse withdrawResponse = accountService.withdrawMoney(withdrawRequest);
-//        assertThat(withdrawResponse.getCurrentBalance()).isEqualTo("₦10000.0");
-//    }
-//
-//    @Test
-//    void transferMoneyTest() {
-//        Account account1 = accountService.createNewAccount(createAccountRequest1);
-//        assertThat(account1.getIban()).isNotNull();
-//        Account account2 = accountService.createNewAccount(createAccountRequest2);
-//        assertThat(account2.getIban()).isNotNull();
-//        DepositRequest depositRequest = new DepositRequest();
-//        depositRequest.setAccountId(account1.getId());
-//        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
-//
-//        TransactionResponse depositResponse = accountService.depositMoney(depositRequest);
-//        assertThat(depositResponse.getCurrentBalance()).isEqualTo("₦20000.0");
-//
-//
-//        TransferRequest transferRequest = new TransferRequest();
-//        transferRequest.setAccountId(account1.getId());
-//        transferRequest.setRecipientIban(account2.getIban());
-//        transferRequest.setAmount(BigDecimal.valueOf(10000.00));
-//        transferRequest.setPin(createAccountRequest1.getPin());
-//
-//        TransactionResponse transferResponse = accountService.transferMoney(transferRequest);
+
+    @Test
+    void withdrawMoneyTest() {
+        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
+        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse.getIban()).isNotNull();
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(1);
+        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        String depositResponse = accountService.depositMoney(depositRequest);
+        assertThat(depositResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
+                .isEqualTo(BigDecimal.valueOf(20000.00));
+        WithdrawRequest withdrawRequest = new WithdrawRequest();
+        withdrawRequest.setAccountId(1);
+        withdrawRequest.setAmount(BigDecimal.valueOf(10000.00));
+        withdrawRequest.setPin(createAccountRequest1.getPin());
+
+        String withdrawResponse = accountService.withdrawMoney(withdrawRequest);
+        assertThat(withdrawResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
+                .isEqualTo(BigDecimal.valueOf(10000.00));
+
+    }
+
+    @Test
+    void transferMoneyTest() {
+        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
+        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse.getIban()).isNotNull();
+
+         RegisterCustomerResponse registerCustomerResponse2 = customerService.registerCustomer(registerCustomerRequest2);
+        assertThat(registerCustomerResponse2.getCustomerId()).isEqualTo(2);
+        assertThat(registerCustomerResponse2.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest2.setCustomerId(registerCustomerResponse2.getCustomerId());
+        CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
+        assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest2.getFirstName(), registerCustomerRequest2.getLastName()));
+        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse2.getIban()).isNotNull();
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(1);
+        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        String depositResponse = accountService.depositMoney(depositRequest);
+        assertThat(depositResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
+                .isEqualTo(BigDecimal.valueOf(20000.00));
+
+        TransferRequest transferRequest = new TransferRequest();
+        transferRequest.setAccountId(1);
+        transferRequest.setRecipientIban(createAccountResponse2.getIban());
+        transferRequest.setAmount(BigDecimal.valueOf(10000.00));
+        transferRequest.setPin(createAccountRequest1.getPin());
+
+        String transferResponse = accountService.transferMoney(transferRequest);
+        assertThat(transferResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
+                .isEqualTo(BigDecimal.valueOf(10000.00));
+
+        assertThat(accountService.getBalance(2, createAccountRequest2.getPin()))
+                .isEqualTo(BigDecimal.valueOf(10000.00));
+
+//        String transferResponse = accountService.transferMoney(transferRequest);
 //        assertThat(transferResponse.getCurrentBalance()).isEqualTo("₦10000.0");
 //
 //        assertThat(accountService.getBalance(account2.getId(),
 //                createAccountRequest2.getPin())).isEqualTo(BigDecimal.valueOf(10000.00));
-//    }
-//
-//    @Test
-//    void getBalanceTest() {
-//        Account account = accountService.createNewAccount(createAccountRequest1);
-//        assertThat(account.getIban()).isNotNull();
-//
-//        assertThat(accountService.getBalance(account.getId(),
-//                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(0));
-//
-//        DepositRequest depositRequest = new DepositRequest();
-//        depositRequest.setAccountId(account.getId());
-//        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
-//
-//        TransactionResponse depositResponse = accountService.depositMoney(depositRequest);
-//        assertThat(depositResponse.getCurrentBalance()).isEqualTo("₦20000.0");
-//
-//        assertThat(accountService.getBalance(account.getId(),
-//                createAccountRequest1.getPin())).isEqualTo(BigDecimal.valueOf(20000.00));
-//    }
-//
-//    @Test
-//    void deleteAllAccountsTest(){
-//        Account account = accountService.createNewAccount(createAccountRequest1);
-//        assertThat(account.getIban()).isNotNull();
-//
-//        Account account2 = accountService.createNewAccount(createAccountRequest1);
-//        assertThat(account2.getIban()).isNotNull();
-//
-//        assertThat(accountService.numberOfAccounts()).isEqualTo(2);
-//        accountService.deleteAllAccounts();
-//        assertThat(accountService.numberOfAccounts()).isEqualTo(0);
-//
-//    }
+    }
+
+    @Test
+    void getBalanceTest() {
+        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
+        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse.getIban()).isNotNull();
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(1);
+        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        String depositResponse = accountService.depositMoney(depositRequest);
+        assertThat(depositResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
+                .isEqualTo(BigDecimal.valueOf(20000.00));
+
+    }
+
+    @Test
+    void deleteAllAccountsTest(){
+        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
+        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse.getIban()).isNotNull();
+
+        RegisterCustomerResponse registerCustomerResponse2 = customerService.registerCustomer(registerCustomerRequest2);
+        assertThat(registerCustomerResponse2.getCustomerId()).isEqualTo(2);
+        assertThat(registerCustomerResponse2.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest2.setCustomerId(registerCustomerResponse2.getCustomerId());
+        CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
+        assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest2.getFirstName(), registerCustomerRequest2.getLastName()));
+        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse2.getIban()).isNotNull();
+
+        assertThat(accountService.numberOfAccounts()).isEqualTo(2);
+
+        accountService.deleteAllAccounts();
+
+        assertThat(accountService.numberOfAccounts()).isEqualTo(0);
+    }
 }

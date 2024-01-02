@@ -7,6 +7,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class CreateAccountResponse {
+    private Integer accountId;
     private AccountType accountType;
     private String accountName;
     private String iban;
