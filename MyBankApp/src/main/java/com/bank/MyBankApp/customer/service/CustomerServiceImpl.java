@@ -14,6 +14,7 @@ import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.exception.AlreadyExistsException;
+import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -107,12 +108,18 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public LoginResponse login(LoginRequest request) {
         AppUser appUser = appUserService.authenticate(request.getEmail(), request.getPassword());
+        checkIfAppUserIsEnabled(appUser);
         appUserService.revokeAllUserTokens(appUser);
         JwtResponse jwtResponse = appUserService.generateJwtToken(appUser);
         return LoginResponse.builder()
                 .message("Login successful")
                 .jwtResponse(jwtResponse)
                 .build();
+    }
+
+    private static void checkIfAppUserIsEnabled(AppUser appUser) {
+        if(!appUser.isEnabled())
+            throw new MyBankException("App user must be enabled before he can login.");
     }
 
     @Override

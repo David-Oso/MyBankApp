@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+import static com.bank.MyBankApp.utilities.ValidationUtils.IBAN_REGEX;
 import static com.bank.MyBankApp.utilities.ValidationUtils.PIN_REGEX;
 
 @AllArgsConstructor
@@ -21,6 +22,7 @@ public class TransferRequest {
     @NotNull(message = "field recipient iban cannot be null")
     @NotBlank(message = "field recipient iban cannot be blank")
     @NotEmpty(message = "field recipient iban cannot be empty")
+    @Pattern(regexp = IBAN_REGEX, message = "iban must be DE## #### #### #### #### ##")
     private String recipientIban;
 
     @NotNull(message = "field amount cannot be null")

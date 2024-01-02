@@ -30,7 +30,7 @@ public class MyBankAuthenticationEntryPoint implements AuthenticationEntryPoint 
             try(PrintWriter writer = response.getWriter()){
                 writer.write(generateErrorMessage(authException));
             }
-        }else log.warn("Unauthorized request received, but response has already been commited.");
+        }else log.warn("Unauthorized request received, but response has already been committed.");
 
     }
 

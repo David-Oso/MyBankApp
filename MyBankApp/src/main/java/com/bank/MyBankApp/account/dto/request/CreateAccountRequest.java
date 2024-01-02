@@ -21,10 +21,7 @@ public class CreateAccountRequest {
     private Integer customerId;
 
     @NotNull(message = "field account type cannot be null")
-    @NotEmpty(message = "field account type cannot be empty")
-    @NotBlank(message = "field account type cannot be blank")
     private AccountType accountType;
-
 
     @NotNull(message = "field pin cannot be  null")
     @NotBlank(message = "field pin cannot be blank")

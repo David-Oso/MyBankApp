@@ -9,6 +9,7 @@ import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
 import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.appUser.repository.AppUserRepository;
+import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

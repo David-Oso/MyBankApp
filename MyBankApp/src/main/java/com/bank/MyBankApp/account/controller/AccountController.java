@@ -7,13 +7,14 @@ import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
 import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.account.service.AccountService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static com.bank.MyBankApp.utilities.ValidationUtils.PIN_REGEX;
 
 @RestController
 @RequestMapping("/accounts")
@@ -41,5 +42,12 @@ public class AccountController {
     @PostMapping("transfer")
     public ResponseEntity<?> transfer(@Valid @RequestBody TransferRequest request){
         return ResponseEntity.ok(accountService.transferMoney(request));
+    }
+
+    @GetMapping("get-balance/{accountId}")
+    public ResponseEntity<?> getBalance(@PathVariable  Integer accountId,
+                                        @Pattern(regexp = PIN_REGEX, message = "Enter your 4 digits pin")
+                                        @NotNull @RequestParam String pin){
+        return ResponseEntity.ok(accountService.getBalance(accountId, pin));
     }
 }

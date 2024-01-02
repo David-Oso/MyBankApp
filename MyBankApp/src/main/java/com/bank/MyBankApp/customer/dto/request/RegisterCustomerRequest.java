@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import static com.bank.MyBankApp.utilities.ValidationUtils.*;
 
@@ -55,14 +56,13 @@ public class RegisterCustomerRequest {
     private String phoneNumber;
 
     @NotNull(message = "field gender cannot be null")
-    @NotEmpty(message = "field gender cannot be empty")
-    @NotBlank(message = "field gender cannot be blank")
-    private Gender gender;
+     private Gender gender;
 
     @NotNull(message = "field date of birth cannot be null")
     @NotEmpty(message = "field date of birth cannot be empty")
     @NotBlank(message = "field date of birth cannot be blank")
-    @Pattern(regexp = DATE_OF_BIRTH_REGEX, message = "date must be in the format dd/mm/yyyy")
+//    @Pattern(regexp = DATE_OF_BIRTH_REGEX, message = "date must be in the format dd/mm/yyyy")
+    @DateTimeFormat(pattern = DATE_OF_BIRTH_REGEX)
     private String dateOfBirth;
 
     @NotNull(message = "field bvn cannot be null")
