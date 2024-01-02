@@ -14,5 +14,5 @@ public interface MyBankJwtTokenRepository extends JpaRepository<MyBankJwtToken, 
         """)
     List<MyBankJwtToken> findAllValidTokenByAppUser(Integer id);
     List<MyBankJwtToken> findAllByAppUserId(Integer appUserId);
-    Optional<MyBankJwtToken> findByAccessToken(String accesToken);
+    Optional<MyBankJwtToken> findByAccessToken(String accessToken);
 }

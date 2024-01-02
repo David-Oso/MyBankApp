@@ -1,13 +1,5 @@
 package com.bank.MyBankApp.customer.service;
 
-import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
-import com.bank.MyBankApp.account.dto.request.DepositRequest;
-import com.bank.MyBankApp.account.dto.request.TransferRequest;
-import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
-import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
-import com.bank.MyBankApp.account.model.Account;
-import com.bank.MyBankApp.account.model.AccountType;
-import com.bank.MyBankApp.account.service.AccountService;
 import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.appUser.dto.request.ChangePasswordRequest;
 import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
@@ -15,7 +7,6 @@ import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.Role;
 import com.bank.MyBankApp.appUser.service.AppUserService;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.request.CreateNewAccountRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.*;

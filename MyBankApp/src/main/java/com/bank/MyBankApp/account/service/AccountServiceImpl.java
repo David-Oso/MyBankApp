@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService{
 //    public Account createNewAccount(CreateAccountRequest request) {
     public CreateAccountResponse createNewAccount(CreateAccountRequest request) {
         Customer customer = findCustomerById(request.getCustomerId());
-        checkIfCustomerHasAccountType(customer, request.getAccountType());
+        checkIfCustomerHasAccountType(request.getCustomerId(), request.getAccountType());
         Account account = new Account();
         String accountName = createAccountName(customer.getAppUser());
         account.setAccountName(accountName);
@@ -57,12 +57,15 @@ public class AccountServiceImpl implements AccountService{
         return getAccountResponse(account);
     }
 
-    private void checkIfCustomerHasAccountType(Customer customer, AccountType accountType) {
-        List<Account> accounts = customer.getAccounts();
-        for(Account account : accounts){
-            if(account.getAccountType().equals(accountType))
+    private void checkIfCustomerHasAccountType(Integer customerId, AccountType accountType) {
+        if(accountRepository.existsByAccountTypeAndCustomerId(accountType, customerId))
                 throw new AlreadyExistsException("Customer is not allowed to create an account with the same account type.");
-        }
+
+//        List<Account> accounts = customer.getAccounts();
+//        for(Account account : accounts){
+//            if(account.getAccountType().equals(accountType))
+//                throw new AlreadyExistsException("Customer is not allowed to create an account with the same account type.");
+//        }
     }
 
     private String createAccountName(AppUser appUser) {
@@ -89,6 +92,7 @@ public class AccountServiceImpl implements AccountService{
 
     private static CreateAccountResponse getAccountResponse(Account account) {
         return CreateAccountResponse.builder()
+                .accountId(account.getId())
                 .accountName(account.getAccountName())
                 .iban(account.getIban())
                 .accountType(account.getAccountType())

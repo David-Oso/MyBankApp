@@ -100,6 +100,7 @@ public class AppUserServiceImpl implements AppUserService {
     private void saveToken(AppUser appUser, String accessToken, String refreshToken) {
         final MyBankJwtToken token = new MyBankJwtToken();
         token.setAccessToken(accessToken);
+        token.setRefreshToken(refreshToken);
         token.setAppUser(appUser);
         token.setRevoked(false);
         token.setExpired(false);

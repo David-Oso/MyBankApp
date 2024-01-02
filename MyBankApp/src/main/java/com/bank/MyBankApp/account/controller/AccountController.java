@@ -1,6 +1,9 @@
 package com.bank.MyBankApp.account.controller;
 
 import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
+import com.bank.MyBankApp.account.dto.request.DepositRequest;
+import com.bank.MyBankApp.account.dto.request.TransferRequest;
+import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
 import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.account.service.AccountService;
 import jakarta.validation.Valid;
@@ -23,5 +26,20 @@ public class AccountController {
     public ResponseEntity<?> createAccount(@Valid @RequestBody CreateAccountRequest request){
         CreateAccountResponse response = accountService.createNewAccount(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("deposit")
+    public ResponseEntity<?> deposit(@Valid @RequestBody DepositRequest depositRequest){
+        return ResponseEntity.ok(accountService.depositMoney(depositRequest));
+    }
+
+    @PostMapping("withdraw")
+    public ResponseEntity<?> withdraw(@Valid @RequestBody WithdrawRequest request){
+        return ResponseEntity.ok(accountService.withdrawMoney(request));
+    }
+
+    @PostMapping("transfer")
+    public ResponseEntity<?> transfer(@Valid @RequestBody TransferRequest request){
+        return ResponseEntity.ok(accountService.transferMoney(request));
     }
 }

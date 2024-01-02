@@ -1,16 +1,13 @@
 package com.bank.MyBankApp.customer.service;
 
-import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.appSecurity.jwtToken.MyBankJwtTokenRepository;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.request.CreateNewAccountRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.response.LoginResponse;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
-import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.customer.model.Gender;
 import jakarta.persistence.EntityManager;
