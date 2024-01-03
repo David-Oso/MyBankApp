@@ -44,9 +44,6 @@ class CustomerServiceImplTest {
     private AddCustomerAddressRequest addressRequest3;
     private AddCustomerAddressRequest addressRequest4;
 
-    private CreateNewAccountRequest createNewAccountRequest1;
-    private CreateNewAccountRequest createNewAccountRequest2;
-
 
     @BeforeEach
     void setUp() {
@@ -129,15 +126,6 @@ class CustomerServiceImplTest {
         addressRequest4.setCityName("Yaba");
         addressRequest4.setState("Lagos");
         addressRequest4.setCountry("Nigeria");
-
-        createNewAccountRequest1 = new CreateNewAccountRequest();
-        createNewAccountRequest1.setAccountPin("1234");
-        createNewAccountRequest1.setAccountType(AccountType.SAVINGS);
-
-        createNewAccountRequest2 = new CreateNewAccountRequest();
-        createNewAccountRequest2.setAccountPin("2345");
-        createNewAccountRequest2.setAccountType(AccountType.CURRENT);
-
     }
 
     @AfterEach

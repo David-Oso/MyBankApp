@@ -18,9 +18,11 @@ public final class MyBankAppUtils {
     }
     private static final String BRANCH_APPROVAL_TEMPLATE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\templates\\branchApprovalMail.html";
     private static final String BRANCH_APPROVED_TEMPLATE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\templates\\branchApprovedMail.html";
-    public static String GET_BRANCH_APPROVAL_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVAL_TEMPLATE_LOCATION);
-    public static String GET_BRANCH_APPROVED_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVED_TEMPLATE_LOCATION);
+    public static final String GET_BRANCH_APPROVAL_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVAL_TEMPLATE_LOCATION);
+    public static final String GET_BRANCH_APPROVED_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVED_TEMPLATE_LOCATION);
 
     public static final int NUMBER_OF_ITEMS_PER_PAGE = 10;
+
+    public static final String TEST_IMAGE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\static\\testImage.jpg";
 
 }
