@@ -1,9 +1,6 @@
 package com.bank.MyBankApp.customer.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +15,7 @@ import static com.bank.MyBankApp.utilities.ValidationUtils.PASSWORD_REGEX;
 @Setter
 public class LoginRequest {
     @NotBlank(message = "field email cannot be blank")
-    @Pattern(regexp = EMAIL_REGEX, message = "invalid email")
+    @Email(regexp = EMAIL_REGEX, message = "invalid email")
     private String email;
 
     @NotBlank(message = "field password cannot be blank")

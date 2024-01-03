@@ -1,8 +1,8 @@
 package com.bank.MyBankApp.customer.dto.request;
 
 import com.bank.MyBankApp.customer.model.Gender;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -29,8 +29,9 @@ public class RegisterCustomerRequest {
     @NotBlank(message = "field last name cannot be blank")
     @Pattern(regexp = NAME_REGEX, message = "name must start with capital letter")
     private String lastName;
+
     @NotBlank(message = "field email cannot be blank")
-    @Pattern(regexp = EMAIL_REGEX, message = "invalid email")
+    @Email(regexp = EMAIL_REGEX, message = "enter a valid email")
     private String email;
 
     @NotBlank(message = "field password cannot be blank")

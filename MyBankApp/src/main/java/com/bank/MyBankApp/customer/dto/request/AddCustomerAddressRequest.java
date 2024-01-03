@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static com.bank.MyBankApp.utilities.ValidationUtils.ADDRESS_REGEX;
-import static com.bank.MyBankApp.utilities.ValidationUtils.STREET_NUMBER_REGEX;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +15,8 @@ import static com.bank.MyBankApp.utilities.ValidationUtils.STREET_NUMBER_REGEX;
 public class AddCustomerAddressRequest {
     @NotNull(message = "field street number cannot be null")
     @Positive(message = "street number must be positive")
-    @Pattern(regexp = STREET_NUMBER_REGEX, message = "street number ")
+    @Min(value = 1, message = "Number must be at least 1")
+    @Max(value=999, message = "Number must be at most 999")
     private Integer streetNumber;
 
     @NotBlank(message = "field street name cannot be blank")

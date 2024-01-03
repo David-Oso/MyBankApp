@@ -7,6 +7,7 @@ public class WhiteList {
     public static String[] freeAccess() {
         return new String[]{
                 "/customers/register",
+                "/customers/add-customer-address/{id}",
                 "/customers/verify",
                 "/customers/login",
                 "/customers/resend_verification_mail",

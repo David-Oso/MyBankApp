@@ -25,10 +25,6 @@ public interface CustomerService {
     CustomerResponse getCustomerByBvn(String bvn);
     ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal user);
     Page<CustomerResponse> getAllCustomers(int pageNumber);
-//    CreateAccountResponse createNewAccount(CreateNewAccountRequest request, Integer customerId);
-//    String makeDeposit(DepositRequest request, Integer customerId);
-//    String makeWithdraw(WithdrawRequest request, Integer customerId);
-//    String makeTransfer(TransferRequest request, Integer customerId);
     void deleteByCustomerId(Integer customerId);
     void deleteAll();
     long count();

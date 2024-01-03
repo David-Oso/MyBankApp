@@ -45,6 +45,14 @@ mail:
     key: ${MAIL_API_KEY}
   url: ${MAIL_URL}
 
+#cloudinary
+cloudinary:
+  api:
+    key: ${CLOUDINARY_KEY}
+    secret: ${CLOUDINARY_SECRET}
+  cloud:
+    name: ${CLOUDINARY_NAME}
+
 #  jwt
 jwt:
   secret:

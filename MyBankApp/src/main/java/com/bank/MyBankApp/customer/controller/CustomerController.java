@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.customer.controller;
 
+import com.bank.MyBankApp.appUser.dto.request.ChangePasswordRequest;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/customers")
@@ -63,6 +66,11 @@ public class CustomerController {
     @GetMapping("get/all")
     public ResponseEntity<?> getAllCustomers(@RequestParam int pageNumber){
         return ResponseEntity.ok(customerService.getAllCustomers(pageNumber));
+    }
+
+    @PutMapping("change-password")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest request, Principal user){
+        return ResponseEntity.ok(customerService.changePassword(request, user));
     }
 
     @DeleteMapping("delete/{id}")
