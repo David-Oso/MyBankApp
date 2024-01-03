@@ -6,9 +6,11 @@ import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
 import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.Role;
 import com.bank.MyBankApp.appUser.service.AppUserService;
+import com.bank.MyBankApp.cloudinary.CloudinaryService;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.request.UploadImageRequest;
 import com.bank.MyBankApp.customer.dto.response.*;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -42,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService{
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
-//    private final AccountService accountService;
+    private final CloudinaryService cloudinaryService;
 
     @Override
     public RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request) {
@@ -155,6 +158,16 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal user) {
         return appUserService.changePassword(request, user);
+    }
+
+    @Override
+    public String uploadImage(UploadImageRequest request) {
+        Customer customer = customerById(request.getCustomerId());
+        String imageUrl = cloudinaryService.upload(request.getProfileImage());
+        customer.setImageUrl(imageUrl);
+        customer.setUpdatedAt(LocalDateTime.now());
+        customerRepository.save(customer);
+        return "Profile image uploaded";
     }
 
     @Override

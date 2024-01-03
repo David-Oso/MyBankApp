@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 
 public final class MyBankAppUtils {
-    public static String BANK_NAME = "First Bank of Nigeria";
+    public static final String BANK_NAME = "First Bank of Nigeria";
     private static String getTemplate(String templateLocation){
         try(BufferedReader reader =
                     new BufferedReader(new FileReader(templateLocation))){

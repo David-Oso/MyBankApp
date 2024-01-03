@@ -5,6 +5,7 @@ import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
 import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
+import com.bank.MyBankApp.customer.dto.request.UploadImageRequest;
 import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
 import com.bank.MyBankApp.customer.dto.response.LoginResponse;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
@@ -24,6 +25,7 @@ public interface CustomerService {
     CustomerResponse getCustomerByNin(String nin);
     CustomerResponse getCustomerByBvn(String bvn);
     ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal user);
+    String uploadImage(UploadImageRequest request);
     Page<CustomerResponse> getAllCustomers(int pageNumber);
     void deleteByCustomerId(Integer customerId);
     void deleteAll();
