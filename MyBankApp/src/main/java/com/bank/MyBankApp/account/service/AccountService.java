@@ -17,6 +17,7 @@ public interface AccountService {
     String transferMoney(TransferRequest request);
     BigDecimal getBalance(Integer accountId, String pin);
     void deleteAccountByAccountAndCustomerId(Integer accountId, Integer customerId);
+    void deleteAllAccountByCustomerId(Integer customerId);
     void deleteAllAccounts();
     long numberOfCustomerAccounts(Integer customerId);
     long numberOfAccounts();

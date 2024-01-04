@@ -267,6 +267,35 @@ class AccountServiceImplTest {
                 .isEqualTo(1);
     }
 
+    @Test
+    void deleteAllAccountCustomerIdTest(){
+        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
+        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse.getIban()).isNotNull();
+
+        createAccountRequest2.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
+        assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
+        assertThat(createAccountResponse2.getIban()).isNotNull();
+
+        assertThat(accountService.numberOfCustomerAccounts(registerCustomerResponse.getCustomerId()))
+                .isEqualTo(2);
+
+        accountService.deleteAllAccountByCustomerId(registerCustomerResponse.getCustomerId());
+
+        assertThat(accountService.numberOfCustomerAccounts(registerCustomerResponse.getCustomerId()))
+                .isEqualTo(0);
+    }
+
 
     @Test
     void deleteAllAccountsTest(){

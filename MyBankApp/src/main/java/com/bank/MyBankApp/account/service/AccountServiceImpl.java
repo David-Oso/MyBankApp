@@ -228,6 +228,11 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    public void deleteAllAccountByCustomerId(Integer customerId) {
+        accountRepository.deleteAllByCustomerId(customerId);
+    }
+
+    @Override
     public void deleteAllAccounts() {
         accountRepository.deleteAll();
     }
