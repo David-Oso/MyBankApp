@@ -11,15 +11,13 @@ import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
 import java.math.BigDecimal;
 
 public interface AccountService {
-//    Account createNewAccount(CreateAccountRequest request);
     CreateAccountResponse createNewAccount(CreateAccountRequest request);
-//    TransactionResponse depositMoney(DepositRequest request);
     String  depositMoney(DepositRequest request);
-//    TransactionResponse withdrawMoney(WithdrawRequest request);
     String withdrawMoney(WithdrawRequest request);
-//    TransactionResponse transferMoney(TransferRequest request);
     String transferMoney(TransferRequest request);
     BigDecimal getBalance(Integer accountId, String pin);
+    void deleteAccountByAccountAndCustomerId(Integer accountId, Integer customerId);
     void deleteAllAccounts();
+    long numberOfCustomerAccounts(Integer customerId);
     long numberOfAccounts();
 }

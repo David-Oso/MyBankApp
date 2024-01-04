@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transfer transaction Notification </title>
+</head>
+<body>
+<style>
+    .transaction_details{
+        color: green;
+        font-size: 15px;
+    }
+    .current_balance{
+        color: blue;
+        font-size: 20px;
+    }
+    .balance{
+        color: black;
+    }
+</style>
+<body>
+<p>
+<h4>Dear %s,</h4>
+We wish to inform you that there was a transfer transaction from your account to another recently<br/>
+Please find the details of the transaction below.
+<br/><br/>
+</p>
+
+<p class = transaction_details>Account Name:                %s</p>
+<p class = transaction_details>Account Number:              %s</p>
+<p class = transaction_details>Recipient Account Number:    %s</p>
+<p class = transaction_details>Transaction Type:            %s</p>
+<p class = transaction_details>Description:                 %s</p>
+<p class = transaction_details>Transaction Amount:          %s</p>
+<p class = transaction_details>Transaction Date And Time:   %s</p>
+
+<h3 class = current_balance><Strong>Current Balance:</Strong>     <span class="balance">%s</span><h3/>
+
+    <p>
+        For more information or complaints, please contact E_Bank on:<br/>
+        Phone number: <Strong>%s</Strong><br>
+        Email Address: <Strong>%s</Strong><br>
+    </p>
+
+    <p>
+        Best Regards,<br/>
+        <Strong>Oso Temidayo David</Strong><br>
+        Java Software engineer and
+        the Builder of E_Bank Application
+    </p>
+</body>
+</html>

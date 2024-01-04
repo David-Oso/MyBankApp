@@ -231,56 +231,6 @@ public class CustomerServiceImpl implements CustomerService{
         return date.format(formatter);
     }
 
-//    @Override
-//    public CreateAccountResponse createNewAccount(CreateNewAccountRequest request, Integer customerId) {
-//        Customer customer = customerById(customerId);
-////        checkIfCustomerHasAccountType(customerId, request.getAccountType());
-//        checkIfCustomerHasAccountType(customer, request.getAccountType());
-//        CreateAccountRequest createAccountRequest = setAccountRequest(request, customer.getAppUser());
-//        Account account = accountService.createNewAccount(createAccountRequest);
-//        customer.getAccounts().add(account);
-//        customerRepository.save(customer);
-//        return CreateAccountResponse.builder()
-//                .accountName(account.getAccountName())
-//                .iban(account.getIban())
-//                .accountType(account.getAccountType())
-//                .build();
-//    }
-//
-////    private void checkIfCustomerHasAccountType(Integer customerId, AccountType accountType) {
-//    private void checkIfCustomerHasAccountType(Customer customer, AccountType accountType) {
-////        List<Account> accounts = customerRepository.getAllAccountsByCustomerId(customerId);
-//        List<Account> accounts = customer.getAccounts();
-//        for(Account account : accounts){
-//            if(account.getAccountType().equals(accountType))
-//                throw new AlreadyExistsException("Customer is not allowed to create an account with the same account type.");
-//        }
-//    }
-//
-//    private CreateAccountRequest setAccountRequest(CreateNewAccountRequest request, AppUser appUser) {
-//        CreateAccountRequest createAccountRequest = new CreateAccountRequest();
-//        createAccountRequest.setAccountName("%s %s".formatted(appUser.getFirstName(), appUser.getLastName()));
-//        createAccountRequest.setPin(request.getAccountPin());
-//        createAccountRequest.setAccountType(request.getAccountType());
-//        return createAccountRequest;
-//    }
-//
-//    @Override
-//    public String makeDeposit(DepositRequest request, Integer customerId) {
-//
-//        return null;
-//    }
-//
-//    @Override
-//    public String makeWithdraw(WithdrawRequest request, Integer customerId) {
-//        return null;
-//    }
-//
-//    @Override
-//    public String makeTransfer(TransferRequest request, Integer customerId) {
-//        return null;
-//    }
-
     @Override
     public void deleteByCustomerId(Integer customerId) {
         customerRepository.deleteById(customerId);

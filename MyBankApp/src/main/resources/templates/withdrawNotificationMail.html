@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Debit Alert Notification</title>
+</head>
+<style>
+    .transaction_details{
+        color: green;
+        font-size: 15px;
+    }
+    .current_balance{
+        color: blue;
+        font-size: 20px;
+    }
+    .balance{
+        color: black;
+    }
+</style>
+<body>
+<p>
+<h4>Dear %s,</h4>
+We wish to inform you that your E_Bank account has been debited.<br/>
+Please find the details of the transaction below.
+<br/><br/>
+</p>
+
+<p class = transaction_details>Account Name:                %s</p>
+<p class = transaction_details>Iban:                        %s</p>
+<p class = transaction_details>Description:                 Withdraw</p>
+<p class = transaction_details>Transaction Amount:          %s</p>
+<p class = transaction_details>Transaction Date And Time:   %s</p>
+
+<h3 class = current_balance><Strong>Current Balance:</Strong>     <span class="balance">%s</span><h3/>
+
+    <p>
+        For more information or complaints, please contact E_Bank on:<br/>
+        Phone number: <Strong>%s</Strong><br>
+        Email Address: <Strong>%s</Strong><br>
+    </p>
+
+    <p>
+        Best Regards,<br/>
+        <Strong>Oso Temidayo David</Strong><br>
+        Java Software engineer and
+        the Builder of E_Bank Application
+    </p>
+
+</body>
+</html>

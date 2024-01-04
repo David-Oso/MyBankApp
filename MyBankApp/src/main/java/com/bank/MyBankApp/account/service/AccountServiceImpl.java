@@ -42,7 +42,6 @@ public class AccountServiceImpl implements AccountService{
 
 
     @Override
-//    public Account createNewAccount(CreateAccountRequest request) {
     public CreateAccountResponse createNewAccount(CreateAccountRequest request) {
         Customer customer = findCustomerById(request.getCustomerId());
         checkIfCustomerHasAccountType(request.getCustomerId(), request.getAccountType());
@@ -60,12 +59,6 @@ public class AccountServiceImpl implements AccountService{
     private void checkIfCustomerHasAccountType(Integer customerId, AccountType accountType) {
         if(accountRepository.existsByAccountTypeAndCustomerId(accountType, customerId))
                 throw new AlreadyExistsException("Customer is not allowed to create an account with the same account type.");
-
-//        List<Account> accounts = customer.getAccounts();
-//        for(Account account : accounts){
-//            if(account.getAccountType().equals(accountType))
-//                throw new AlreadyExistsException("Customer is not allowed to create an account with the same account type.");
-//        }
     }
 
     private String createAccountName(AppUser appUser) {
@@ -115,7 +108,6 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-//    public TransactionResponse depositMoney(DepositRequest request) {
     public String depositMoney(DepositRequest request) {
         Account account = getAccountById(request.getAccountId());
         TransactionType transactionType = TransactionType.CREDIT;
@@ -165,7 +157,6 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-//    public TransactionResponse withdrawMoney(WithdrawRequest request) {
     public String withdrawMoney(WithdrawRequest request) {
         Account account = getAccountById(request.getAccountId());
         checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
@@ -195,7 +186,6 @@ public class AccountServiceImpl implements AccountService{
 
 
     @Override
-//    public TransactionResponse transferMoney(TransferRequest request) {
     public String transferMoney(TransferRequest request) {
         Account senderAccount = getAccountById(request.getAccountId());
         Account receiverAccount = getAccountByIban(request.getRecipientIban());
@@ -233,8 +223,18 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
+    public void deleteAccountByAccountAndCustomerId(Integer accountId, Integer customerId) {
+        accountRepository.deleteByIdAndCustomerId(accountId, customerId);
+    }
+
+    @Override
     public void deleteAllAccounts() {
         accountRepository.deleteAll();
+    }
+
+    @Override
+    public long numberOfCustomerAccounts(Integer customerId) {
+        return accountRepository.countAccountByCustomerId(customerId);
     }
 
     @Override

@@ -72,7 +72,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setPin("1234");
 
         createAccountRequest2 = new CreateAccountRequest();
-        createAccountRequest2.setAccountType(AccountType.SAVINGS);
+        createAccountRequest2.setAccountType(AccountType.CURRENT);
         createAccountRequest2.setPin("2345");
     }
 
@@ -237,6 +237,36 @@ class AccountServiceImplTest {
                 .isEqualTo(BigDecimal.valueOf(20000.00));
 
     }
+
+    @Test
+    void deleteAccountByAccountAndCustomerIdTest(){
+        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
+        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse.getIban()).isNotNull();
+
+        createAccountRequest2.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
+        assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
+        assertThat(createAccountResponse2.getIban()).isNotNull();
+
+        assertThat(accountService.numberOfCustomerAccounts(registerCustomerResponse.getCustomerId()))
+                .isEqualTo(2);
+
+        accountService.deleteAccountByAccountAndCustomerId(2, registerCustomerResponse.getCustomerId());
+
+        assertThat(accountService.numberOfCustomerAccounts(registerCustomerResponse.getCustomerId()))
+                .isEqualTo(1);
+    }
+
 
     @Test
     void deleteAllAccountsTest(){
