@@ -50,4 +50,22 @@ public class AccountController {
                                         @NotNull @RequestParam String pin){
         return ResponseEntity.ok(accountService.getBalance(accountId, pin));
     }
+
+    @DeleteMapping("delete/{accountId}/{customerId}")
+    public ResponseEntity<Void> deleteAccountByAccountAndCustomerId(@PathVariable Integer accountId, @PathVariable Integer customerId){
+        accountService.deleteAccountByAccountAndCustomerId(accountId, customerId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @DeleteMapping("delete-all/{customerId}")
+    public ResponseEntity<Void> deleteAllAccountsByCustomerId(@PathVariable Integer customerId){
+        accountService.deleteAllAccountByCustomerId(customerId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @DeleteMapping("delete-all")
+    public ResponseEntity<Void> deleteAllAccounts(){
+        accountService.deleteAllAccounts();
+        return ResponseEntity.accepted().build();
+    }
 }
