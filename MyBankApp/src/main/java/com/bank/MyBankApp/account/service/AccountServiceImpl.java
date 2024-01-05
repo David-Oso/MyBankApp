@@ -222,7 +222,6 @@ public class AccountServiceImpl implements AccountService{
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-
     @Override
     public void deleteAccountByAccountAndCustomerId(Integer accountId, Integer customerId) {
         accountRepository.deleteByIdAndCustomerId(accountId, customerId);
