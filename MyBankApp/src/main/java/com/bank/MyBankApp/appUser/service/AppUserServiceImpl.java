@@ -95,7 +95,7 @@ public class AppUserServiceImpl implements AppUserService {
     private static HashMap<String, Object> getClaims(AppUser appUser) {
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("role", appUser.getRole());
-        claims.put("list of permissions", appUser.getRole()
+        claims.put("permissions", appUser.getRole()
                 .getPermissions()
                 .stream()
                 .toList());
