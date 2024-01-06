@@ -1,6 +1,7 @@
 package com.bank.MyBankApp.bank.service;
 
 import com.bank.MyBankApp.address.model.Address;
+import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.appUser.model.Role;
 import com.bank.MyBankApp.bank.model.Bank;
@@ -73,6 +74,11 @@ public class BankServiceImpl implements BankService{
         address.setState("Lagos");
         address.setCountry("Nigeria");
         return address;
+    }
+
+    @Override
+    public JwtResponse login(String bankEmail, String bankPassword) {
+        return null;
     }
 
     @Override

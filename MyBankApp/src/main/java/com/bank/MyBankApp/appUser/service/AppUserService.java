@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.security.Principal;
 
 public interface AppUserService {
+    String encodePassword(String password);
     ChangePasswordResponse changePassword(ChangePasswordRequest changePasswordRequest, Principal connectedUser);
     JwtResponse generateJwtToken(AppUser appUser);
     AppUser getSecuredUser(Principal principal);

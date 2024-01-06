@@ -43,7 +43,6 @@ import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PA
 public class CustomerServiceImpl implements CustomerService{
     private final CustomerRepository customerRepository;
     private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
     private final CloudinaryService cloudinaryService;
 
@@ -55,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService{
         checkIfCustomerExistsByBvn(request.getBvn());
         AppUser appUser = modelMapper.map(request, AppUser.class);
         appUser.setRole(Role.CUSTOMER);
-        appUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        appUser.setPassword(appUserService.encodePassword(request.getPassword()));
         Customer customer = modelMapper.map(request, Customer.class);
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
         int age = changeDateToInt(dateOfBirth);

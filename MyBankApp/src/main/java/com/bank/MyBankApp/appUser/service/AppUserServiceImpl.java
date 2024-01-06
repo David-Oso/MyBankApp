@@ -38,6 +38,12 @@ public class AppUserServiceImpl implements AppUserService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final MyBankJwtTokenRepository tokenRepository;
+
+    @Override
+    public String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
     @Override
     public ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal connectedUser) {
         AppUser appUser = getSecuredUser(connectedUser);
