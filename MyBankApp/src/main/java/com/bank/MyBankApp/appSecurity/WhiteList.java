@@ -11,6 +11,8 @@ public class WhiteList {
                 "/customers/verify",
                 "/customers/login",
                 "/customers/resend_verification_mail",
+                "/banks/login",
+
         };
     }
 

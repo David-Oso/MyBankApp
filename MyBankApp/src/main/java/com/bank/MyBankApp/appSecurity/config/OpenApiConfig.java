@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "Dave",
-                        email = "dave@gmail.com",
+                        name = "David Temidayo Oso",
+                        email = "osodavid001@gmail.com",
                         url = ""
                 ),
                 description = "OpenApi documentation for My Bank App",
@@ -30,7 +30,7 @@ import jakarta.servlet.http.HttpServletRequest;
         servers = {
                 @Server(
                         description = "Local ENV",
-                        url = "http://localhost:8080"
+                        url = "http://localhost:8082"
                 ),
                 @Server(
                         description = "PROD ENV",
