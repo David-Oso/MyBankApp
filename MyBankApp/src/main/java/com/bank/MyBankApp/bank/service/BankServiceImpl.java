@@ -4,6 +4,7 @@ import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.appUser.model.Role;
+import com.bank.MyBankApp.appUser.service.AppUserService;
 import com.bank.MyBankApp.bank.model.Bank;
 import com.bank.MyBankApp.bank.repository.BankRepository;
 import com.bank.MyBankApp.bank.response.BankResponse;
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class BankServiceImpl implements BankService{
     private final BankRepository bankRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final AppUserService appUserService;
     private final BranchRepository branchRepository;
     private final MailService mailService;
 
@@ -59,7 +60,7 @@ public class BankServiceImpl implements BankService{
         appUser.setEmail(bankEmail);
         appUser.setPhoneNumber(bankPhoneNumber);
         appUser.setRole(Role.BANK_ADMIN);
-        String encodedPassword = passwordEncoder.encode(bankPassword);
+        String encodedPassword = appUserService.encodePassword(bankPassword);
         appUser.setPassword(encodedPassword);
         appUser.setEnabled(true);
         return appUser;
@@ -78,7 +79,9 @@ public class BankServiceImpl implements BankService{
 
     @Override
     public JwtResponse login(String bankEmail, String bankPassword) {
-        return null;
+        AppUser appUser = appUserService.authenticate(bankEmail, bankPassword);
+        appUserService.revokeAllUserTokens(appUser);
+        return appUserService.generateJwtToken(appUser);
     }
 
     @Override
