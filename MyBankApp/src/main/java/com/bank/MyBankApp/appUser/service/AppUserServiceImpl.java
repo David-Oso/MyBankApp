@@ -161,7 +161,6 @@ public class AppUserServiceImpl implements AppUserService {
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();
-
                 new ObjectMapper().writeValue(response.getOutputStream(), jwtResponse);
             }
         }

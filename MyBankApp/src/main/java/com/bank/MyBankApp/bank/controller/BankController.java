@@ -29,4 +29,9 @@ public class BankController {
 //        BankResponse response = bankService.getBankByBankCode(bankCode);
 //        return ResponseEntity.ok(response);
 //    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(){
+        return ResponseEntity.ok("Logout successfully");
+    }
 }
