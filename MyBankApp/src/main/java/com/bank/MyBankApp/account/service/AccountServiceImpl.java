@@ -69,14 +69,16 @@ public class AccountServiceImpl implements AccountService{
         return PIN_ENCODER.encode(pin);
     }
 
-    private  String generateRandomIban() {
+
+    private String generateRandomIban() {
     String iban = Iban.random(CountryCode.DE).toFormattedString();
     boolean ibanExists = accountRepository.findByIban(iban).isPresent();
     if (ibanExists) {
-        return generateRandomIban();
+        iban =  generateRandomIban();
     }
+//    30, 31
     log.info("\n:::::::::::::::::::: NEW IBAN GENERATED ::::::::::::::::::::\n");
-    return iban;
+    return iban.replace("DE", "NG");
     }
 
     private boolean verifyPin(String pin, String encodedPin){

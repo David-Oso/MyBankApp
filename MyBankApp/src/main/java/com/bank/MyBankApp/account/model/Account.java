@@ -22,8 +22,12 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String accountName;
+
     @Column(unique = true)
     private String iban;
+
+    @Column(unique = true)
+    private String accountNumber;
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private String accountPin;
