@@ -105,8 +105,8 @@ public class AccountServiceImpl implements AccountService{
         return CreateAccountResponse.builder()
                 .accountId(account.getId())
                 .accountName(account.getAccountName())
-                .iban(account.getIban())
                 .accountType(account.getAccountType())
+                .accountNumber(account.getAccountNumber())
                 .build();
     }
 

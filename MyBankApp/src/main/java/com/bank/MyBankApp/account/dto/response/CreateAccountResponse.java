@@ -10,5 +10,5 @@ public class CreateAccountResponse {
     private Integer accountId;
     private AccountType accountType;
     private String accountName;
-    private String iban;
+    private String accountNumber;
 }
