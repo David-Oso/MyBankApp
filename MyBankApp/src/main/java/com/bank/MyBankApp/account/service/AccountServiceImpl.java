@@ -27,9 +27,11 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +52,7 @@ public class AccountServiceImpl implements AccountService{
         account.setAccountName(accountName);
         account.setAccountPin(hashPin(request.getPin()));
         account.setIban(generateRandomIban());
+        account.setAccountNumber(generateAccountNumber());
         account.setAccountType(request.getAccountType());
         account.setCustomer(customer);
         accountRepository.save(account);
@@ -71,14 +74,27 @@ public class AccountServiceImpl implements AccountService{
 
 
     private String generateRandomIban() {
-    String iban = Iban.random(CountryCode.DE).toFormattedString();
-    boolean ibanExists = accountRepository.findByIban(iban).isPresent();
-    if (ibanExists) {
-        iban =  generateRandomIban();
+        String iban = Iban.random(CountryCode.DE).toFormattedString();
+        boolean ibanExists = accountRepository.findByIban(iban).isPresent();
+        if (ibanExists)
+            iban =  generateRandomIban();
+        log.info("\n:::::::::::::::::::: NEW IBAN GENERATED ::::::::::::::::::::\n");
+        return iban.replace("DE", "NG");
     }
-//    30, 31
-    log.info("\n:::::::::::::::::::: NEW IBAN GENERATED ::::::::::::::::::::\n");
-    return iban.replace("DE", "NG");
+
+    private String generateAccountNumber(){
+        final SecureRandom secureRandom = new SecureRandom();
+        String prefix = secureRandom.ints(1, 30, 32)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining());
+        String suffix = secureRandom.ints(8, 1, 10)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining());
+        String accountNumber = prefix + suffix;
+        if(accountRepository.findByAccountNumber(accountNumber).isPresent())
+            accountNumber = generateAccountNumber();
+        log.info("\n:::::::::::::::::::: NEW ACCOUNT NUMBER GENERATED ::::::::::::::::::::\n");
+        return accountNumber;
     }
 
     private boolean verifyPin(String pin, String encodedPin){
