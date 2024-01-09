@@ -156,6 +156,30 @@ public class AccountServiceImpl implements AccountService{
                 .build();
     }
 
+//
+//private void sendDepositNotification(Customer customer, BigDecimal amount) {
+//    String mailTemplate = E_BankUtils.GET_DEPOSIT_NOTIFICATION_MAIL_TEMPLATE;
+//    String email = customer.getAppUser().getEmail();
+//    String firstName = customer.getAppUser().getFirstName();
+//    String lastName= customer.getAppUser().getLastName();
+//    String accountName = "%s %s".formatted(firstName, lastName);
+//    StringBuilder number = new StringBuilder(customer.getAccount().getAccountNumber());
+//    String accountNumber = number.replace(2, 8, "********").toString();
+//    String transactionType = "Deposit";
+//    String description = "Deposit into your account";
+//    String transactionAmount = "₦%s".formatted(amount);
+//    String transactionDateAndTime = DateTimeFormatter.ofPattern("EEE, dd/MM/yy, hh:mm:ss a").format(LocalDateTime.now());
+//    String currentBalance = "₦%s".formatted(calculateBalance(customer.getId()));
+//    String myPhoneNumber = E_BankUtils.BANK_PHONE_NUMBER;
+//    String myEmail = E_BankUtils.BANK_EMAIL;
+//    String subject = "Credit Alert Notification";
+//    String htmlContent = String.format(mailTemplate, firstName, accountName, accountNumber, transactionType,
+//            description, transactionAmount, transactionDateAndTime, currentBalance, myPhoneNumber, myEmail);
+//    emailRequest = buildEmailRequest(firstName, email, subject, htmlContent);
+//    mailService.sendHtmlMail(emailRequest);
+//}
+
+
     @Override
     public String withdrawMoney(WithdrawRequest request) {
         Account account = getAccountById(request.getAccountId());
