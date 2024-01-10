@@ -22,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PAGE;
 
 @Service
 @RequiredArgsConstructor
@@ -115,19 +120,24 @@ public class AccountServiceImpl implements AccountService{
                 ()-> new NotFoundException("Customer with the provided id not found"));
     }
 
-    private Account getAccountById(Integer id){
+    private Account findAccountById(Integer id){
         return accountRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException("Account not with this id found"));
     }
 
-    private Account getAccountByIban(String iban){
+    private Account findAccountByIban(String iban){
         return accountRepository.findByIban(iban).orElseThrow(
                 ()-> new NotFoundException("Account with the provided iban not found"));
     }
 
+    private Account findAccountByAccountNumber(String accountNumber){
+        return accountRepository.findByAccountNumber(accountNumber).orElseThrow(
+                ()-> new NotFoundException("Account with the provided account number not found"));
+    }
+
     @Override
     public String depositMoney(DepositRequest request) {
-        Account account = getAccountById(request.getAccountId());
+        Account account = findAccountById(request.getAccountId());
         TransactionType transactionType = TransactionType.CREDIT;
         BigDecimal amount =
                 getTransactionMultiplier(transactionType)
@@ -136,9 +146,6 @@ public class AccountServiceImpl implements AccountService{
         account.getTransactions().add(transaction);
         accountRepository.save(account);
         return"Transaction successful";
-//        BigDecimal balance = calculateBalance(request.getAccountId());
-//        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
-//                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
     }
 
     private static Transaction setTransaction(BigDecimal amount, TransactionType transactionType) {
@@ -153,26 +160,6 @@ public class AccountServiceImpl implements AccountService{
         return BigDecimal.valueOf(TransactionType.DEBIT == transactionType ? -1 : 1);
     }
 
-    private static TransactionResponse getTransactionResponse(String accountName, String iban,
-        String recipientIban, TransactionType transactionType, BigDecimal amount, LocalDateTime time, BigDecimal balance){
-        String mIban = new StringBuilder(iban)
-                .replace(8, 21, "* **** **** *").toString();
-        String rIban ="";
-        if(recipientIban != null){
-            rIban = new StringBuilder(recipientIban)
-                .replace(8, 21, "* **** **** *").toString();
-        }
-        String transactionTime = DateTimeFormatter.ofPattern("EEEE, dd/MM/yyyy, hh:mm:ss a").format(time);
-        return TransactionResponse.builder()
-                .accountName(accountName)
-                .iban(mIban)
-                .recipientIban(rIban)
-                .transactionType(transactionType)
-                .transactionAmount("₦%s".formatted(amount))
-                .transactionTime(transactionTime)
-                .currentBalance("₦%s".formatted(balance))
-                .build();
-    }
 
 //
 //private void sendDepositNotification(Customer customer, BigDecimal amount) {
@@ -200,7 +187,7 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String withdrawMoney(WithdrawRequest request) {
-        Account account = getAccountById(request.getAccountId());
+        Account account = findAccountById(request.getAccountId());
         checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
         validatePin(request.getPin(), account.getAccountPin());
         TransactionType transactionType = TransactionType.DEBIT;
@@ -210,9 +197,6 @@ public class AccountServiceImpl implements AccountService{
         account.getTransactions().add(transaction);
         accountRepository.save(account);
         return "Transaction successful";
-//        BigDecimal balance = calculateBalance(request.getAccountId());
-//        return getTransactionResponse(account.getAccountName(), account.getIban(), null,
-//                transactionType, request.getAmount(), transaction.getTransactionTime(), balance);
     }
 
     private void checkIfBalanceIsSufficient(Integer accountId, BigDecimal amount) {
@@ -229,8 +213,8 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String transferMoney(TransferRequest request) {
-        Account senderAccount = getAccountById(request.getAccountId());
-        Account receiverAccount = getAccountByIban(request.getRecipientIban());
+        Account senderAccount = findAccountById(request.getAccountId());
+        Account receiverAccount = findAccountByAccountNumber(request.getRecipientAccountNumber());
         WithdrawRequest withdrawRequest = new WithdrawRequest();
         withdrawRequest.setAccountId(request.getAccountId());
         withdrawRequest.setAmount(request.getAmount());
@@ -242,26 +226,52 @@ public class AccountServiceImpl implements AccountService{
         depositRequest.setAmount(request.getAmount());
         depositMoney(depositRequest);
         return "Transaction successful";
-//        BigDecimal balance = calculateBalance(request.getAccountId());
-//        return getTransactionResponse(senderAccount.getAccountName(), senderAccount.getIban(), receiverAccount.getIban(),
-//                TransactionType.DEBIT, request.getAmount(), LocalDateTime.now(), balance);
     }
 
     @Override
     public BigDecimal getBalance(Integer accountId, String pin) {
-        Account account = getAccountById(accountId);
+        Account account = findAccountById(accountId);
         validatePin(pin, account.getAccountPin());
         return calculateBalance(accountId);
     }
 
     private BigDecimal calculateBalance(Integer accountId){
-        Account account = getAccountById(accountId);
+        Account account = findAccountById(accountId);
         if (account.getTransactions() == null) {
             return BigDecimal.ZERO;
         }
         return account.getTransactions().stream()
                 .map(Transaction::getTransactionAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public TransactionResponse getTransactionById(Integer accountId, Integer transactionId) {
+        return null;
+    }
+
+    private TransactionResponse mapTransactionToTransactionResponse(Transaction transaction){
+        return TransactionResponse.builder()
+                .transactionAmount(changeAmountToNaira(transaction.getTransactionAmount()))
+                .transactionType(transaction.getTransactionType())
+                .transactionTime(changeDateTimeToString(transaction.getTransactionTime()))
+                .build();
+    }
+
+    private String changeAmountToNaira(BigDecimal amount){
+        return "₦%s".formatted(amount);
+    }
+
+    private String changeDateTimeToString(LocalDateTime dateTime){
+        return  DateTimeFormatter.ofPattern("EEEE, dd/MM/yy, hh:mm:ss a").format(dateTime);
+    }
+
+    @Override
+    public List<TransactionResponse> getAccountTransactions(Integer accountId) {
+        Account account = findAccountById(accountId);
+        return account.getTransactions().stream()
+                .map(this::mapTransactionToTransactionResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

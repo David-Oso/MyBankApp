@@ -12,6 +12,7 @@ import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
 import com.bank.MyBankApp.customer.model.Gender;
 import com.bank.MyBankApp.customer.service.CustomerService;
+import com.bank.MyBankApp.transaction.model.TransactionType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.AfterEach;
@@ -95,7 +96,7 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
     }
 
     @Test
@@ -109,7 +110,7 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         DepositRequest depositRequest = new DepositRequest();
         depositRequest.setAccountId(1);
@@ -133,7 +134,7 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         DepositRequest depositRequest = new DepositRequest();
         depositRequest.setAccountId(1);
@@ -168,7 +169,7 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
          RegisterCustomerResponse registerCustomerResponse2 = customerService.registerCustomer(registerCustomerRequest2);
         assertThat(registerCustomerResponse2.getCustomerId()).isEqualTo(2);
@@ -178,8 +179,8 @@ class AccountServiceImplTest {
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
         assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest2.getFirstName(), registerCustomerRequest2.getLastName()));
-        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse2.getIban()).isNotNull();
+        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
+        assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
         DepositRequest depositRequest = new DepositRequest();
         depositRequest.setAccountId(1);
@@ -193,7 +194,7 @@ class AccountServiceImplTest {
 
         TransferRequest transferRequest = new TransferRequest();
         transferRequest.setAccountId(1);
-        transferRequest.setRecipientIban(createAccountResponse2.getIban());
+        transferRequest.setRecipientAccountNumber(createAccountResponse2.getAccountNumber());
         transferRequest.setAmount(BigDecimal.valueOf(10000.00));
         transferRequest.setPin(createAccountRequest1.getPin());
 
@@ -224,7 +225,7 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         DepositRequest depositRequest = new DepositRequest();
         depositRequest.setAccountId(1);
@@ -235,8 +236,34 @@ class AccountServiceImplTest {
 
         assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
                 .isEqualTo(BigDecimal.valueOf(20000.00));
-
     }
+
+    @Test
+    void getTransactionByAccountAndTransactionIdTest(){
+        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
+        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
+        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
+
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAccountId(1);
+        depositRequest.setAmount(BigDecimal.valueOf(20000.00));
+
+        String depositResponse = accountService.depositMoney(depositRequest);
+        assertThat(depositResponse).isEqualTo("Transaction successful");
+
+        TransactionResponse transactionResponse = accountService.getTransactionById(1, 1);
+        assertThat(transactionResponse.getTransactionAmount()).isEqualTo("₦%s".formatted(2000.00));
+        assertThat(transactionResponse.getTransactionType()).isEqualTo(TransactionType.CREDIT);
+    }
+
+
 
     @Test
     void deleteAccountByAccountAndCustomerIdTest(){
@@ -249,14 +276,14 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         createAccountRequest2.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
         assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
-        assertThat(createAccountResponse2.getIban()).isNotNull();
+        assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
         assertThat(accountService.numberOfCustomerAccounts(registerCustomerResponse.getCustomerId()))
                 .isEqualTo(2);
@@ -278,14 +305,14 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         createAccountRequest2.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
         assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
-        assertThat(createAccountResponse2.getIban()).isNotNull();
+        assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
         assertThat(accountService.numberOfCustomerAccounts(registerCustomerResponse.getCustomerId()))
                 .isEqualTo(2);
@@ -308,7 +335,7 @@ class AccountServiceImplTest {
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getIban()).isNotNull();
+        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         RegisterCustomerResponse registerCustomerResponse2 = customerService.registerCustomer(registerCustomerRequest2);
         assertThat(registerCustomerResponse2.getCustomerId()).isEqualTo(2);
@@ -318,8 +345,8 @@ class AccountServiceImplTest {
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
         assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
                 .formatted(registerCustomerRequest2.getFirstName(), registerCustomerRequest2.getLastName()));
-        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse2.getIban()).isNotNull();
+        assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
+        assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
         assertThat(accountService.numberOfAccounts()).isEqualTo(2);
 
