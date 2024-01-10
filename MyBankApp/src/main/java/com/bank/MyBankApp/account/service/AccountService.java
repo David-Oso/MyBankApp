@@ -16,7 +16,6 @@ public interface AccountService {
     String withdrawMoney(WithdrawRequest request);
     String transferMoney(TransferRequest request);
     BigDecimal getBalance(Integer accountId, String pin);
-    TransactionResponse getTransactionById(Integer accountId, Integer transactionId);
     List<TransactionResponse> getAccountTransactions(Integer accountId);
     void deleteAccountByAccountAndCustomerId(Integer accountId, Integer customerId);
     void deleteAllAccountByCustomerId(Integer customerId);

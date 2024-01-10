@@ -239,7 +239,7 @@ class AccountServiceImplTest {
     }
 
     @Test
-    void getTransactionByAccountAndTransactionIdTest(){
+    void getAccountTransactions() {
         RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
         assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
         assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
@@ -258,12 +258,17 @@ class AccountServiceImplTest {
         String depositResponse = accountService.depositMoney(depositRequest);
         assertThat(depositResponse).isEqualTo("Transaction successful");
 
-        TransactionResponse transactionResponse = accountService.getTransactionById(1, 1);
-        assertThat(transactionResponse.getTransactionAmount()).isEqualTo("₦%s".formatted(2000.00));
-        assertThat(transactionResponse.getTransactionType()).isEqualTo(TransactionType.CREDIT);
+        WithdrawRequest withdrawRequest = new WithdrawRequest();
+        withdrawRequest.setAccountId(1);
+        withdrawRequest.setAmount(BigDecimal.valueOf(10000.00));
+        withdrawRequest.setPin(createAccountRequest1.getPin());
+
+        String withdrawResponse = accountService.withdrawMoney(withdrawRequest);
+        assertThat(withdrawResponse).isEqualTo("Transaction successful");
+
+        assertThat(accountService.getAccountTransactions(registerCustomerResponse.getCustomerId())
+                .size()).isEqualTo(2);
     }
-
-
 
     @Test
     void deleteAccountByAccountAndCustomerIdTest(){

@@ -22,9 +22,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,8 +32,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.bank.MyBankApp.utilities.MyBankAppUtils.NUMBER_OF_ITEMS_PER_PAGE;
 
 @Service
 @RequiredArgsConstructor
@@ -243,11 +238,6 @@ public class AccountServiceImpl implements AccountService{
         return account.getTransactions().stream()
                 .map(Transaction::getTransactionAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    @Override
-    public TransactionResponse getTransactionById(Integer accountId, Integer transactionId) {
-        return null;
     }
 
     private TransactionResponse mapTransactionToTransactionResponse(Transaction transaction){

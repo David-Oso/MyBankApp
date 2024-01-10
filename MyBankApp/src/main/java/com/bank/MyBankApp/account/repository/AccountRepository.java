@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     Optional<Account> findByIban(String iban);
     Optional<Account> findByAccountNumber(String accountNumber);
-     boolean existsByAccountTypeAndCustomerId(AccountType accountType, Integer customerId);
+    boolean existsByAccountTypeAndCustomerId(AccountType accountType, Integer customerId);
     void deleteByIdAndCustomerId(Integer accountId, Integer customerId);
     void deleteAllByCustomerId(Integer customerId);
     long countAccountByCustomerId(Integer customerId);
