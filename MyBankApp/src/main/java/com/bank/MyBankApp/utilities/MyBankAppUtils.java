@@ -18,8 +18,16 @@ public final class MyBankAppUtils {
     }
     private static final String BRANCH_APPROVAL_TEMPLATE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\templates\\branchApprovalMail.html";
     private static final String BRANCH_APPROVED_TEMPLATE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\templates\\branchApprovedMail.html";
+    private static final String DEPOSIT_TEMPLATE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\templates\\depositNotificationMail.html";
+    private static final String WITHDRAW_TEMPLATE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\templates\\withdrawNotificationMail.html";
+    private static final String TRANSFER_TEMPLATE_LOCATION = "C:\\Users\\User\\Documents\\MyBankApp\\MyBankApp\\src\\main\\resources\\templates\\transferNotificationMail.html";
+
+
     public static final String GET_BRANCH_APPROVAL_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVAL_TEMPLATE_LOCATION);
     public static final String GET_BRANCH_APPROVED_MAIL_TEMPLATE = getTemplate(BRANCH_APPROVED_TEMPLATE_LOCATION);
+    public static final String GET_DEPOSIT_MAIL_TEMPLATE = getTemplate(DEPOSIT_TEMPLATE_LOCATION);
+    public static final String GET_WITHDRAW_MAIL_TEMPLATE = getTemplate(WITHDRAW_TEMPLATE_LOCATION);
+    public static final String GET_TRANSFER_MAIL_TEMPLATE = getTemplate(TRANSFER_TEMPLATE_LOCATION);
 
     public static final int NUMBER_OF_ITEMS_PER_PAGE = 10;
 
