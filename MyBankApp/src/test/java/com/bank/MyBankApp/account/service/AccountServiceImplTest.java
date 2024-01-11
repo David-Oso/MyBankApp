@@ -8,6 +8,7 @@ import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
 import com.bank.MyBankApp.account.dto.request.DepositRequest;
 import com.bank.MyBankApp.account.dto.request.TransferRequest;
 import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
+import com.bank.MyBankApp.customer.dto.request.AddAppUserRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.RegisterCustomerResponse;
 import com.bank.MyBankApp.customer.model.Gender;
@@ -44,27 +45,33 @@ class AccountServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        AddAppUserRequest addAppUserRequest1 = new AddAppUserRequest();
+        addAppUserRequest1.setEmail("temx@gmail.com");
+        addAppUserRequest1.setPassword("password1");
+        addAppUserRequest1.setPhoneNumber("09078900458");
+        addAppUserRequest1.setLastName("Temz");
+        addAppUserRequest1.setFirstName("Femz");
+        addAppUserRequest1.setMiddleName("Remz");
+
         registerCustomerRequest1 = new RegisterCustomerRequest();
+        registerCustomerRequest1.setAddAppUserRequest(addAppUserRequest1);
         registerCustomerRequest1.setDateOfBirth("21/01/2002");
-        registerCustomerRequest1.setEmail("temx@email.com");
-        registerCustomerRequest1.setPassword("password1");
-        registerCustomerRequest1.setPhoneNumber("09078900458");
         registerCustomerRequest1.setGender(Gender.MALE);
-        registerCustomerRequest1.setLastName("Temz");
-        registerCustomerRequest1.setFirstName("Femz");
-        registerCustomerRequest1.setMiddleName("Remz");
         registerCustomerRequest1.setBvn("12345678901");
         registerCustomerRequest1.setNin("09876543210");
 
+        AddAppUserRequest addAppUserRequest2 = new AddAppUserRequest();
+        addAppUserRequest2.setEmail("remi@email.com");
+        addAppUserRequest2.setPassword("password2");
+        addAppUserRequest2.setPhoneNumber("08078956458");
+        addAppUserRequest2.setLastName("Remi");
+        addAppUserRequest2.setFirstName("Rhoda");
+        addAppUserRequest2.setMiddleName("Rolis");
+
         registerCustomerRequest2 = new RegisterCustomerRequest();
+        registerCustomerRequest2.setAddAppUserRequest(addAppUserRequest2);
         registerCustomerRequest2.setDateOfBirth("22/01/2002");
-        registerCustomerRequest2.setEmail("remi@email.com");
-        registerCustomerRequest2.setPassword("password2");
-        registerCustomerRequest2.setPhoneNumber("08078956458");
         registerCustomerRequest2.setGender(Gender.FEMALE);
-        registerCustomerRequest2.setLastName("Remi");
-        registerCustomerRequest2.setFirstName("Rhoda");
-        registerCustomerRequest2.setMiddleName("Rolis");
         registerCustomerRequest2.setBvn("21345678956");
         registerCustomerRequest2.setNin("59876643211");
 
@@ -94,7 +101,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
     }
@@ -108,7 +115,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
@@ -132,7 +139,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
@@ -167,7 +174,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
@@ -177,8 +184,8 @@ class AccountServiceImplTest {
 
         createAccountRequest2.setCustomerId(registerCustomerResponse2.getCustomerId());
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
-        assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest2.getFirstName(), registerCustomerRequest2.getLastName()));
+        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
         assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
@@ -223,7 +230,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
@@ -247,7 +254,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
@@ -279,14 +286,14 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         createAccountRequest2.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
         assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
         assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
@@ -308,14 +315,14 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
         createAccountRequest2.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
         assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
         assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
@@ -338,7 +345,7 @@ class AccountServiceImplTest {
         createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
         CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
         assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getFirstName(), registerCustomerRequest1.getLastName()));
+                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
         assertThat(createAccountResponse.getAccountNumber()).isNotNull();
 
@@ -349,7 +356,7 @@ class AccountServiceImplTest {
         createAccountRequest2.setCustomerId(registerCustomerResponse2.getCustomerId());
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
         assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest2.getFirstName(), registerCustomerRequest2.getLastName()));
+                .formatted(registerCustomerRequest2.getAddAppUserRequest().getFirstName(), registerCustomerRequest2.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
         assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
