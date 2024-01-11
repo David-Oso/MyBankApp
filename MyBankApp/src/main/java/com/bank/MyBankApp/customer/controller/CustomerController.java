@@ -1,7 +1,7 @@
 package com.bank.MyBankApp.customer.controller;
 
 import com.bank.MyBankApp.appUser.dto.request.ChangePasswordRequest;
-import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.AddAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.request.UploadImageRequest;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -30,7 +29,7 @@ public class CustomerController {
     }
 
     @PostMapping("add-customer-address/{id}")
-    public ResponseEntity<?> addCustomerAddress(@Valid @RequestBody AddCustomerAddressRequest request, @PathVariable  Integer id){
+    public ResponseEntity<?> addCustomerAddress(@Valid @RequestBody AddAddressRequest request, @PathVariable  Integer id){
         return ResponseEntity.ok(customerService.addCustomerAddress(request, id));
     }
 

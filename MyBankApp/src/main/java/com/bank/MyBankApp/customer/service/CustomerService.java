@@ -2,7 +2,7 @@ package com.bank.MyBankApp.customer.service;
 
 import com.bank.MyBankApp.appUser.dto.request.ChangePasswordRequest;
 import com.bank.MyBankApp.appUser.dto.response.ChangePasswordResponse;
-import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.AddAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.request.UploadImageRequest;
@@ -16,7 +16,7 @@ import java.security.Principal;
 
 public interface CustomerService {
     RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request);
-    String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId);
+    String addCustomerAddress(AddAddressRequest request, Integer customerId);
 //    verifyEmail
     LoginResponse login(LoginRequest loginRequest);
     CustomerResponse getCustomerById(Integer customerId);

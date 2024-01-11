@@ -28,6 +28,7 @@ public class OtpServiceImpl implements OtpService{
         otpEntity.setOtp(otp);
         otpEntity.setAppUser(appUser);
         otpRepository.save(otpEntity);
+        log.info("\n:::::::::::::::::  NEW OTP GENERATED  :::::::::::::::\n");
         return otp;
     }
 

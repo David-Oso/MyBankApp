@@ -12,7 +12,7 @@ import static com.bank.MyBankApp.utilities.ValidationUtils.ADDRESS_REGEX;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AddCustomerAddressRequest {
+public class AddAddressRequest {
     @NotNull(message = "field street number cannot be null")
     @Positive(message = "street number must be positive")
     @Min(value = 1, message = "Number must be at least 1")

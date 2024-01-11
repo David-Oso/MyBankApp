@@ -1,8 +1,7 @@
 package com.bank.MyBankApp.customer.service;
 
-import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.appSecurity.jwtToken.MyBankJwtTokenRepository;
-import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
+import com.bank.MyBankApp.customer.dto.request.AddAddressRequest;
 import com.bank.MyBankApp.customer.dto.request.LoginRequest;
 import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
 import com.bank.MyBankApp.customer.dto.response.CustomerResponse;
@@ -39,10 +38,10 @@ class CustomerServiceImplTest {
     private RegisterCustomerRequest registerCustomerRequest3;
     private RegisterCustomerRequest registerCustomerRequest4;
 
-    private AddCustomerAddressRequest addressRequest1;
-    private AddCustomerAddressRequest addressRequest2;
-    private AddCustomerAddressRequest addressRequest3;
-    private AddCustomerAddressRequest addressRequest4;
+    private AddAddressRequest addressRequest1;
+    private AddAddressRequest addressRequest2;
+    private AddAddressRequest addressRequest3;
+    private AddAddressRequest addressRequest4;
 
 
     @BeforeEach
@@ -95,7 +94,7 @@ class CustomerServiceImplTest {
         registerCustomerRequest4.setBvn("62345378909");
         registerCustomerRequest4.setNin("19876903212");
 
-        addressRequest1 = new AddCustomerAddressRequest();
+        addressRequest1 = new AddAddressRequest();
         addressRequest1.setStreetNumber(1);
         addressRequest1.setStreetName("Herbert Macaulay way");
         addressRequest1.setTownName("Sabo");
@@ -103,7 +102,7 @@ class CustomerServiceImplTest {
         addressRequest1.setState("Lagos");
         addressRequest1.setCountry("Nigeria");
 
-        addressRequest2 = new AddCustomerAddressRequest();
+        addressRequest2 = new AddAddressRequest();
         addressRequest2.setStreetNumber(2);
         addressRequest2.setStreetName("Herbert Macaulay way");
         addressRequest2.setTownName("Sabo");
@@ -111,7 +110,7 @@ class CustomerServiceImplTest {
         addressRequest2.setState("Lagos");
         addressRequest2.setCountry("Nigeria");
 
-        addressRequest3 = new AddCustomerAddressRequest();
+        addressRequest3 = new AddAddressRequest();
         addressRequest3.setStreetNumber(3);
         addressRequest3.setStreetName("Herbert Macaulay way");
         addressRequest3.setTownName("Sabo");
@@ -119,7 +118,7 @@ class CustomerServiceImplTest {
         addressRequest3.setState("Lagos");
         addressRequest3.setCountry("Nigeria");
 
-        addressRequest4 = new AddCustomerAddressRequest();
+        addressRequest4 = new AddAddressRequest();
         addressRequest4.setStreetNumber(4);
         addressRequest4.setStreetName("Herbert Macaulay way");
         addressRequest4.setTownName("Sabo");

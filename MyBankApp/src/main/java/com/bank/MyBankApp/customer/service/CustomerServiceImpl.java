@@ -7,10 +7,7 @@ import com.bank.MyBankApp.appUser.dto.response.JwtResponse;
 import com.bank.MyBankApp.appUser.model.Role;
 import com.bank.MyBankApp.appUser.service.AppUserService;
 import com.bank.MyBankApp.cloudinary.CloudinaryService;
-import com.bank.MyBankApp.customer.dto.request.AddCustomerAddressRequest;
-import com.bank.MyBankApp.customer.dto.request.LoginRequest;
-import com.bank.MyBankApp.customer.dto.request.RegisterCustomerRequest;
-import com.bank.MyBankApp.customer.dto.request.UploadImageRequest;
+import com.bank.MyBankApp.customer.dto.request.*;
 import com.bank.MyBankApp.customer.dto.response.*;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
@@ -25,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -48,16 +44,14 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public RegisterCustomerResponse registerCustomer(RegisterCustomerRequest request) {
-        checkIfCustomerExistsByEmail(request.getEmail());
-        checkIfCustomerExistsByPhoneNumber(request.getPhoneNumber());
+        checkIfCustomerExistsByEmail(request.getAddAppUserRequest().getEmail());
+        checkIfCustomerExistsByPhoneNumber(request.getAddAppUserRequest().getPhoneNumber());
         checkIfCustomerExistsByNin(request.getNin());
         checkIfCustomerExistsByBvn(request.getBvn());
-        AppUser appUser = modelMapper.map(request, AppUser.class);
-        appUser.setRole(Role.CUSTOMER);
-        appUser.setPassword(appUserService.encodePassword(request.getPassword()));
+        AppUser appUser = setAppUser(request.getAddAppUserRequest());
         Customer customer = modelMapper.map(request, Customer.class);
         LocalDate dateOfBirth = changeDateStringToLocalDate(request.getDateOfBirth());
-        int age = changeDateToInt(dateOfBirth);
+        int age = getAgeFromDate(dateOfBirth);
         customer.setAppUser(appUser);
         customer.setDateOfBirth(dateOfBirth);
         customer.setAge(age);
@@ -65,6 +59,7 @@ public class CustomerServiceImpl implements CustomerService{
         log.info("\n::::::::::::::::::::  CREATED NEW CUSTOMER  ::::::::::::::::::::\n");
         return getRegisterCustomerResponse(savedCustomer);
     }
+
     private void checkIfCustomerExistsByEmail(String email){
         if(customerRepository.existsByAppUserEmail(email))
             throw new AlreadyExistsException("Customer with this email already exists.");
@@ -83,11 +78,19 @@ public class CustomerServiceImpl implements CustomerService{
         if(customerRepository.existsByBvn(bvn))
             throw new AlreadyExistsException("Customer with this bvn already exists.");
     }
+
+    private AppUser setAppUser(AddAppUserRequest request) {
+        AppUser appUser = modelMapper.map(request, AppUser.class);
+        appUser.setRole(Role.CUSTOMER);
+        appUser.setPassword(appUserService.encodePassword(request.getPassword()));
+        return appUser;
+    }
+
     private static LocalDate changeDateStringToLocalDate(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return LocalDate.parse(date.trim(), formatter);
     }
-    private static int changeDateToInt(LocalDate date) {
+    private static int getAgeFromDate(LocalDate date) {
         return Period.between(date, LocalDate.now()).getYears();
     }
 
@@ -99,7 +102,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public String addCustomerAddress(AddCustomerAddressRequest request, Integer customerId) {
+    public String addCustomerAddress(AddAddressRequest request, Integer customerId) {
         Customer customer = customerById(customerId);
         Address address = modelMapper.map(request, Address.class);
         customer.setAddress(address);

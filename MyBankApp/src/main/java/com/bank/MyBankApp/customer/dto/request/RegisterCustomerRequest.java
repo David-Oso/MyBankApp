@@ -18,33 +18,9 @@ import static com.bank.MyBankApp.utilities.ValidationUtils.*;
 @Getter
 @Setter
 public class RegisterCustomerRequest {
-    @NotBlank(message = "field first name cannot be blank")
-    @Pattern(regexp = NAME_REGEX, message = "name must start with capital letter")
-    private String firstName;
-
-    @NotBlank(message = "field middle name cannot be blank")
-    @Pattern(regexp = NAME_REGEX, message = "name must start with capital letter")
-    private String middleName;
-
-    @NotBlank(message = "field last name cannot be blank")
-    @Pattern(regexp = NAME_REGEX, message = "name must start with capital letter")
-    private String lastName;
-
-    @NotBlank(message = "field email cannot be blank")
-    @Email(regexp = EMAIL_REGEX, message = "enter a valid email")
-    private String email;
-
-    @NotBlank(message = "field password cannot be blank")
-    @Pattern(regexp = PASSWORD_REGEX, message = "Password must " +
-            "contain at least one capital letter, one small letter, a number and special character(@$!%*?&)")
-    private String password;
-
-    @NotBlank(message = "field phone number cannot be blank")
-    @Pattern(regexp = PHONE_NUMBER_REGEX, message = "invalid phone number")
-    private String phoneNumber;
-
+    private AddAppUserRequest addAppUserRequest;
     @NotNull(message = "field gender cannot be null")
-     private Gender gender;
+    private Gender gender;
 
     @NotBlank(message = "field date of birth cannot be blank")
     @DateTimeFormat(pattern = DATE_OF_BIRTH_REGEX)
