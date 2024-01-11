@@ -1,14 +1,11 @@
 package com.bank.MyBankApp.account.service;
 
+import com.bank.MyBankApp.account.dto.request.*;
 import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.account.dto.response.TransactionResponse;
 import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.account.repository.AccountRepository;
-import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
-import com.bank.MyBankApp.account.dto.request.DepositRequest;
-import com.bank.MyBankApp.account.dto.request.TransferRequest;
-import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
@@ -260,6 +257,17 @@ public class AccountServiceImpl implements AccountService{
     public List<TransactionResponse> getAccountTransactions(Integer accountId) {
         Account account = findAccountById(accountId);
         return account.getTransactions().stream()
+                .map(this::mapTransactionToTransactionResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransactionResponse> getTransactionByAccountIdAndTimeRange(TransactionByTimeRangeRequest request) {
+        return findAccountById(request.getAccountId()).getTransactions()
+                .stream()
+                .filter(t ->
+                        t.getTransactionTime().isAfter(request.getStartTime()) &&
+                        t.getTransactionTime().isBefore(request.getEndTime()))
                 .map(this::mapTransactionToTransactionResponse)
                 .collect(Collectors.toList());
     }

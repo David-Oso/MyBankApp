@@ -1,13 +1,11 @@
 package com.bank.MyBankApp.account.service;
 
+import com.bank.MyBankApp.account.dto.request.*;
 import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.account.dto.response.TransactionResponse;
-import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
-import com.bank.MyBankApp.account.dto.request.DepositRequest;
-import com.bank.MyBankApp.account.dto.request.TransferRequest;
-import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AccountService {
@@ -17,6 +15,7 @@ public interface AccountService {
     String transferMoney(TransferRequest request);
     BigDecimal getBalance(Integer accountId, String pin);
     List<TransactionResponse> getAccountTransactions(Integer accountId);
+    List<TransactionResponse> getTransactionByAccountIdAndTimeRange(TransactionByTimeRangeRequest request);
     void deleteAccountByAccountAndCustomerId(Integer accountId, Integer customerId);
     void deleteAllAccountByCustomerId(Integer customerId);
     void deleteAllAccounts();

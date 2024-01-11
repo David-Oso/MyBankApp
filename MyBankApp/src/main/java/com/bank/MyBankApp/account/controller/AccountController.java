@@ -1,9 +1,6 @@
 package com.bank.MyBankApp.account.controller;
 
-import com.bank.MyBankApp.account.dto.request.CreateAccountRequest;
-import com.bank.MyBankApp.account.dto.request.DepositRequest;
-import com.bank.MyBankApp.account.dto.request.TransferRequest;
-import com.bank.MyBankApp.account.dto.request.WithdrawRequest;
+import com.bank.MyBankApp.account.dto.request.*;
 import com.bank.MyBankApp.account.dto.response.CreateAccountResponse;
 import com.bank.MyBankApp.account.service.AccountService;
 import jakarta.validation.Valid;
@@ -51,8 +48,20 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getBalance(accountId, pin));
     }
 
+    @GetMapping("get-account-transactions/{accountId}")
+    public ResponseEntity<?> getAccountTransactions(@PathVariable Integer accountId){
+        return ResponseEntity.ok(accountService.getAccountTransactions(accountId));
+    }
+
+    @GetMapping("get-account-transaction-by-time-range")
+    public ResponseEntity<?> getAccountTransactionByTimeRange(@Valid @RequestBody
+                                                                   TransactionByTimeRangeRequest request){
+        return ResponseEntity.ok(accountService.getTransactionByAccountIdAndTimeRange(request));
+    }
+
     @DeleteMapping("delete/{accountId}/{customerId}")
-    public ResponseEntity<Void> deleteAccountByAccountAndCustomerId(@PathVariable Integer accountId, @PathVariable Integer customerId){
+    public ResponseEntity<Void> deleteAccountByAccountAndCustomerId(@PathVariable Integer accountId,
+                                                                    @PathVariable Integer customerId){
         accountService.deleteAccountByAccountAndCustomerId(accountId, customerId);
         return ResponseEntity.accepted().build();
     }
