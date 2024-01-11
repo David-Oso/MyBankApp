@@ -1,6 +1,7 @@
 package com.bank.MyBankApp.otp.service;
 
 import com.bank.MyBankApp.appUser.model.AppUser;
+import com.bank.MyBankApp.exception.OtpException;
 import com.bank.MyBankApp.otp.OtpEntity;
 import com.bank.MyBankApp.otp.OtpRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,11 +40,18 @@ public class OtpServiceImpl implements OtpService{
 
     @Override
     public OtpEntity validateOtp(String otp, Integer appUserId) {
-        return null;
+        OtpEntity otpEntity = otpRepository.findByOtpAndAppUserId(otp, appUserId);
+        if(otpEntity == null)
+            throw new OtpException("Otp is invalid");
+        else if (otpEntity.getExpirationTime().isBefore(LocalDateTime.now())){
+            otpRepository.delete(otpEntity);
+            throw new OtpException("Otp is expired");
+        }
+        return otpEntity;
     }
 
     @Override
     public void deleteOtp(OtpEntity otpEntity) {
-
+        otpRepository.delete(otpEntity);
     }
 }
