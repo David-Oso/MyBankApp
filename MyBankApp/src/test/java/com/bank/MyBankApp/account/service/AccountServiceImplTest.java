@@ -166,26 +166,27 @@ class AccountServiceImplTest {
     }
 
     @Test
-    void transferMoneyTest() {
-        RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);
-        assertThat(registerCustomerResponse.getCustomerId()).isEqualTo(1);
-        assertThat(registerCustomerResponse.getMessage()).isEqualTo("Registration successful");
+    void transferMoneyTest(){
+        RegisterCustomerResponse registerResponse1 = customerService.registerCustomer(registerCustomerRequest1);
+        assertThat(registerResponse1.getCustomerId()).isEqualTo(1);
+        assertThat(registerResponse1.getMessage()).isEqualTo("Registration successful");
 
-        createAccountRequest1.setCustomerId(registerCustomerResponse.getCustomerId());
-        CreateAccountResponse createAccountResponse = accountService.createNewAccount(createAccountRequest1);
-        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
-        assertThat(createAccountResponse.getAccountType()).isEqualTo(AccountType.SAVINGS);
-        assertThat(createAccountResponse.getAccountNumber()).isNotNull();
+        createAccountRequest1.setCustomerId(registerResponse1.getCustomerId());
+        CreateAccountResponse createAccountResponse1 = accountService.createNewAccount(createAccountRequest1);
+        assertThat(createAccountResponse1.getAccountName()).isEqualTo("%s %s".formatted(
+                registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
+        assertThat(createAccountResponse1.getAccountType()).isEqualTo(AccountType.SAVINGS);
 
-         RegisterCustomerResponse registerCustomerResponse2 = customerService.registerCustomer(registerCustomerRequest2);
-        assertThat(registerCustomerResponse2.getCustomerId()).isEqualTo(2);
-        assertThat(registerCustomerResponse2.getMessage()).isEqualTo("Registration successful");
+//      CREATE RECIPIENT ACCOUNT
 
-        createAccountRequest2.setCustomerId(registerCustomerResponse2.getCustomerId());
+        RegisterCustomerResponse registerResponse2 = customerService.registerCustomer(registerCustomerRequest2);
+        assertThat(registerResponse2.getCustomerId()).isEqualTo(2);
+        assertThat(registerResponse2.getMessage()).isEqualTo("Registration successful");
+
+        createAccountRequest2.setCustomerId(registerResponse2.getCustomerId());
         CreateAccountResponse createAccountResponse2 = accountService.createNewAccount(createAccountRequest2);
-        assertThat(createAccountResponse.getAccountName()).isEqualTo("%s %s"
-                .formatted(registerCustomerRequest1.getAddAppUserRequest().getFirstName(), registerCustomerRequest1.getAddAppUserRequest().getLastName()));
+        assertThat(createAccountResponse2.getAccountName()).isEqualTo("%s %s".formatted(
+                registerCustomerRequest2.getAddAppUserRequest().getFirstName(), registerCustomerRequest2.getAddAppUserRequest().getLastName()));
         assertThat(createAccountResponse2.getAccountType()).isEqualTo(AccountType.CURRENT);
         assertThat(createAccountResponse2.getAccountNumber()).isNotNull();
 
@@ -208,17 +209,12 @@ class AccountServiceImplTest {
         String transferResponse = accountService.transferMoney(transferRequest);
         assertThat(transferResponse).isEqualTo("Transaction successful");
 
-        assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
+       assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
                 .isEqualTo(BigDecimal.valueOf(10000.00));
 
-        assertThat(accountService.getBalance(2, createAccountRequest2.getPin()))
+       assertThat(accountService.getBalance(2, createAccountRequest2.getPin()))
                 .isEqualTo(BigDecimal.valueOf(10000.00));
 
-//        String transferResponse = accountService.transferMoney(transferRequest);
-//        assertThat(transferResponse.getCurrentBalance()).isEqualTo("₦10000.0");
-//
-//        assertThat(accountService.getBalance(account2.getId(),
-//                createAccountRequest2.getPin())).isEqualTo(BigDecimal.valueOf(10000.00));
     }
 
     @Test

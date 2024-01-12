@@ -188,17 +188,55 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String transferMoney(TransferRequest request) {
-        Account receiverAccount = findAccountByAccountNumber(request.getRecipientAccountNumber());
-        WithdrawRequest withdrawRequest = new WithdrawRequest();
-        withdrawRequest.setAccountId(request.getAccountId());
-        withdrawRequest.setAmount(request.getAmount());
-        withdrawRequest.setPin(request.getPin());
-        withdrawMoney(withdrawRequest);
+//        Account receiverAccount = findAccountByAccountNumber(request.getRecipientAccountNumber());
+//        WithdrawRequest withdrawRequest = new WithdrawRequest();
+//        withdrawRequest.setAccountId(request.getAccountId());
+//        withdrawRequest.setAmount(request.getAmount());
+//        withdrawRequest.setPin(request.getPin());
+//        withdrawMoney(withdrawRequest);
+//
+//        DepositRequest depositRequest = new DepositRequest();
+//        depositRequest.setAccountId(receiverAccount.getId());
+//        depositRequest.setAmount(request.getAmount());
+//        depositMoney(depositRequest);
+//        return "Transaction successful";
 
-        DepositRequest depositRequest = new DepositRequest();
-        depositRequest.setAccountId(receiverAccount.getId());
-        depositRequest.setAmount(request.getAmount());
-        depositMoney(depositRequest);
+//
+//        Account account = findAccountById(request.getAccountId());
+//        checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
+//        validatePin(request.getPin(), account.getAccountPin());
+//        TransactionType transactionType = TransactionType.DEBIT;
+//        BigDecimal amount = getTransactionMultiplier(transactionType)
+//                .multiply(request.getAmount());
+//        Transaction transaction = setTransaction(amount, transactionType);
+//        account.getTransactions().add(transaction);
+//        Account savedAccount = accountRepository.save(account);
+//
+
+//        Account account = findAccountById(request.getAccountId());
+//        TransactionType transactionType = TransactionType.CREDIT;
+//        BigDecimal amount =
+//                getTransactionMultiplier(transactionType)
+//                        .multiply(request.getAmount());
+//        Transaction transaction = setTransaction(amount, transactionType);
+//        account.getTransactions().add(transaction);
+//        Account savedAccount = accountRepository.save(account);
+
+        Account senderAccount = findAccountById(request.getAccountId());
+        checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
+        validatePin(request.getPin(), senderAccount.getAccountPin());
+        TransactionType transactionType = TransactionType.DEBIT;
+        BigDecimal amount = getTransactionMultiplier(transactionType)
+                .multiply(request.getAmount());
+        Transaction transaction = setTransaction(amount, transactionType);
+        senderAccount.getTransactions().add(transaction);
+        accountRepository.save(senderAccount);
+
+        Account recipientAccount = findAccountByAccountNumber(request.getRecipientAccountNumber());
+        amount = getTransactionMultiplier(TransactionType.CREDIT).multiply(request.getAmount());
+        Transaction recipientTransaction = setTransaction(amount, TransactionType.CREDIT);
+        recipientAccount.getTransactions().add(recipientTransaction);
+        accountRepository.save(recipientAccount);
         return "Transaction successful";
     }
 
