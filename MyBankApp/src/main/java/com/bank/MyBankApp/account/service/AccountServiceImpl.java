@@ -13,6 +13,7 @@ import com.bank.MyBankApp.exception.AlreadyExistsException;
 import com.bank.MyBankApp.exception.InvalidCredentialException;
 import com.bank.MyBankApp.exception.MyBankException;
 import com.bank.MyBankApp.exception.NotFoundException;
+import com.bank.MyBankApp.mail.MailService;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import com.bank.MyBankApp.transaction.model.TransactionType;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bank.MyBankApp.utilities.MyBankAppUtils.GET_DEPOSIT_MAIL_TEMPLATE;
+import static com.bank.MyBankApp.utilities.MyBankAppUtils.GET_WITHDRAW_MAIL_TEMPLATE;
+import static com.bank.MyBankApp.utilities.MyBankAppUtils.GET_TRANSFER_MAIL_TEMPLATE;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -38,6 +43,7 @@ public class AccountServiceImpl implements AccountService{
             Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
+    private final MailService mailService;
 
 
     @Override
@@ -136,7 +142,8 @@ public class AccountServiceImpl implements AccountService{
                         .multiply(request.getAmount());
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
-        accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
+//        sendDepositNotification(savedAccount, request.getAmount());
         return"Transaction successful";
     }
 
@@ -152,31 +159,6 @@ public class AccountServiceImpl implements AccountService{
         return BigDecimal.valueOf(TransactionType.DEBIT == transactionType ? -1 : 1);
     }
 
-
-//
-//private void sendDepositNotification(Customer customer, BigDecimal amount) {
-//    String mailTemplate = E_BankUtils.GET_DEPOSIT_NOTIFICATION_MAIL_TEMPLATE;
-//    String email = customer.getAppUser().getEmail();
-//    String firstName = customer.getAppUser().getFirstName();
-//    String lastName= customer.getAppUser().getLastName();
-//    String accountName = "%s %s".formatted(firstName, lastName);
-//    StringBuilder number = new StringBuilder(customer.getAccount().getAccountNumber());
-//    String accountNumber = number.replace(2, 8, "********").toString();
-//    String transactionType = "Deposit";
-//    String description = "Deposit into your account";
-//    String transactionAmount = "₦%s".formatted(amount);
-//    String transactionDateAndTime = DateTimeFormatter.ofPattern("EEE, dd/MM/yy, hh:mm:ss a").format(LocalDateTime.now());
-//    String currentBalance = "₦%s".formatted(calculateBalance(customer.getId()));
-//    String myPhoneNumber = E_BankUtils.BANK_PHONE_NUMBER;
-//    String myEmail = E_BankUtils.BANK_EMAIL;
-//    String subject = "Credit Alert Notification";
-//    String htmlContent = String.format(mailTemplate, firstName, accountName, accountNumber, transactionType,
-//            description, transactionAmount, transactionDateAndTime, currentBalance, myPhoneNumber, myEmail);
-//    emailRequest = buildEmailRequest(firstName, email, subject, htmlContent);
-//    mailService.sendHtmlMail(emailRequest);
-//}
-
-
     @Override
     public String withdrawMoney(WithdrawRequest request) {
         Account account = findAccountById(request.getAccountId());
@@ -187,7 +169,8 @@ public class AccountServiceImpl implements AccountService{
                 .multiply(request.getAmount());
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
-        accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
+//        sendWithdrawNotification(savedAccount, request.getAmount());
         return "Transaction successful";
     }
 
@@ -205,7 +188,6 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String transferMoney(TransferRequest request) {
-        Account senderAccount = findAccountById(request.getAccountId());
         Account receiverAccount = findAccountByAccountNumber(request.getRecipientAccountNumber());
         WithdrawRequest withdrawRequest = new WithdrawRequest();
         withdrawRequest.setAccountId(request.getAccountId());
@@ -296,4 +278,63 @@ public class AccountServiceImpl implements AccountService{
     public long numberOfAccounts() {
         return accountRepository.count();
     }
+    private void sendNotification(Account account, BigDecimal amount, String description, String template) {
+        AppUser appUser = account.getCustomer().getAppUser();
+        String email = appUser.getEmail();
+        String firstName = appUser.getFirstName();
+        String accountName = account.getAccountName();
+        String accountNumber = new StringBuilder(account.getAccountNumber())
+                .replace(2,8, "********").toString();
+        String transactionAmount = changeAmountToNaira(amount);
+        String transactionDateAndTime = changeDateTimeToString(LocalDateTime.now());
+        String currentBalance = changeAmountToNaira(calculateBalance(account.getId()));
+        String branchPhoneNumber = "[Your branch phone number]";
+        String branchEmail = "[Your branch email address]";
+        String subject = "Credit Alert Notification";
+        String htmlContent = String.format(template, firstName, accountName, accountNumber,
+                description, transactionAmount, transactionDateAndTime, currentBalance, branchPhoneNumber, branchEmail);
+        mailService.sendMail(firstName, email, subject, htmlContent);
+    }
+
+    private void sendDepositNotification(Account account, BigDecimal amount) {
+        sendNotification(account, amount, "Deposit into your account", GET_DEPOSIT_MAIL_TEMPLATE);
+    }
+
+    private void sendWithdrawNotification(Account account, BigDecimal amount) {
+        sendNotification(account, amount, "Withdraw from your account", GET_WITHDRAW_MAIL_TEMPLATE);
+    }
 }
+//private void sendNotification(Account account, BigDecimal amount, String description, String template) {
+//    AppUser appUser = account.getCustomer().getAppUser();
+//    String email = appUser.getEmail();
+//    String firstName = appUser.getFirstName();
+//    String accountName = account.getAccountName();
+//    String accountNumber = starAccountNumber(account.getAccountNumber());
+//    String transactionAmount = changeAmountToNaira(amount);
+//    String transactionDateAndTime = changeDateTimeToString(LocalDateTime.now());
+//    String currentBalance = changeAmountToNaira(calculateBalance(account.getId()));
+//    String branchPhoneNumber = "[Your branch phone number]";
+//    String branchEmail = "[Your branch email address]";
+//    String subject = "Credit Alert Notification";
+//
+//    String htmlContent = String.format(template, firstName, accountName, accountNumber,
+//            description, transactionAmount, transactionDateAndTime, currentBalance, branchPhoneNumber, branchEmail);
+//
+//    mailService.sendMail(firstName, email, subject, htmlContent);
+//}
+//
+//private void sendDepositNotification(Account account, BigDecimal amount) {
+//    sendNotification(account, amount, "Deposit into your account", GET_DEPOSIT_MAIL_TEMPLATE);
+//}
+//
+//private void sendWithdrawNotification(Account account, BigDecimal amount) {
+//    sendNotification(account, amount, "Withdraw from your account", GET_WITHDRAW_MAIL_TEMPLATE);
+//}
+//
+//private void sendTransferNotification(Account account, Account recipientAccount, BigDecimal amount) {
+//    String recipientAccountNumber = starAccountNumber(recipientAccount.getAccountNumber());
+//    String recipientAccountName = recipientAccount.getAccountName();
+//    String description = String.format("Transfer from your account to %s", recipientAccountName);
+//
+//    sendNotification(account, amount, description, GET_TRANSFER_MAIL_TEMPLATE.replace("%s", recipientAccountNumber));
+//}

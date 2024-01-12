@@ -335,7 +335,6 @@ class AccountServiceImplTest {
                 .isEqualTo(0);
     }
 
-
     @Test
     void deleteAllAccountsTest(){
         RegisterCustomerResponse registerCustomerResponse = customerService.registerCustomer(registerCustomerRequest1);

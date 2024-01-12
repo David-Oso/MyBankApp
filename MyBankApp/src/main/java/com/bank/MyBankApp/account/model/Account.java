@@ -31,7 +31,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private String accountPin;
-    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
