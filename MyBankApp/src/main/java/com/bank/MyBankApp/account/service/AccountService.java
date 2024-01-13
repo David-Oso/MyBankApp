@@ -13,7 +13,7 @@ public interface AccountService {
     String  depositMoney(DepositRequest request);
     String withdrawMoney(WithdrawRequest request);
     String transferMoney(TransferRequest request);
-    BigDecimal getBalance(Integer accountId, String pin);
+    String getBalance(Integer accountId, String pin);
     List<TransactionResponse> getAccountTransactions(Integer accountId);
     List<TransactionResponse> getTransactionByAccountIdAndTimeRange(TransactionByTimeRangeRequest request);
     void deleteAccountByAccountAndCustomerId(Integer accountId, Integer customerId);

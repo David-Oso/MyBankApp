@@ -20,15 +20,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static com.bank.MyBankApp.utilities.MyBankAppUtils.GET_DEPOSIT_MAIL_TEMPLATE;
@@ -207,10 +211,14 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public BigDecimal getBalance(Integer accountId, String pin) {
+    public String getBalance(Integer accountId, String pin) {
         Account account = findAccountById(accountId);
         validatePin(pin, account.getAccountPin());
-        return calculateBalance(accountId);
+        BigDecimal balance = calculateBalance(accountId);
+        return NumberFormat
+                .getCurrencyInstance(Locale.of("en", "NG"))
+                .format(balance);
+
     }
 
     private BigDecimal calculateBalance(Integer accountId){

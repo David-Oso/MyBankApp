@@ -127,7 +127,7 @@ class AccountServiceImplTest {
         assertThat(depositResponse).isEqualTo("Transaction successful");
 
         assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
-                .isEqualTo(BigDecimal.valueOf(20000.00));
+                .isEqualTo("₦20,000.00");
     }
 
     @Test
@@ -151,7 +151,7 @@ class AccountServiceImplTest {
         assertThat(depositResponse).isEqualTo("Transaction successful");
 
         assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
-                .isEqualTo(BigDecimal.valueOf(20000.00));
+                .isEqualTo("₦20,000.00");
         WithdrawRequest withdrawRequest = new WithdrawRequest();
         withdrawRequest.setAccountId(1);
         withdrawRequest.setAmount(BigDecimal.valueOf(10000.00));
@@ -161,7 +161,7 @@ class AccountServiceImplTest {
         assertThat(withdrawResponse).isEqualTo("Transaction successful");
 
         assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
-                .isEqualTo(BigDecimal.valueOf(10000.00));
+                .isEqualTo("₦10,000.00");
 
     }
 
@@ -198,7 +198,7 @@ class AccountServiceImplTest {
         assertThat(depositResponse).isEqualTo("Transaction successful");
 
         assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
-                .isEqualTo(BigDecimal.valueOf(20000.00));
+                .isEqualTo("₦20,000.00");
 
         TransferRequest transferRequest = new TransferRequest();
         transferRequest.setAccountId(1);
@@ -210,10 +210,10 @@ class AccountServiceImplTest {
         assertThat(transferResponse).isEqualTo("Transaction successful");
 
        assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
-                .isEqualTo(BigDecimal.valueOf(10000.00));
+                .isEqualTo("₦10,000.00");
 
        assertThat(accountService.getBalance(2, createAccountRequest2.getPin()))
-                .isEqualTo(BigDecimal.valueOf(10000.00));
+                .isEqualTo("₦10,000.00");
 
     }
 
@@ -238,7 +238,7 @@ class AccountServiceImplTest {
         assertThat(depositResponse).isEqualTo("Transaction successful");
 
         assertThat(accountService.getBalance(1, createAccountRequest1.getPin()))
-                .isEqualTo(BigDecimal.valueOf(20000.00));
+                .isEqualTo("₦20,000.00");
     }
 
     @Test
