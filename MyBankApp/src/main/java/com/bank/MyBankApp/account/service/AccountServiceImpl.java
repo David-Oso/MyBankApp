@@ -139,6 +139,12 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String depositMoney(DepositRequest request) {
+        performDeposit(request);
+//        sendDepositNotification(account, request.getAmount());
+        return"Transaction successful";
+    }
+
+    private Account performDeposit(DepositRequest request) {
         Account account = findAccountById(request.getAccountId());
         TransactionType transactionType = TransactionType.CREDIT;
         BigDecimal amount =
@@ -146,9 +152,7 @@ public class AccountServiceImpl implements AccountService{
                         .multiply(request.getAmount());
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
-        Account savedAccount = accountRepository.save(account);
-//        sendDepositNotification(savedAccount, request.getAmount());
-        return"Transaction successful";
+        return accountRepository.save(account);
     }
 
     private static Transaction setTransaction(BigDecimal amount, TransactionType transactionType) {
@@ -165,6 +169,12 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String withdrawMoney(WithdrawRequest request) {
+        performWithdraw(request);
+//        sendWithdrawNotification(account, request.getAmount);
+        return "Transaction successful";
+    }
+
+    private Account performWithdraw(WithdrawRequest request) {
         Account account = findAccountById(request.getAccountId());
         checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
         validatePin(request.getPin(), account.getAccountPin());
@@ -173,9 +183,7 @@ public class AccountServiceImpl implements AccountService{
                 .multiply(request.getAmount());
         Transaction transaction = setTransaction(amount, transactionType);
         account.getTransactions().add(transaction);
-        Account savedAccount = accountRepository.save(account);
-//        sendWithdrawNotification(savedAccount, request.getAmount());
-        return "Transaction successful";
+        return accountRepository.save(account);
     }
 
     private void checkIfBalanceIsSufficient(Integer accountId, BigDecimal amount) {
@@ -192,21 +200,17 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String transferMoney(TransferRequest request) {
-        Account senderAccount = findAccountById(request.getAccountId());
-        checkIfBalanceIsSufficient(request.getAccountId(), request.getAmount());
-        validatePin(request.getPin(), senderAccount.getAccountPin());
-        TransactionType transactionType = TransactionType.DEBIT;
-        BigDecimal amount = getTransactionMultiplier(transactionType)
-                .multiply(request.getAmount());
-        Transaction transaction = setTransaction(amount, transactionType);
-        senderAccount.getTransactions().add(transaction);
-        accountRepository.save(senderAccount);
+        WithdrawRequest withdrawRequest = new WithdrawRequest();
+        withdrawRequest.setAccountId(request.getAccountId());
+        withdrawRequest.setAmount(request.getAmount());
+        withdrawRequest.setPin(request.getPin());
+        Account senderAccount = performWithdraw(withdrawRequest);
 
         Account recipientAccount = findAccountByAccountNumber(request.getRecipientAccountNumber());
-        amount = getTransactionMultiplier(TransactionType.CREDIT).multiply(request.getAmount());
-        Transaction recipientTransaction = setTransaction(amount, TransactionType.CREDIT);
-        recipientAccount.getTransactions().add(recipientTransaction);
-        accountRepository.save(recipientAccount);
+        DepositRequest depositRequest = new DepositRequest();
+        depositRequest.setAmount(request.getAmount());
+        depositRequest.setAccountId(recipientAccount.getId());
+        performDeposit(depositRequest);
         return "Transaction successful";
     }
 
@@ -292,6 +296,7 @@ public class AccountServiceImpl implements AccountService{
     public long numberOfAccounts() {
         return accountRepository.count();
     }
+
     private void sendDepositNotification(Account account, BigDecimal amount){
         AppUser appUser = account.getCustomer().getAppUser();
         String firstName = appUser.getFirstName();
@@ -310,12 +315,13 @@ public class AccountServiceImpl implements AccountService{
         mailService.sendMail(appUser.getFirstName(), appUser.getLastName(), subject, htmlContent);
     }
 
+
     private String starAccountNumber(String accountNumber){
         return new StringBuilder(accountNumber)
                 .replace(2,8, "********")
                 .toString();
     }
-//      firstName
+//  firstName
 //  accountName
 //  accountNumber
 //  description
