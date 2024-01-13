@@ -315,19 +315,39 @@ public class AccountServiceImpl implements AccountService{
         mailService.sendMail(appUser.getFirstName(), appUser.getLastName(), subject, htmlContent);
     }
 
+    private void sendWithdrawNotification(Account account, BigDecimal amount){
+        AppUser appUser = account.getCustomer().getAppUser();
+        String firstName = appUser.getFirstName();
+        String accountName = account.getAccountName();
+        String accountNumber = starAccountNumber(account.getAccountNumber());
+        String description = "Deposit into account";
+        String transactionAmount = formatAmountToNaira(amount);
+        String transactionTime = changeDateTimeToString(LocalDateTime.now());
+        String currentBalance = formatAmountToNaira(calculateBalance(account.getId()));
+        String branchPhoneNumber = "[Your branch phone number]";
+        String branchEmailAddress = "[Your branch email address]";
+        String htmlContent = String.format(GET_DEPOSIT_MAIL_TEMPLATE, firstName, accountName,
+                accountNumber, description, transactionAmount, transactionTime, currentBalance,
+                branchPhoneNumber, branchEmailAddress);
+        String subject = "Credit Alert Notification";
+        mailService.sendMail(appUser.getFirstName(), appUser.getLastName(), subject, htmlContent);
+    }
+
+
 
     private String starAccountNumber(String accountNumber){
         return new StringBuilder(accountNumber)
                 .replace(2,8, "********")
                 .toString();
     }
-//  firstName
-//  accountName
-//  accountNumber
-//  description
-//  transactionAmount
-//  transactionDateAndTime
-//  Current balance
-//  Branch phone number
-//  Branch email address
+//    first name
+//    account name
+//    account number
+//    recipient account number
+//    description
+//    transaction amount
+//    transaction date and time
+//    current balance
+//    branch phone number
+//    branch email address
 }
