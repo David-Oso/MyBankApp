@@ -2,51 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Transfer transaction Notification </title>
+    <title>Transfer Transaction Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h4 {
+            color: #333;
+        }
+
+        table {
+            width: 100%%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6a5acd;
+            color: #fff;
+        }
+
+        .transaction-details {
+            color: green;
+            font-size: 15px;
+        }
+
+        .current-balance {
+            color: blue;
+            font-size: 20px;
+        }
+
+        .balance {
+            color: black;
+        }
+    </style>
 </head>
 <body>
-<style>
-    .transaction_details{
-        color: green;
-        font-size: 15px;
-    }
-    .current_balance{
-        color: blue;
-        font-size: 20px;
-    }
-    .balance{
-        color: black;
-    }
-</style>
-<body>
-<p>
-<h4>Dear %s,</h4>
-We wish to inform you that there was a transfer transaction from your account to another recently<br/>
-Please find the details of the transaction below.
-<br/><br/>
-</p>
+    <div class="container">
+        <h4>Dear %s,</h4>
+        <p>We wish to inform you that there was a transfer transaction from your First Bank account. Please find the details of the transaction below.</p>
 
-<p class = transaction_details>Account Name:                %s</p>
-<p class = transaction_details>Account Number:              %s</p>
-<p class = transaction_details>Recipient Account Number:    %s</p>
-<p class = transaction_details>Transaction Type:            TRANSFER</p>
-<p class = transaction_details>Description:                 %s</p>
-<p class = transaction_details>Transaction Amount:          %s</p>
-<p class = transaction_details>Transaction Date And Time:   %s</p>
+        <table>
+            <tr>
+                <th>Transaction Details</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td class="transaction-details">Account Name:</td>
+                <td>%s</td>
+            </tr>
+            <tr>
+                <td class="transaction-details">Account Number:</td>
+                <td>%s</td>
+            </tr>
+            <tr>
+                <td class="transaction-details">Recipient Account Number:</td>
+                <td>%s</td>
+            </tr>
+            <tr>
+                <td class="transaction-details">Transaction Type:</td>
+                <td>TRANSFER</td>
+            </tr>
+            <tr>
+                <td class="transaction-details">Description:</td>
+                <td>%s</td>
+            </tr>
+            <tr>
+                <td class="transaction-details">Transaction Amount:</td>
+                <td>%s</td>
+            </tr>
+            <tr>
+                <td class="transaction-details">Transaction Date And Time:</td>
+                <td>%s</td>
+            </tr>
+        </table>
 
-<h3 class = current_balance><Strong>Current Balance:</Strong>     <span class="balance">%s</span><h3/>
+        <h3 class="current-balance"><strong>Current Balance:</strong> <span class="balance">%s</span></h3>
 
-    <p>
-        For more information or complaints, please contact First Bank on:<br/>
-        Phone number: <Strong>%s</Strong><br>
-        Email Address: <Strong>%s</Strong><br>
-    </p>
+        <p>
+            For more information or complaints, please contact First Bank on:<br/>
+            Phone number: <strong>%s</strong><br>
+            Email Address: <strong>%s</strong><br>
+        </p>
 
-    <p>
-        Best Regards,<br/>
-        <Strong>Oso Temidayo David</Strong><br>
-        Java Software engineer and
-        the Builder of My Bank Application
-    </p>
+        <p>
+            Best Regards,<br/>
+            <strong>Oso Temidayo David</strong><br>
+            Java Software Engineer and
+            the Builder of My Bank Application
+        </p>
+    </div>
 </body>
 </html>
