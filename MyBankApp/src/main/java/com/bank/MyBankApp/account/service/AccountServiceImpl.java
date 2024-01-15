@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,10 +29,8 @@ import java.security.SecureRandom;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.bank.MyBankApp.utilities.MyBankAppUtils.GET_DEPOSIT_MAIL_TEMPLATE;
@@ -302,26 +299,25 @@ public class AccountServiceImpl implements AccountService{
     }
 
     private void sendDepositNotification(Account account, BigDecimal amount, String description){
-        String dst = description == null ? "Deposit from account" : description;
+        String dst = description == null ? "Deposit into account" : description;
         String subject = "Credit Alert Notification";
-        sendNotification(account, null, amount, dst, GET_DEPOSIT_MAIL_TEMPLATE, subject);
-
+        sendTransactionNotification(account, null, amount, dst, GET_DEPOSIT_MAIL_TEMPLATE, subject);
     }
 
     private void sendWithdrawNotification(Account account, BigDecimal amount){
         String description = "Withdraw from account";
         String subject = "Debit Alert Notification";
-        sendNotification(account, null, amount, description, GET_WITHDRAW_MAIL_TEMPLATE, subject);
+        sendTransactionNotification(account, null, amount, description, GET_WITHDRAW_MAIL_TEMPLATE, subject);
     }
 
     private void sendTransferNotification(Account account, Account recipientAccount, BigDecimal amount){
         String description = "Transfer to %s".formatted(recipientAccount.getAccountName());
         String subject = "Transfer Alert Notification";
-        sendNotification(account, recipientAccount.getAccountNumber(),
+        sendTransactionNotification(account, recipientAccount.getAccountNumber(),
                 amount, description, GET_TRANSFER_MAIL_TEMPLATE, subject);
     }
 
-    private void sendNotification(Account account, String recipientAccountNumber, BigDecimal amount, String description, String template, String subject){
+    private void sendTransactionNotification(Account account, String recipientAccountNumber, BigDecimal amount, String description, String template, String subject){
         AppUser appUser = account.getCustomer().getAppUser();
         String firstName = appUser.getFirstName();
         String accountName = account.getAccountName();
