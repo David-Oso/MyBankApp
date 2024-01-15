@@ -33,6 +33,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.bank.MyBankApp.utilities.MyBankAppUtils.GET_DEPOSIT_MAIL_TEMPLATE;
@@ -140,7 +141,7 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public String depositMoney(DepositRequest request) {
         Account account = performDeposit(request);
-        sendDepositNotification(account, request.getAmount());
+        sendDepositNotification(account, request.getAmount(), null);
         return"Transaction successful";
     }
 
@@ -211,7 +212,8 @@ public class AccountServiceImpl implements AccountService{
         depositRequest.setAmount(request.getAmount());
         depositRequest.setAccountId(recipientAccount.getId());
         performDeposit(depositRequest);
-        sendDepositNotification(recipientAccount, request.getAmount());
+        sendDepositNotification(recipientAccount, request.getAmount(), "Transfer from %s"
+                .formatted(senderAccount.getAccountName()));
         sendTransferNotification(senderAccount, recipientAccount, request.getAmount());
         return "Transaction successful";
     }
@@ -299,60 +301,53 @@ public class AccountServiceImpl implements AccountService{
         return accountRepository.count();
     }
 
-    private void sendDepositNotification(Account account, BigDecimal amount){
-        AppUser appUser = account.getCustomer().getAppUser();
-        String firstName = appUser.getFirstName();
-        String accountName = account.getAccountName();
-        String accountNumber = starAccountNumber(account.getAccountNumber());
-        String description = "Deposit into account";
-        String transactionAmount = formatAmountToNaira(amount);
-        String transactionTime = changeDateTimeToString(LocalDateTime.now());
-        String currentBalance = formatAmountToNaira(calculateBalance(account.getId()));
-        String branchPhoneNumber = "[Your branch phone number]";
-        String branchEmailAddress = "[Your branch email address]";
-        String htmlContent = String.format(GET_DEPOSIT_MAIL_TEMPLATE, firstName, accountName,
-                accountNumber, description, transactionAmount, transactionTime, currentBalance,
-                branchPhoneNumber, branchEmailAddress);
+    private void sendDepositNotification(Account account, BigDecimal amount, String description){
+        String dst = description == null ? "Deposit from account" : description;
         String subject = "Credit Alert Notification";
-//        mailService.sendMail(appUser.getFirstName(), appUser.getEmail(), subject, htmlContent);
+        sendNotification(account, null, amount, dst, GET_DEPOSIT_MAIL_TEMPLATE, subject);
+
     }
 
     private void sendWithdrawNotification(Account account, BigDecimal amount){
+        String description = "Withdraw from account";
+        String subject = "Debit Alert Notification";
+        sendNotification(account, null, amount, description, GET_WITHDRAW_MAIL_TEMPLATE, subject);
+    }
+
+    private void sendTransferNotification(Account account, Account recipientAccount, BigDecimal amount){
+        String description = "Transfer to %s".formatted(recipientAccount.getAccountName());
+        String subject = "Transfer Alert Notification";
+        sendNotification(account, recipientAccount.getAccountNumber(),
+                amount, description, GET_TRANSFER_MAIL_TEMPLATE, subject);
+    }
+
+    private void sendNotification(Account account, String recipientAccountNumber, BigDecimal amount, String description, String template, String subject){
         AppUser appUser = account.getCustomer().getAppUser();
         String firstName = appUser.getFirstName();
         String accountName = account.getAccountName();
         String accountNumber = starAccountNumber(account.getAccountNumber());
-        String description = "Deposit into account";
+        String recipientAcctNumber = recipientAccountNumber != null ?
+                starAccountNumber(recipientAccountNumber) : "";
         String transactionAmount = formatAmountToNaira(amount);
         String transactionTime = changeDateTimeToString(LocalDateTime.now());
         String currentBalance = formatAmountToNaira(calculateBalance(account.getId()));
         String branchPhoneNumber = "[Your branch phone number]";
         String branchEmailAddress = "[Your branch email address]";
-        String htmlContent = String.format(GET_WITHDRAW_MAIL_TEMPLATE, firstName, accountName,
-                accountNumber, description, transactionAmount, transactionTime, currentBalance,
-                branchPhoneNumber, branchEmailAddress);
-        String subject = "Debit Alert Notification";
-//        mailService.sendMail(appUser.getFirstName(), appUser.getEmail(), subject, htmlContent);
-    }
-
-    private void sendTransferNotification(Account account, Account recipientAccount, BigDecimal amount){
-        AppUser appUser = account.getCustomer().getAppUser();
-        String firstName = appUser.getFirstName();
-        String accountName = account.getAccountName();
-        String recipientAccountName = recipientAccount.getAccountName();
-        String accountNumber = starAccountNumber(account.getAccountNumber());
-        String recipientAccountNumber = starAccountNumber(recipientAccount.getAccountNumber());
-        String description = "Transfer from account to %s".formatted(recipientAccountName);
-        String transactionAmount = formatAmountToNaira(amount);
-        String transactionTime = changeDateTimeToString(LocalDateTime.now());
-        String currentBalance = formatAmountToNaira(calculateBalance(account.getId()));
-        String branchPhoneNumber ="[Your branch phone number]";
-        String branchEmailAddress ="[Your branch email address]";
-        String htmlContent = String.format(GET_TRANSFER_MAIL_TEMPLATE, firstName, accountName, accountNumber,
-                recipientAccountNumber, description, transactionAmount, transactionTime, currentBalance,
-                branchPhoneNumber, branchEmailAddress);
-        String subject = "Transfer Alert Notification";
-//        mailService.sendMail(appUser.getFirstName(), appUser.getEmail(), subject, htmlContent);
+        String htmlContent = "";
+        if(template.equals(GET_DEPOSIT_MAIL_TEMPLATE)){
+            htmlContent = String.format(GET_DEPOSIT_MAIL_TEMPLATE, firstName, accountName,
+                    accountNumber, description, transactionAmount, transactionTime,
+                    currentBalance, branchPhoneNumber, branchEmailAddress);
+        }
+        else if(template.equals(GET_WITHDRAW_MAIL_TEMPLATE)){
+            htmlContent = String.format(GET_WITHDRAW_MAIL_TEMPLATE, firstName, accountName,
+                    accountNumber, description, transactionAmount, transactionTime, currentBalance);
+        } else if (template.equals(GET_TRANSFER_MAIL_TEMPLATE)) {
+            htmlContent = String.format(GET_TRANSFER_MAIL_TEMPLATE, firstName, accountName, accountNumber,
+                    recipientAcctNumber, description, transactionAmount, transactionTime, currentBalance,
+                    branchPhoneNumber, branchEmailAddress);
+        }
+        mailService.sendHtmlMail(appUser.getEmail(), subject, htmlContent);
     }
 
     private String starAccountNumber(String accountNumber){
@@ -360,33 +355,4 @@ public class AccountServiceImpl implements AccountService{
                 .replace(2,8, "********")
                 .toString();
     }
-//    private void sendNotification(Account account, BigDecimal amount, String description, String template, String subject) {
-//    AppUser appUser = account.getCustomer().getAppUser();
-//    String firstName = appUser.getFirstName();
-//    String accountName = account.getAccountName();
-//    String accountNumber = starAccountNumber(account.getAccountNumber());
-//    String transactionAmount = formatAmountToNaira(amount);
-//    String transactionTime = changeDateTimeToString(LocalDateTime.now());
-//    String currentBalance = formatAmountToNaira(calculateBalance(account.getId()));
-//    String branchPhoneNumber = "[Your branch phone number]";
-//    String branchEmailAddress = "[Your branch email address]";
-//    String htmlContent = String.format(template, firstName, accountName,
-//            accountNumber, description, transactionAmount, transactionTime, currentBalance,
-//            branchPhoneNumber, branchEmailAddress);
-//    mailService.sendMail(firstName, appUser.getLastName(), subject, htmlContent);
-//}
-//
-//private void sendDepositNotification(Account account, BigDecimal amount) {
-//    sendNotification(account, amount, "Deposit into account", GET_DEPOSIT_MAIL_TEMPLATE, "Credit Alert Notification");
-//}
-//
-//private void sendWithdrawNotification(Account account, BigDecimal amount) {
-//    sendNotification(account, amount, "Withdraw from account", GET_WITHDRAW_MAIL_TEMPLATE, "Debit Alert Notification");
-//}
-//
-//private void sendTransferNotification(Account account, Account recipientAccount, BigDecimal amount) {
-//    String recipientAccountNumber = starAccountNumber(recipientAccount.getAccountNumber());
-//    String description = String.format("Transfer from account to %s", recipientAccountNumber);
-//    sendNotification(account, amount, description, GET_TRANSFER_MAIL_TEMPLATE, "Transfer Alert Notification");
-//}
 }

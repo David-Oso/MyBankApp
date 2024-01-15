@@ -46,7 +46,8 @@ class AccountServiceImplTest {
     @BeforeEach
     void setUp() {
         AddAppUserRequest addAppUserRequest1 = new AddAppUserRequest();
-        addAppUserRequest1.setEmail("temx@gmail.com");
+        addAppUserRequest1.setEmail("osodavid001@gmail.com");
+//        addAppUserRequest1.setEmail("temx@gmail.com");
         addAppUserRequest1.setPassword("password1");
         addAppUserRequest1.setPhoneNumber("09078900458");
         addAppUserRequest1.setLastName("Temz");
@@ -61,7 +62,8 @@ class AccountServiceImplTest {
         registerCustomerRequest1.setNin("09876543210");
 
         AddAppUserRequest addAppUserRequest2 = new AddAppUserRequest();
-        addAppUserRequest2.setEmail("remi@email.com");
+        addAppUserRequest2.setEmail("osodavid272@gmail.com");
+//        addAppUserRequest2.setEmail("remi@email.com");
         addAppUserRequest2.setPassword("password2");
         addAppUserRequest2.setPhoneNumber("08078956458");
         addAppUserRequest2.setLastName("Remi");
