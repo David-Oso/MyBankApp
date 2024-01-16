@@ -337,7 +337,8 @@ public class AccountServiceImpl implements AccountService{
         }
         else if(template.equals(GET_WITHDRAW_MAIL_TEMPLATE)){
             htmlContent = String.format(GET_WITHDRAW_MAIL_TEMPLATE, firstName, accountName,
-                    accountNumber, description, transactionAmount, transactionTime, currentBalance);
+                    accountNumber, description, transactionAmount, transactionTime,
+                    currentBalance, branchPhoneNumber, branchEmailAddress);
         } else if (template.equals(GET_TRANSFER_MAIL_TEMPLATE)) {
             htmlContent = String.format(GET_TRANSFER_MAIL_TEMPLATE, firstName, accountName, accountNumber,
                     recipientAcctNumber, description, transactionAmount, transactionTime, currentBalance,
@@ -351,4 +352,5 @@ public class AccountServiceImpl implements AccountService{
                 .replace(2,8, "********")
                 .toString();
     }
+
 }
