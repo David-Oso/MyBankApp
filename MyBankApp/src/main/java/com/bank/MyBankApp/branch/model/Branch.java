@@ -29,10 +29,6 @@ public class Branch {
     private AppUser appUser;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address branchAddress;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Loan> loans;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Account> accounts;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Customer> customers;
 }

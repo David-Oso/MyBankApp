@@ -19,12 +19,11 @@ public class BranchServiceImpl implements BranchService{
     private final BranchRepository branchRepository;
     private final ModelMapper modelMapper;
     private final MailService mailService;
-    @Value("${bank.email}")
-    private String bankEmail;
+
     @Override
     public CreateBranchResponse createNewBranch(CreateBranchRequest request) {
         Branch branch = modelMapper.map(request, Branch.class);
-//        branch.setBranchName(MyBankAppUtils.BANK_NAME);
+        branch.set(MyBankAppUtils.BANK_NAME);
         Address branchAddress = modelMapper.map(request, Address.class);
         branch.setBranchAddress(branchAddress);
         Branch savedBranch = branchRepository.save(branch);

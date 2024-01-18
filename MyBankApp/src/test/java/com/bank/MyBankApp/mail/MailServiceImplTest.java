@@ -17,6 +17,6 @@ class MailServiceImplTest {
         String email = "test@gmail.com";
         String subject = "Testing email service";
         String htmlContent = "This is just testing please ignore.";
-        mailService.sendHtmlMail(email, subject, htmlContent);
+        mailService.sendMail(email, subject, htmlContent);
     }
 }

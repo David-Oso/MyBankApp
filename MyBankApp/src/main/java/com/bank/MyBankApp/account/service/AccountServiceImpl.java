@@ -344,7 +344,7 @@ public class AccountServiceImpl implements AccountService{
                     recipientAcctNumber, description, transactionAmount, transactionTime, currentBalance,
                     branchPhoneNumber, branchEmailAddress);
         }
-        mailService.sendHtmlMail(appUser.getEmail(), subject, htmlContent);
+        mailService.sendMail(appUser.getEmail(), subject, htmlContent);
     }
 
     private String starAccountNumber(String accountNumber){
