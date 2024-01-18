@@ -5,6 +5,7 @@ import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.loan.model.Loan;
+import com.bank.MyBankApp.utilities.MyBankAppUtils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private final String branchName = MyBankAppUtils.BANK_NAME;
     @Column(unique = true)
     private String branchNumber;
     @OneToOne(cascade = {CascadeType.ALL, CascadeType.DETACH}, fetch = FetchType.LAZY)

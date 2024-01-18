@@ -19,20 +19,21 @@ public class BranchServiceImpl implements BranchService{
     private final BranchRepository branchRepository;
     private final ModelMapper modelMapper;
     private final MailService mailService;
+    @Value(("${spring.mail.username}"))
+    private String senderEmail;
 
     @Override
     public CreateBranchResponse createNewBranch(CreateBranchRequest request) {
         Branch branch = modelMapper.map(request, Branch.class);
-        branch.set(MyBankAppUtils.BANK_NAME);
         Address branchAddress = modelMapper.map(request, Address.class);
         branch.setBranchAddress(branchAddress);
         Branch savedBranch = branchRepository.save(branch);
 //        sendApprovalToBank
-        String subject = "Branch Approval Mail";
+        String subject = "Branch Approval Request";
         String htmlContent = MyBankAppUtils.GET_BRANCH_APPROVAL_MAIL_TEMPLATE;
-//        mailService.sendMail(savedBranch.getBranchName(), bankEmail, subject, htmlContent);
+        mailService.sendMail(senderEmail, subject, htmlContent);
         return CreateBranchResponse.builder()
-//                .branchName(savedBranch.getBranchName())
+                .branchName(savedBranch.getBranchName())
                 .branchNumber(savedBranch.getBranchNumber())
                 .build();
     }
