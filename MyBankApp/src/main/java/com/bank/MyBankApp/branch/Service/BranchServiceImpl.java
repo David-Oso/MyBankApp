@@ -7,11 +7,11 @@ import com.bank.MyBankApp.branch.model.Branch;
 import com.bank.MyBankApp.branch.repository.BranchRepository;
 import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.mail.MailService;
-import com.bank.MyBankApp.utilities.MyBankAppUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import static com.bank.MyBankApp.utilities.MyBankAppUtils.GET_BRANCH_APPROVAL_MAIL_TEMPLATE;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +30,9 @@ public class BranchServiceImpl implements BranchService{
         Branch savedBranch = branchRepository.save(branch);
 //        sendApprovalToBank
         String subject = "Branch Approval Request";
-        String htmlContent = MyBankAppUtils.GET_BRANCH_APPROVAL_MAIL_TEMPLATE;
+        String htmlContent =
+                String.format(GET_BRANCH_APPROVAL_MAIL_TEMPLATE,
+                        savedBranch.getId(), savedBranch.getAppUser().getEmail());
         mailService.sendMail(senderEmail, subject, htmlContent);
         return CreateBranchResponse.builder()
                 .branchName(savedBranch.getBranchName())
