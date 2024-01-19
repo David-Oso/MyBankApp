@@ -107,7 +107,6 @@ public class BankServiceImpl implements BankService{
         return getBankResponse(bank);
     }
 
-    
     @Override
     public String addNewBranch(Integer bankId, Branch branch) {
         Bank bank = getBank(bankId);
