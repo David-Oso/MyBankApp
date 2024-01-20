@@ -148,7 +148,6 @@ public class BankServiceImpl implements BankService{
         return branchNumber.toString().toUpperCase();
     }
 
-
     private static String getInitials(String name){
         return String.valueOf(name.charAt(0));
     }
