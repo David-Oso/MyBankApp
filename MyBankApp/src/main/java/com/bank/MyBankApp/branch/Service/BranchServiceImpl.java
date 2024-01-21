@@ -1,7 +1,9 @@
 package com.bank.MyBankApp.branch.Service;
 
 import com.bank.MyBankApp.address.model.Address;
+import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.branch.dto.request.CreateBranchRequest;
+import com.bank.MyBankApp.branch.dto.response.BranchResponse;
 import com.bank.MyBankApp.branch.dto.response.CreateBranchResponse;
 import com.bank.MyBankApp.branch.model.Branch;
 import com.bank.MyBankApp.branch.repository.BranchRepository;
@@ -41,9 +43,46 @@ public class BranchServiceImpl implements BranchService{
     }
 
     @Override
-    public Branch getByBranchById(Integer branchId) {
+    public BranchResponse getBranchByBranchNumber(String branchNumber) {
+        Branch branch = getByBranchNumber(branchNumber);
+        return mapBranchToResponse(branch);
+    }
+
+    @Override
+    public BranchResponse getBranchById(Integer branchId) {
+        Branch branch = getById(branchId);
+        return mapBranchToResponse(branch);
+    }
+
+    private static BranchResponse mapBranchToResponse(Branch branch){
+        AppUser appUser = branch.getAppUser();
+        Address address = branch.getBranchAddress();
+        return BranchResponse.builder()
+                .branchName(branch.getBranchName())
+                .branchNumber(branch.getBranchNumber())
+                .firstName(appUser.getFirstName())
+                .middleName(appUser.getMiddleName())
+                .lastName(appUser.getLastName())
+                .email(appUser.getEmail())
+                .phoneNumber(appUser.getPhoneNumber())
+                .streetNumber(address.getStreetNumber())
+                .streetName(address.getStreetName())
+                .townName(address.getTownName())
+                .cityName(address.getCityName())
+                .state(address.getState())
+                .country(address.getCountry())
+                .build();
+    }
+
+//    @Override
+    private Branch getById(Integer branchId) {
         return branchRepository.findById(branchId).orElseThrow(
                 ()-> new NotFoundException("Branch with this id not found."));
+    }
+
+    private Branch getByBranchNumber(String branchNumber){
+        return branchRepository.findByBranchNumber(branchNumber).orElseThrow(
+                ()-> new NotFoundException("Branch with this branch number not found"));
     }
 
 
