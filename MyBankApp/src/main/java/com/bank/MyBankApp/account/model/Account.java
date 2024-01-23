@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.account.model;
 
+import com.bank.MyBankApp.branch.model.Branch;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import jakarta.persistence.*;
@@ -36,4 +37,7 @@ public class Account {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
 }

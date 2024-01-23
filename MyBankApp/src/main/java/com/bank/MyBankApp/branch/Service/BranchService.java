@@ -12,7 +12,6 @@ public interface BranchService {
     CreateBranchResponse createNewBranch(CreateBranchRequest request);
     BranchResponse getBranchByBranchNumber(String branchNumber);
     BranchResponse getBranchById(Integer id);
-//    void addAccount(Account account);
-    void addAccount(Account account);
+    void addAccount(Integer branchId, Account account);
+    void addLoan(Integer branchId, Loan loan);
 }
-//

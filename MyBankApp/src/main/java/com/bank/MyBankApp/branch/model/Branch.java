@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -32,8 +33,8 @@ public class Branch {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Address branchAddress;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Account> accounts;
+    private List<Account> accounts = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Loan> loans;
+    private List<Loan> loans = new ArrayList<>();
 
 }

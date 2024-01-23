@@ -1,5 +1,6 @@
 package com.bank.MyBankApp.branch.Service;
 
+import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.address.model.Address;
 import com.bank.MyBankApp.appUser.model.AppUser;
 import com.bank.MyBankApp.branch.dto.request.CreateBranchRequest;
@@ -8,6 +9,7 @@ import com.bank.MyBankApp.branch.dto.response.CreateBranchResponse;
 import com.bank.MyBankApp.branch.model.Branch;
 import com.bank.MyBankApp.branch.repository.BranchRepository;
 import com.bank.MyBankApp.exception.NotFoundException;
+import com.bank.MyBankApp.loan.model.Loan;
 import com.bank.MyBankApp.mail.MailService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -52,6 +54,20 @@ public class BranchServiceImpl implements BranchService{
     public BranchResponse getBranchById(Integer branchId) {
         Branch branch = getById(branchId);
         return mapBranchToResponse(branch);
+    }
+
+    @Override
+    public void addAccount(Integer branchId, Account account) {
+        Branch branch = getById(branchId);
+        branch.getAccounts().add(account);
+        branchRepository.save(branch);
+    }
+
+    @Override
+    public void addLoan(Integer branchId, Loan loan) {
+        Branch  branch = getById(branchId);
+        branch.getLoans().add(loan);
+        branchRepository.save(branch);
     }
 
     private static BranchResponse mapBranchToResponse(Branch branch){
