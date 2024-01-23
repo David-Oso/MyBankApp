@@ -76,9 +76,6 @@ public class BranchServiceImpl implements BranchService{
         return BranchResponse.builder()
                 .branchName(branch.getBranchName())
                 .branchNumber(branch.getBranchNumber())
-                .firstName(appUser.getFirstName())
-                .middleName(appUser.getMiddleName())
-                .lastName(appUser.getLastName())
                 .email(appUser.getEmail())
                 .phoneNumber(appUser.getPhoneNumber())
                 .streetNumber(address.getStreetNumber())
@@ -100,6 +97,4 @@ public class BranchServiceImpl implements BranchService{
         return branchRepository.findByBranchNumber(branchNumber).orElseThrow(
                 ()-> new NotFoundException("Branch with this branch number not found"));
     }
-
-
 }

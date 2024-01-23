@@ -18,6 +18,10 @@ public class CreateAccountRequest {
     @Positive(message = "customer id must be positive")
     private Integer customerId;
 
+    @NotNull(message = "field branch id cannot be null")
+    @Positive(message = "field branch id must be positive")
+    private Integer branchId;
+
     @NotNull(message = "field account type cannot be null")
     private AccountType accountType;
 

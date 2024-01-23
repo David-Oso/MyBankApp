@@ -7,6 +7,7 @@ import com.bank.MyBankApp.account.model.Account;
 import com.bank.MyBankApp.account.model.AccountType;
 import com.bank.MyBankApp.account.repository.AccountRepository;
 import com.bank.MyBankApp.appUser.model.AppUser;
+import com.bank.MyBankApp.branch.Service.BranchService;
 import com.bank.MyBankApp.customer.model.Customer;
 import com.bank.MyBankApp.customer.repoistory.CustomerRepository;
 import com.bank.MyBankApp.exception.AlreadyExistsException;
@@ -23,6 +24,7 @@ import org.iban4j.Iban;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
@@ -45,10 +47,12 @@ public class AccountServiceImpl implements AccountService{
             Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
+    private final BranchService branchService;
     private final MailService mailService;
 
 
     @Override
+    @Transactional
     public CreateAccountResponse createNewAccount(CreateAccountRequest request) {
         Customer customer = findCustomerById(request.getCustomerId());
         checkIfCustomerHasAccountType(request.getCustomerId(), request.getAccountType());
@@ -60,6 +64,8 @@ public class AccountServiceImpl implements AccountService{
         account.setAccountNumber(generateAccountNumber());
         account.setAccountType(request.getAccountType());
         account.setCustomer(customer);
+        account.setBranchId(request.getBranchId());
+        branchService.addAccount(request.getBranchId(), account);
         accountRepository.save(account);
         return getAccountResponse(account);
     }
