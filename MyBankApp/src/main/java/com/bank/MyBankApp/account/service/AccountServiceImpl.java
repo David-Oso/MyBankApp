@@ -17,6 +17,7 @@ import com.bank.MyBankApp.exception.NotFoundException;
 import com.bank.MyBankApp.mail.MailService;
 import com.bank.MyBankApp.transaction.model.Transaction;
 import com.bank.MyBankApp.transaction.model.TransactionType;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iban4j.CountryCode;
@@ -50,6 +51,11 @@ public class AccountServiceImpl implements AccountService{
     private final BranchService branchService;
     private final MailService mailService;
 
+
+    @PostConstruct
+    private void createAccount(){
+        if(accountRepository.count() == 0){}
+    }
 
     @Override
     @Transactional
@@ -95,13 +101,10 @@ public class AccountServiceImpl implements AccountService{
 
     private String generateAccountNumber(){
         final SecureRandom secureRandom = new SecureRandom();
-        String prefix = secureRandom.ints(1, 30, 32)
-                .mapToObj(String::valueOf)
-                .collect(Collectors.joining());
         String suffix = secureRandom.ints(8, 1, 10)
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining());
-        String accountNumber = prefix + suffix;
+        String accountNumber = String.format("30%s", suffix);
         if(accountRepository.findByAccountNumber(accountNumber).isPresent())
             accountNumber = generateAccountNumber();
         log.info("\n:::::::::::::::::::: NEW ACCOUNT NUMBER GENERATED ::::::::::::::::::::\n");
@@ -358,5 +361,4 @@ public class AccountServiceImpl implements AccountService{
                 .replace(2,8, "********")
                 .toString();
     }
-
 }
