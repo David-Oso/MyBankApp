@@ -63,6 +63,13 @@ bank:
   email: ${BANK_EMAIL}
   password: ${BANK_PASSWORD}
 
+#branch
+branch:
+  number: ${BRANCH_NUMBER}
+  phone_number: ${BRANCH_PHONE_NUMBER}
+  email: ${BRANCH_EMAIL}
+  password: ${BRANCH_PASSWORD}
+
 #mail
 mail:
   api:
