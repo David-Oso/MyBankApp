@@ -51,12 +51,6 @@ public class AccountServiceImpl implements AccountService{
     private final BranchService branchService;
     private final MailService mailService;
 
-
-    @PostConstruct
-    private void createAccount(){
-        if(accountRepository.count() == 0){}
-    }
-
     @Override
     @Transactional
     public CreateAccountResponse createNewAccount(CreateAccountRequest request) {
