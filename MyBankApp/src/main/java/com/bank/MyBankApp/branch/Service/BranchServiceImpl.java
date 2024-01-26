@@ -32,6 +32,7 @@ public class BranchServiceImpl implements BranchService{
     @Value("${bank.phone_number}")
     private String branchPhoneNumber;
     @Value("${branch.email}")
+
     private String branchEmail;
     @Value("${branch.password}")
     private String branchPassword;
